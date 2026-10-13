@@ -429,6 +429,7 @@ Check whether the current lock file is safe for 8.3
 In local
 
 ```bash
+cd ~/Dockers/10design
 docker compose exec statamic composer why-not php 8.3.11
 	There is no installed package depending on "php" in versions not matching 8.3.11
 ```
@@ -498,6 +499,68 @@ Pay particular attention to:
   changes into the repo first, or they'll be lost.
 
 Repeat the dry run until every listed change is intended.
+
+#### Composer files
+
+`composer.lock` and `composer.json` should be in the list: `composer.lock` decides which package versions the server installs. If you excluded them, the server would keep its old versions while your code expects the new ones. They are, however, the riskiest part of this deploy. The diff means production will end up with different versions of Statamic, Laravel or the addons than it runs now.
+
+So the question isn’t whether to deploy them, but what changed and in which direction. Compare the installed versions on both sides (run from `~/Dockers/10design` on your Mac):
+
+```bash
+diff <(ssh -n DigitalOcean10DesignRoot cat /data/webs/10Design/composer.lock) statamic/composer.lock
+```
+
+Lines starting with < are production’s versions and lines starting with > are yours. 
+
+To see the `composer.json` changes:
+
+```bash
+diff <(ssh DigitalOcean10DesignRoot cat /data/webs/10Design/composer.json) statamic/composer.json
+```
+
+How to read the result:
+
+Your versions are newer, with only minor or patch changes (e.g. statamic/cms 5.41 → 5.46). That’s normal, and your local site already runs on them, so deploy.
+A major version changes (e.g. statamic/cms 5.x → 6.x, laravel/framework 11 → 12). That’s an upgrade, not a routine deploy. Test the Control Panel and the main pages thoroughly locally first, and expect some risk.
+Production’s versions are newer than yours. Someone ran composer update directly on the server at some point, and deploying would downgrade packages. Don’t deploy. Instead, copy the server’s composer.json and composer.lock into your local project, run composer install locally, test, commit, and run the dry run again.
+
+**If the files are too different don't deploy!**
+
+
+What happened: at some point, someone ran composer update directly on the server and never committed the resulting composer.lock to the repo. The server’s composer.json is identical to yours apart from the platform setting, so the fix is to make production’s lock file the one in your repo.
+
+##### 1. Take production's lock file
+
+```bash
+cd ~/Dockers/10design
+scp DigitalOcean10DesignRoot:/data/webs/10Design/composer.lock statamic/composer.lock
+```
+
+##### 2. Refresh the lock's hash for the "platform" setting (doesn't change any package versions)
+
+```
+docker compose exec statamic composer update --lock
+```
+
+##### 3. Install those versions locally
+
+```bash
+docker compose exec statamic composer install
+docker compose exec statamic php artisan optimize:clear
+```
+
+##### Test locally
+
+Your local site was tested against the older versions, so check it on the new ones. Pay most attention to the Livewire listings (news, projects, people, ideas), because you changed those templates and Livewire moves from 3.6 to 3.8. Also check the Control Panel and the search.
+
+##### Confirm and commit
+
+```bash
+diff <(ssh -n DigitalOcean10DesignRoot cat /data/webs/10Design/composer.lock) statamic/composer.lock
+```
+
+Now only content-hash and the platform-overrides block should differ.
+
 
 ### Step 7. Upload changed files in `public/` by hand
 

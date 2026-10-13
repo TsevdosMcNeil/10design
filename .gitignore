@@ -11,7 +11,7 @@
 /.phpunit.cache
 .antlers.json
 package-lock.json
-composer.lock
+#composer.lock
 tpass
 
 # ignore node dependency directories
@@ -144,10 +144,6 @@ deploy.ini
 !.browserslist
 !README.md
 !CHANGELOG.md
-# -- sometimes these files won't be ignored becuse
-# -- they are needed for DO app
-# !package-lock.json
-# !composer.lock
 
 
 # Migration files
@@ -166,6 +162,9 @@ deploy.ini
 !safari-pinned-tab.svg
 !site.webmanifest
 
+# Track composer files
+!statamic/composer.json
+!statamic/composer.lock
 
 # Track these content files, if they exist
 #!content/assets/*.*

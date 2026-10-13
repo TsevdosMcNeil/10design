@@ -354,7 +354,9 @@ def sync(cfg, delete):
 def post_deploy(cfg, meta, search):
     step("Running post-deploy commands on the server")
     php, composer = shlex.quote(cfg.php), shlex.quote(cfg.composer)
-    lines = [f"cd {shlex.quote(cfg.path)}"]
+    lines = [f"cd {shlex.quote(cfg.path)}",
+             # never let composer stop to ask "Continue as root/super user?"
+             "export COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_NO_INTERACTION=1"]
     if cfg.maintenance:
         # the trap brings the site back up even if a later command fails
         lines += [f'trap "{php} artisan up" EXIT', f"{php} artisan down --retry=15"]
@@ -380,7 +382,7 @@ def post_deploy(cfg, meta, search):
     ]
     script = []
     for l in lines:
-        if not l.startswith(("trap ", "cd ")):
+        if not l.startswith(("trap ", "cd ", "export ")):
             script.append("printf '    $ %s\\n' " + shlex.quote(l))  # echo each command before running it
         script.append(l)
     script.append("printf '%s\\n' " + " ".join(shlex.quote(x) for x in record) + " > .deployed")
