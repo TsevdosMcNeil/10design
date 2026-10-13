@@ -198,9 +198,12 @@ def preflight_local(cfg, allow_dirty):
     for tool in ("ssh", "rsync"):
         if not shutil.which(tool):
             fail(f"'{tool}' is not installed locally.")
-    version = local(["rsync", "--version"], capture=True).stdout.splitlines()[0]
-    if "openrsync" in version or "version 2." in version:
-        warn(f"Old/limited rsync detected ({version.strip()}). Recommended: brew install rsync")
+    r = local(["rsync", "--version"], capture=True)
+    version = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()[0]
+    if is_openrsync():
+        info(f"Using macOS {version.strip()} (rsync_chmod is skipped; reload_command sets permissions)")
+    elif "version 2." in version:
+        warn(f"Old rsync detected ({version.strip()}). Recommended: a rsync 3.x")
     else:
         ok(version.strip())
 
@@ -268,13 +271,25 @@ def check_build(cfg):
     age = datetime.datetime.now() - datetime.datetime.fromtimestamp(manifest.stat().st_mtime)
     ok(f"Build manifest found ({int(age.total_seconds() // 60)} min old)")
 
+_OPENRSYNC = None
+
+def is_openrsync():
+    """macOS ships openrsync, which lacks some GNU rsync options (e.g. --chmod=D755,F644)."""
+    global _OPENRSYNC
+    if _OPENRSYNC is None:
+        r = local(["rsync", "--version"], capture=True)
+        _OPENRSYNC = "openrsync" in (r.stdout or "") + (r.stderr or "")
+    return _OPENRSYNC
+
 def rsync_cmd(cfg, dry_run, delete):
     # --checksum: compare file contents, not size+mtime. A fresh clone gives every
     # file a new mtime, and same-size edits could otherwise be skipped.
-    cmd = ["rsync", "-rltz", "--checksum", "--itemize-changes", "--human-readable", "--stats",
+    cmd = ["rsync", "-rltz", "--checksum", "--itemize-changes", "--stats",
            "-e", " ".join(shlex.quote(x) for x in ssh_cmd(cfg))]
-    if cfg.rsync_chmod:
-        cmd.append(f"--chmod={cfg.rsync_chmod}")
+    if not is_openrsync():
+        cmd.append("--human-readable")
+        if cfg.rsync_chmod:
+            cmd.append(f"--chmod={cfg.rsync_chmod}")
     if dry_run:
         cmd.append("--dry-run")
     if delete:
