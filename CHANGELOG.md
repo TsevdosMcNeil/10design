@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.4] - 2026-10-13
+
+### Added
+
+ - Deployment script
+
+
+## [1.2.3] - 2026-10-13
+
+### Updated
+
+ - ["Press" Category to News Page](https://app.asana.com/1/355454733208534/project/1208878041988932/task/1216757978936952)
+
+
 ## [1.2.2] - 2026-10-13
 
 ### Added

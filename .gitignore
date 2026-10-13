@@ -102,6 +102,10 @@ yarn.lock
 composer.phar
 public/1n7h0.php
 
+
+# ignore deployment files
+deploy.ini
+
 # -------------------------
 # Statamic Specific
 # -------------------------

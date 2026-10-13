@@ -1,0 +1,67 @@
+# deploy.ini — settings for deploy.py
+# Copy to deploy.ini (keep deploy.ini out of git) and fill in your values.
+# Each [section] is an environment: python3 deploy.py --env staging
+
+[production]
+# --- SSH connection ---
+# A Host alias from ~/.ssh/config (recommended): IP, user and key come from there,
+# exactly like running "ssh DigitalOcean10DesignRoot".
+host = DigitalOcean10DesignRoot
+# Absolute path of the Statamic app on the server (the folder containing artisan)
+path = /data/webs/10Design
+# Optional overrides. Leave empty to use ~/.ssh/config.
+# user = root
+# port = 22
+# ssh_key = ~/.ssh/design10_ed25519
+
+# --- Health check: URL that must answer 2xx/3xx after deploying ---
+site_url = https://10design.co
+
+# --- Server binaries (use full paths if the server has several PHP versions) ---
+php = php
+composer = composer
+
+# --- Backups (stored on the server) ---
+backup_dir = ~/deploy-backups/10design
+keep_backups = 5
+
+# --- Last command run on the server after every deploy ---
+# Deploying as root: give the files back to the PHP-FPM user (www-data).
+# Only add "&& systemctl reload php8.3-fpm" if opcache.validate_timestamps=0.
+reload_command = chown -R www-data:www-data /data/webs/10Design && find /data/webs/10Design -type d -exec chmod 755 {} + && find /data/webs/10Design -type f -exec chmod 644 {} +
+
+# --- Behaviour ---
+# Put the site in maintenance mode (artisan down) during post-deploy commands
+maintenance = false
+# Run "php please static:clear" (harmless if static caching is off)
+clear_static_cache = true
+# Permissions given to uploaded files and folders
+rsync_chmod = D755,F644
+
+# --- Local side ---
+# Statamic app folder, relative to this file
+local_path = statamic
+# Command that builds front-end assets (run from this folder)
+build_command = docker compose exec -T node sh -c "npm ci && npm run build"
+
+# Extra paths never uploaded or deleted (rsync patterns, one per line,
+# relative to the app root, leading / = from the root). Example:
+#
+# Here: nothing in public/ is deployed except the compiled assets (public/build).
+# Production's media uploads in public/ can never be overwritten or deleted.
+# Other public files (visuals/, fonts, favicon, robots.txt, index.php) must be
+# uploaded by hand when they change - see DEPLOY.md, "Files in public/".
+extra_excludes =
+    /public/*
+
+# Exceptions to extra_excludes (never to the built-in protected paths).
+extra_includes =
+    /public/build/
+
+
+# [staging]
+# host = staging.10design.co
+# user = deploy
+# path = /var/www/staging.10design.co
+# site_url = https://staging.10design.co
+# reload_command = sudo systemctl reload php8.3-fpm
