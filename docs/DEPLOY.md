@@ -373,22 +373,79 @@ of everything, content and uploads included. Check there is enough free disk
 space first: the archive can be large because of the media.
 
 ```bash
-ssh DigitalOcean10DesignRoot 'du -sh /data/webs/10Design; df -h /root'
-ssh DigitalOcean10DesignRoot 'tar -czf /root/10design-before-first-deploy.tar.gz -C /data/webs 10Design && ls -lh /root/10design-before-first-deploy.tar.gz'
+ssh DigitalOcean10DesignRoot 
+
+du -sh /data/webs/10Design
+	30G	/data/webs/10Design
+	
+df -h /root
+	Filesystem      Size  Used Avail Use% Mounted on
+	/dev/vda1       232G  158G   75G  68% /
+	
+cd /data/webs
+tar -cvzf $(date +"%Y%m%d")-10design.tar.gz --exclude='10Design/storage/debugbar' --exclude='10Design/storage/statamic/glide' --exclude='10Design/vendor' --exclude='10Design/node_modules' --exclude='10Design/.git' 10Design
+
+ls -lh /data/webs/$(date +"%Y%m%d")-10design.tar.gz
+-rw-r--r-- 1 root root 2.7G Oct 13 19:28 /data/webs/20261013-10design.tar.gz
 ```
 
 A DigitalOcean droplet snapshot from the control panel is an alternative.
 
 ### Step 3. Check the server matches the local setup
 
-```bash
-ssh DigitalOcean10DesignRoot 'php -v | head -1; composer --version; rsync --version | head -1'
-docker compose exec statamic php -v | head -1
-```
-
 The PHP versions must match at least on major and minor version (8.3 and 8.3).
 If they differ, `composer install` on the server may refuse `composer.lock`.
 Resolve that before continuing.
+
+
+In remote:
+
+
+```bash
+ssh DigitalOcean10DesignRoot 
+
+php -v | head -1 
+	PHP 8.3.11 (cli) (built: Mar 18 2025 19:13:26) (NTS)
+	
+composer --version
+	Composer version 2.8.9 2025-05-13 14:01:37
+	PHP version 8.3.11 (/usr/bin/php8.3)
+	Run the "diagnose" command to get more detailed diagnostics output.
+	
+rsync --version | head -1
+	rsync  version 3.3.0  protocol version 31
+```
+
+In local
+
+```bash
+docker compose exec statamic php -v | head -1
+	PHP 8.4.26 (cli) (built: Oct  6 2026 01:25:30) (NTS)
+```
+
+Local is `PHP 8.4.26`, remote is `PHP 8.3.11`  
+Check whether the current lock file is safe for 8.3
+
+In local
+
+```bash
+docker compose exec statamic composer why-not php 8.3.11
+	There is no installed package depending on "php" in versions not matching 8.3.11
+```
+
+That’s the good result. Every package in your current composer.lock works on PHP 8.3.11, so composer install on the server won’t fail because of the version difference. You can carry on with the first deployment.
+
+#### Stop Composer from picking 8.4-only packages in future
+
+Add this to statamic/composer.json:
+
+```json
+"config": {
+    "platform": {
+        "php": "8.3.11"
+    }
+}
+```
 
 ### Step 4. Check for `env()` calls outside config files
 
@@ -398,6 +455,7 @@ direct `env()` call anywhere else would silently break:
 
 ```bash
 grep -rn "env(" statamic/app statamic/routes statamic/resources --include=*.php
+	zsh: no matches found: --include=*.php
 ```
 
 No output means it's fine. Otherwise, move each value into a config file
