@@ -131,6 +131,7 @@ class Config:
         self.reload_command = s.get("reload_command", "").strip()
         self.maintenance = s.getboolean("maintenance", False)
         self.clear_static_cache = s.getboolean("clear_static_cache", True)
+        self.warm_static_cache = s.getboolean("warm_static_cache", False)
         self.rsync_chmod = s.get("rsync_chmod", "D755,F644").strip()
         self.local_path = (SCRIPT_DIR / s.get("local_path", "statamic").strip()).resolve()
         self.build_command = s.get(
@@ -372,6 +373,12 @@ def post_deploy(cfg, meta, search):
         lines.append(f"{php} please static:clear")
     if search:
         lines.append(f"{php} please search:update --all")
+    if cfg.warm_static_cache:
+        # static:warm requests the live pages, so the site must be up first
+        if cfg.maintenance:
+            lines.append(f"{php} artisan up")
+        lines.append(f"{php} please static:warm")
+    # last: e.g. hand files created by root (caches, warmed pages) back to www-data
     if cfg.reload_command:
         lines.append(cfg.reload_command)
     stamp = datetime.datetime.now().isoformat(timespec="seconds")

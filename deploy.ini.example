@@ -35,6 +35,9 @@ reload_command = chown -R www-data:www-data /data/webs/10Design && find /data/we
 maintenance = false
 # Run "php please static:clear" (harmless if static caching is off)
 clear_static_cache = true
+# Run "php please static:warm" after deploying, so visitors get cached pages
+# straight away. Runs after maintenance mode ends and before reload_command.
+warm_static_cache = true
 # Permissions given to uploaded files and folders
 rsync_chmod = D755,F644
 

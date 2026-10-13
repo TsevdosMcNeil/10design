@@ -242,14 +242,20 @@ ssh DigitalOcean10DesignRoot 'cat /data/webs/10Design/.deployed'
 php artisan down --retry=15                # only if maintenance = true
 rm -f public/hot
 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
-php artisan optimize:clear
-php artisan optimize                       # config, routes, views, events
-php please stache:warm
+php artisan optimize:clear                 # app cache (incl. Stache), config, routes, views
+php artisan optimize                       # rebuild config, routes, views, events caches
+php please stache:warm                     # rebuild the Stache
 php please static:clear                    # if clear_static_cache = true
 php please search:update --all             # only with --search
+php artisan up                             # before warming, if maintenance = true
+php please static:warm                     # if warm_static_cache = true
 chown -R www-data:www-data ... + chmod     # reload_command
-php artisan up                             # always, even if a step fails
 ```
+
+This replaces the manual post-deploy routine (`please cache:clear`,
+`stache:clear`, `static:clear`, `artisan cache:clear`, `npm run build`,
+`chown`/`chmod`, `static:warm`). `npm run build` now runs on the Mac before
+uploading, so the server needs no Node.
 
 `composer install` also runs Statamic's `statamic:install` hook, which
 republishes the Control Panel assets in `public/vendor/`.
