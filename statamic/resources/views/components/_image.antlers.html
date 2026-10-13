@@ -72,32 +72,35 @@
           {{ /unless }}
          {{# ratio_value | dump  #}}
 
+         {{ sizes_glide = switch(
+                (size == 'md') => '(min-width: 1024px) 640px, (min-width: 640px) 50vw, 90vw',
+                (size == 'lg') => '(min-width: 1024px) 960px, (min-width: 640px) 75vw, 90vw',
+                (size == 'xl') => '(min-width: 1024px) 70vw, (min-width: 640px) 90vw, 90vw',
+                () => '100vw',
+            );
+          }}
+          {{ if image_sizes }}
+            {{ sizes_glide = image_sizes }}
+          {{ /if }}
+
 
           {{# srcset_from="snippets/srcset_full_width" #}}
-          {{# vendor/studio1902/statamic-peak-tools/resources/views/components/_picture.antlers.html #}}
+          {{# vendor/studio1902/statamic-peak-tools/resources/views/components/_picture.antlers.html --> Updagted in --> resources/views/vendor/statamic-peak-tools/components/_picture.antlers.html #}}
           {{
               partial:statamic-peak-tools::components/picture
               :image="image_glide"
               :class="image_class"
               :aspect_ratio="ratio_value"
               cover="false"
-              lazy="true"
-              sizes="
-                  {{ switch(
-                      (size == 'md') => '(min-width: 1280px) 640px, (min-width: 768px) 50vw, 90vw',
-                      (size == 'lg') => '(min-width: 1280px) 960px, (min-width: 768px) 75vw, 90vw',
-                      (size == 'xl') => '(min-width: 1280px) 1150px, 90vw',
-                      () => '100vw'
-                  )}}
-              "
-              quality="{ size == 'full' ? '100': '85' }"
+              lazy="{ lazy ?? true }"
+              :sizes="sizes_glide"
+              srcset_from="{ size == 'full' ? 'snippets/srcset_full_width' : (srcset_from ?? 'statamic-peak-tools::snippets/srcset_default') }"
+              quality="{ size == 'full' ? '80': '85' }"
           }}
 
           {{ image_ratio = ''}}
           {{ image_class = ''}}
           {{ ratio_value = ''}}
-
-
 
         {{ else }}
 

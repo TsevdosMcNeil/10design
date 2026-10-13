@@ -81,6 +81,7 @@
         }}
         {{  partial:components/image
           :image="image"
+          size="full"
           figure_class="!absolute z-[-2]
               w-full max-w-screen
               md:col-span-12
@@ -91,12 +92,19 @@
         }}
 
       {{ else }}
-        {{  partial:components/image
+        {{ partial:components/image
+            :image="image"
+            size="full"
+            ratio="3/2"
+            figure_class="w-full max-w-screen md:col-span-12 p-0 h-[234px] md:h-screen full-overlay"
+            img_class="object-cover w-full h-full object-center"
+        }}
+        {{#   partial:components/image
           :image="image"
           figure_class="w-full max-w-screen md:col-span-12 p-0 h-[234px] md:h-screen full-overlay"
           img_class="object-cover object-center w-full h-full"
           ratio="3/2"
-        }}
+         #}}
       {{ /if }}
 
 
