@@ -259,7 +259,8 @@ def build_assets(cfg):
     step("Building front-end assets locally")
     info(cfg.build_command)
     if subprocess.run(cfg.build_command, shell=True, cwd=SCRIPT_DIR).returncode != 0:
-        fail("Asset build failed. Is the Docker stack running? (docker compose up -d)")
+        fail("Asset build failed (see the output above). Nothing was changed on the server.\n"
+             "  If the node container isn't running, start it with: docker compose up -d")
     check_build(cfg)
 
 def check_build(cfg):
