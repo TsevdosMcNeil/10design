@@ -10,6 +10,12 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./statamic:/var/www/html     # or ./ if your app lives at the root
+      - node_modules:/var/www/html/node_modules   # stays inside Docker, never crosses to the Mac
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    # The ulimits lines raise the open-files limit. Too low a limit causes same random failures.
     # entrypoint: ["sh", "-c"] # override the default node image entrypoint to allow custom commands
     command: ["tail", "-f", "/dev/null"]   # keep the container running (so we can use docker compose exec isntead of docker compose run ). That is useful for local development, but for a remote production server you would normally build assets once and avoid publishing the Vite dev server port. Vite’s dev server is for development, not for serving production traffic
     extra_hosts:
@@ -67,3 +73,4 @@ services:
   #     - "6380:6379"
 volumes:
   composer_cache:
+  node_modules:
