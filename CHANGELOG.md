@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.2] - 2026-10-13
+
+### Added
+
+ - `Docs` folder
+
+
 ## [1.2.1] - 2026-10-13
 
 ### Fixed
