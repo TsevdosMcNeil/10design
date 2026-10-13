@@ -130,6 +130,7 @@
                     :wrap_class="wrap_class"
                     :tax="value"
                     :sitehandle="sitehandle"
+                     collection="news"
                 }}
             {{ /foreach:collectiontax}}
         </div>
@@ -176,6 +177,7 @@
                               :img_ratio="img_ratio"
                               image_class="absolute"
                               :figure_class="figure_card_class"
+                              collection="news"
                           }}
                       </div>
                   {{ else }}
@@ -187,6 +189,7 @@
                       :img_ratio="img_ratio"
                       image_class="absolute"
                       :figure_class="figure_card_class"
+                      collection="news"
                     }}
                   </div>
                 {{ /if }}

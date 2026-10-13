@@ -1,48 +1,41 @@
-
 {{#
     @name Filter List
     @desc HTML code for the filter list.
     @param wrap_class    CSS class for the wrapper div
     @param tax           The taxonomy name
+    @param collection    Collection handle used to hide empty terms (e.g. "news")
 #}}
 
+<div class="livewire-filter-list {{ wrap_class }}">
+  {{ if tax }}
+      <div class="text-black tracking-tight mb-5">
+        {{ if tax == "specialisms" }}
+          {{ trans:strings.expertise }}
+        {{ elseif tax == "locations" }}
+          {{ trans:strings.locations }}
+        {{ elseif tax == "themes" }}
+          {{ trans:strings.themes }}
+        {{ elseif tax == "categories" }}
+          {{ trans:strings.categories }}
+        {{ elseif tax == "offices" }}
+          {{ trans:strings.studio }}
+        {{ elseif tax == "role" }}
+          {{ trans:strings.role }}
+        {{ else }}
+          {{ tax | title }}
+        {{ /if }}
+      </div>
 
-<div class="livewire-filter-list
-  {{ wrap_class}}"
->
-    {{ if tax }}
-        <div
-            class="text-black
-            tracking-tight
-            mb-5"
-        >{{ if tax == "specialisms" }}
-            {{ trans:strings.expertise }}
-          {{ elseif tax == "locations" }}
-            {{ trans:strings.locations }}
-          {{ elseif tax == "themes" }}
-            {{ trans:strings.themes }}
-          {{ elseif tax == "categories" }}
-            {{ trans:strings.categories }}
-          {{ elseif tax == "offices" }}
-            {{ trans:strings.studio }}
-          {{ elseif tax == "role" }}
-            {{ trans:strings.role }}
-          {{ else }}
-              {{ tax | title }}
-          {{ /if }}</div>
-        <ul id="{{ tax }}"
-          class="projects-filter
-            list-none
-            pl-[2px]"
-        >
-          {{# taxonomy:{ tax } sort="order" :site="sitehandle" #}}
-          {{ taxonomy:{ tax } :sort="sort" :site="sitehandle" }}
+      <ul id="{{ tax }}" class="projects-filter list-none pl-[2px]">
+        {{ taxonomy:{ tax } :collection="collection" :sort="sort" :site="sitehandle" }}
+          {{ if entries_count > 0 }}
             {{ partial:layout/filter-element
               :slug="slug"
               :title="title"
               :tax="tax"
             }}
-          {{ /taxonomy:{ tax } }}
-        </ul>
-    {{ /if }}
+          {{ /if }}
+        {{ /taxonomy:{ tax } }}
+      </ul>
+  {{ /if }}
 </div>
