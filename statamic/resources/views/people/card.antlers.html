@@ -1,0 +1,60 @@
+{{#
+    @name Member card
+    @desc Template to display member profile cards in team grid layout.
+#}}
+
+{{# aspect-[2/3] aspect-[3/2] aspect-[16/9]  aspect-[7/5] aspect-[16/10] aspect-[9/16] md:aspect-[2/3] md:aspect-[3/2] #}}
+
+<!-- /people/card.antlers.html -->
+{{ figure_class = ' mb-2 md:mb-0 person-image' }}
+{{ if person_profile_hover_image }}
+    {{ figure_class .= ' opacity-100 group-hover:opacity-0 transition-opacity duration-300' }}
+{{ else }}
+  {{ figure_class .= ' opacity-100 group-hover:opacity-50 transition-opacity duration-300' }}
+{{ endif }}
+
+{{ overlay_background = 'bg-white' }}
+{{ if lightbox_bg_colour }}
+    {{ overlay_background = ' bg-' + lightbox_bg_colour }}
+{{ endif }}
+
+
+<div class="{{ card_figure_class  }} group relative person-card">
+    <div class="overlay inset-0 absolute z-10 {{ overlay_background }} transition-all duration-500"></div>
+
+    {{  partial:components/image
+        :image="person_profile_image"
+        :figure_class="figure_class "
+        img_class="object-cover object-center w-full h-full"
+        image_sizes="50vw, (min-width: 768px) 25vw, (min-width: 992px) 12.5vw"
+        ratio="2/3"
+    }}
+
+    {{ if person_profile_hover_image }}
+        {{  partial:components/image
+            :image="person_profile_hover_image"
+            figure_class="!absolute top-0 left-0 w-full opacity-0 group-hover:opacity-100 transition-opacity"
+            img_class="object-cover object-center w-full h-full"
+            image_sizes="50vw, (min-width: 768px) 25vw, (min-width: 992px) 12.5vw"
+            ratio="2/3"
+        }}
+    {{ endif }}
+</div>
+
+{{ partial:typography/p
+    :content="title"
+    class="!mb-0 md:mt-3 2xl:text-xl 2xl:tracking-wide mobile-only:text-[14px] mobile-only:leading-[16px]"
+}}
+
+{{ partial:typography/p
+    :content="person_position"
+    color="text-darkgrey"
+    class="!mb-0 leading-[26px] tracking-wide mobile-only:text-[14px] mobile-only:leading-[16px]"
+}}
+
+{{ partial:typography/p
+    :content="person_location"
+    color="text-darkgrey"
+    class="leading-[26px] tracking-wide mobile-only:text-[14px] mobile-only:leading-[16px]"
+}}
+<!-- /people/card.antlers.html -->

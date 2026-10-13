@@ -1,0 +1,28 @@
+{{#
+    @name Newsindex
+    @desc The News index template.
+#}}
+
+<!-- /news/index.antlers.html -->
+{{ livewire:styles }}
+
+<main id="content"
+    class="outer-grid
+    livewirepage"
+>
+{{ footer_background_colour = 'blue' }}
+    {{ page_builder scope="block" }}
+        {{ partial src="page_builder/{type}" }}
+    {{ /page_builder }}
+
+    <section>
+        {{ livewire:show-news }}
+    </section>
+
+
+</main>
+{{ footer_background_colour = 'blue' }}
+<!-- End: /news/index.antlers.html -->
+
+{{ livewire:scriptConfig }}
+

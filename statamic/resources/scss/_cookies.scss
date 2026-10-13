@@ -1,0 +1,62 @@
+
+
+
+div[x-data="consentBanner"] {
+  border-radius: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--color-linen);
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+  font-weight: 400 !important;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  flex-direction: row;
+
+  h2.text-2xl.font-bold {
+    display: none;
+  }
+  p {
+    margin-top:8px;
+  }
+
+  p.font-bold {
+    font-weight: 400 !important;
+  }
+  p.font-bold.text-neutral {
+    max-width: calc(100% - 180px);
+  }
+  div.stack-space-4.gap-3 {
+    display: none;
+  }
+  div.stack-space-4.md\:justify-between {
+    justify-content: end;
+    margin-top: 0;
+    width: 170px;
+    margin-right: 0;
+    margin-left: auto;
+    button {
+      background-color: transparent !important;
+      color: var(--color-black) !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      font-weight: 400 !important;
+    }
+    &  > button:nth-of-type(2) {
+      display: none;
+    }
+  }
+}
+
+.manage-consent-button > span {
+  background-color: var(--color-linen);
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  padding: 10px 15px 15px;
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+  box-shadow: var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow);
+  z-index: 50;
+}

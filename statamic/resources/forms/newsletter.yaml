@@ -1,0 +1,11 @@
+mailchimp:
+  enabled: true
+  settings:
+    primary_email_field: email
+    interests_field: newsletter_email
+    audience_id: acd5873867
+    tag: '10design.co Website'
+    disable_opt_in: false
+    check_consent: true
+    consent_field: consent
+title: Newsletter

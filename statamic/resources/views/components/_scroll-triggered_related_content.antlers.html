@@ -1,0 +1,296 @@
+{{#
+    @name Scroll-triggered Related Content
+    @desc Hidden card with a link.
+#}}
+
+<!-- /components/_scroll-triggered_related_content.antlers.html -->
+
+{{ scrollcard_card_title_default     = '' }}
+{{ scrollcard_subtitle_default       = '' }}
+{{ scrollcard_image_default          = '' }}
+{{ scrollcard_bg_color_default       = '' }}
+{{ scrollcard_content_default        = '' }}
+{{ scrollcard_text_color_default     = 'text-white'}}
+
+{{ if scrollcard_link_url }}
+    {{ get_content from="{{scrollcard_link_url}}" }}
+
+        {{scrollcard_card_title_default = collection.title }}
+        {{scrollcard_subtitle_default = title }}
+        {{scrollcard_image_default = image }}
+
+        {{ if collection.handle == 'projects'
+            && specialisms
+        }}
+            {{ specialisms }}
+                {{ scrollcard_bg_color_default =  color }}
+            {{ /specialisms }}
+        {{ endif }}
+
+
+    {{ /get_content }}
+{{ endif }}
+
+
+
+{{ if scrollcard_card_title == '' }}
+    {{ scrollcard_card_title = scrollcard_card_title_default  }}
+{{ endif }}
+
+
+{{ if locale == "en" }}
+    {{ scrollcard_slug = "scrollcard-" + scrollcard_card_title
+        | strip_tags
+        | replace(' ', '')
+        | replace(',', '')
+        | lower }}
+{{ else }}
+    {{ scrollcard_slug = "shown_card_scrollcard-" + date | format('Y-m-d-H-i') }}
+{{ endif }}
+
+
+{{ if !scrollcard_subtitle }}
+    {{ scrollcard_subtitle = scrollcard_subtitle_default  }}
+{{ endif }}
+
+{{ if !scrollcard_image }}
+    {{ scrollcard_image = scrollcard_image_default  }}
+{{ endif }}
+
+
+{{ if !scrollcard_bg_color }}
+    {{ scrollcard_bg_color = scrollcard_bg_color_default  }}
+{{ endif }}
+
+{{ scrollcard_has_content = false }}
+{{ if !scrollcard_content }}
+    {{ scrollcard_content = scrollcard_content_default  }}
+{{ else }}
+    {{ scrollcard_has_content = true }}
+{{ endif }}
+
+{{ if !scrollcard_text_color }}
+    {{ scrollcard_text_color = scrollcard_text_color_default  }}
+{{ endif }}
+
+
+{{ scrollcard_appears    = 'animate-appearsfromright'  }}
+{{ scrollcard_disappears = 'animate-disappearstoright'  }}
+{{ scrollcard_position = 'right-0' }}
+{{ if scrollcard_animation == 'leftright' }}
+    {{ scrollcard_appears    = 'animate-appearsfromleft'  }}
+    {{ scrollcard_disappears = 'animate-disappearstoleft'  }}
+    {{ scrollcard_position   = 'left-0' }}
+{{ endif }}
+
+
+
+{{ scrollcard_class = "bg-white"   }}
+{{ scrollcard_path_class = "stroke-blank" }}
+{{ if scrollcard_bg_color }}
+    {{ scrollcard_class = "bg-" + scrollcard_bg_color  }}
+    {{ scrollcard_path_class = "stroke-" + scrollcard_bg_color }}
+{{ endif }}
+
+{{ if !scrollcard_has_content }}
+    <a href="{{ scrollcard_link_url }}">
+{{ /if }}
+
+<!-- Mobile static version (shows on small screens only) -->
+<div class="block lg:hidden mobile-only:-mx-4">
+
+    <div class=" p-4
+        flex flex-col
+        {{ scrollcard_class  }}"
+    >
+      <div class=" {{scrollcard_portrait_image ? ' max-w-[267px] ml-auto' : ''}}">
+        {{  partial:components/image
+          :image="scrollcard_image"
+          image_sizes="640px"
+          figure_class="group-hover:opacity-50 transition-opacity  min-w-[215px]"
+          size="full"
+        }}
+      </div>
+
+      <div class="mobile-only:flex mobile-only:flex-1
+        pt-4 gap-10 transition-all overflow-hidden"
+      >
+          <div class="flex-shrink-0 flex flex-col">
+              {{ partial:typography/p as="div"
+                  :content="scrollcard_card_title"
+                  class="!mb-0 leading-[24px] tracking-[-0.05em] scroll-triger-title"
+                  :color="scrollcard_text_color"
+              }}
+          </div>
+          <div class="grid transition-all
+                {{scrollcard_portrait_image ? ' max-w-[267px] ml-auto' : ''}}"
+          >
+            <div class="min-h-0 flex flex-col">
+              {{ partial:typography/p as="div"
+                  :content="scrollcard_content"
+                  class="!mb-0 leading-[24px] tracking-[-0.05em] scroll-triger-content"
+              }}
+
+              {{ if scrollcard_link_title }}
+                <div class="flex-1 flex items-end">
+                  {{ partial:components/link_with_arrow
+                      link_url="{{ scrollcard_link_url }}"
+                      title="{{ scrollcard_link_title }}"
+                      text_size="h4"
+                      class="mt-4"
+                      colour="{{ scrollcard_text_color }}"
+                      arrow_background="white"
+                  }}
+                </div>
+              {{ /if }}
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- Desktop interactive version (Alpine only runs on large screens) -->
+<template x-if="window.innerWidth >= 1024">
+  <div x-data="{
+          shown_card_{{scrollcard_slug | replace('-', '') }}: false ,
+          expanded_{{scrollcard_slug | replace('-', '') }}: false,
+          min_height: 0,
+      }"
+      x-intersect:enter.margin.-200px="
+          shown_card_{{scrollcard_slug | replace('-', '') }} = true;
+          $el.parentElement.style.zIndex = '1';
+          section = $el.closest('section');
+          if (section) section.classList.add('!overflow-visible');
+          //console.log('intersected')
+          min_height = document.querySelector('#{{scrollcard_related_height ?? 'id' }} img')?.offsetHeight || 0;
+      "
+      x-intersect:leave.margin.-200px="
+          shown_card_{{scrollcard_slug | replace('-', '') }} = false;
+          expanded_{{scrollcard_slug | replace('-', '') }} = false;
+          //console.log('bye intersected')
+      "
+      class="group scroll-triggered-card
+          transition-all
+          fixed hidden lg:block
+          {{ scrollcard_position }}
+      "
+      :class="{
+          'w-[582px]': expanded_{{scrollcard_slug | replace('-', '') }},
+          'w-[216px]': !expanded_{{scrollcard_slug | replace('-', '') }},
+      }"
+  >
+      <div
+          :class="{
+              '{{ scrollcard_appears }}': shown_card_{{scrollcard_slug | replace('-', '') }},
+              '{{ scrollcard_disappears }}': !shown_card_{{scrollcard_slug | replace('-', '') }},
+              'p-10': expanded_{{scrollcard_slug | replace('-', '') }},
+          }"
+          class=" my-0 {{ scrollcard_class }} w-scrolling-card transition-all cursor-pointer flex flex-col"
+          x-on:click="
+              expanded_{{scrollcard_slug | replace('-', '') }} = !expanded_{{scrollcard_slug | replace('-', '') }} && {{scrollcard_has_content}}
+          "
+          :style="
+              min_height > 0 && expanded_{{scrollcard_slug | replace('-', '') }}
+                  ? 'min-height: ' + min_height + 'px'
+                  : 'min-height: 0px'
+          "
+      >
+          <div class="bg-white
+              {{scrollcard_portrait_image ? ' max-w-[267px] ml-auto' : ''}}
+          ">
+              {{# max-w-1/2 #}}
+              {{  partial:components/image
+                  :image="scrollcard_image"
+                  image_sizes="640px"
+                  figure_class="group-hover:opacity-50 transition-opacity  min-w-[215px]"
+                  size="full"
+              }}
+          </div>
+
+          <div
+              class="flex pt-4 gap-10 transition-all overflow-hidden flex-1"
+              :class="{
+                  'px-4 pb-4': !expanded_{{scrollcard_slug | replace('-', '') }},
+              }"
+          >
+              <div class="flex-shrink-0 flex flex-col">
+                  {{ partial:typography/p as="div"
+                      :content="scrollcard_card_title"
+                      class="!mb-0 leading-[24px] tracking-[-0.05em]"
+                      :color="scrollcard_text_color"
+                  }}
+
+                  <div
+                      class="flex-1 flex items-end pt-6"
+                  >
+                      <svg
+                          :class="{
+                              'hidden': expanded_{{scrollcard_slug | replace('-', '') }} && {{scrollcard_has_content}},
+                              'block': !expanded_{{scrollcard_slug | replace('-', '') }} && {{scrollcard_has_content}},
+                          }"
+                          width="35" height="35" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      >
+                          <circle cx="15" cy="15" r="15" fill="white"/>
+                          <path d="M10.25 14.75L19.75 14.75" class="{{scrollcard_path_class}}" />
+                          <path d="M15 10L15 19.5" class="{{scrollcard_path_class}}" />
+                      </svg>
+
+                      {{ if scrollcard_content }}
+                          <svg
+                              :class="{
+                                  'hidden': !expanded_{{scrollcard_slug | replace('-', '') }},
+                                  'block': expanded_{{scrollcard_slug | replace('-', '') }},
+                              }"
+                              width="35" height="35" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                          >
+                              <circle cx="15" cy="15" r="15" fill="white"/>
+                              <path d="M10.25 14.75L19.75 14.75" class="{{scrollcard_path_class}}"/>
+                          </svg>
+                      {{ /if }}
+                  </div>
+              </div>
+              <div
+                  class="grid transition-all
+                      {{scrollcard_portrait_image ? ' max-w-[267px] ml-auto' : ''}}
+                  "
+                  :class="{
+                      'opacity-0': !expanded_{{scrollcard_slug | replace('-', '') }},
+                      'opacity-100': expanded_{{scrollcard_slug | replace('-', '') }},
+                  }"
+                  :style="expanded_{{scrollcard_slug | replace('-', '') }} ? 'grid-template-rows: 1fr' : 'grid-template-rows: 0fr'"
+              >
+                  <div class="min-h-0 flex flex-col">
+                      {{ partial:typography/p as="div"
+                          :content="scrollcard_content"
+                          class="!mb-0 leading-[24px] tracking-[-0.05em]"
+                      }}
+
+                      {{ if scrollcard_link_title }}
+                          <div class="flex-1 flex items-end">
+                              <a href="{{ scrollcard_link_url }}"
+                                  class="back-button group
+                                      flex items-center gap-2
+                                      transition-all duration-300 mt-4
+                                      leading-[24px] tracking-[-0.05em]
+                                      text-{{scrollcard_text_color}}
+                              ">
+                                  {{ scrollcard_link_title }}
+                                  {{  partial:icons/arrow_circle
+                                      svg_class="mt-1"
+                                      circle_class="fill-white"
+                                      :path_class="scrollcard_path_class"
+                                  }}
+                              </a>
+                          </div>
+                      {{ /if }}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
+{{ if !scrollcard_has_content }}
+    </a>
+{{ /if }}
+<!-- End: /components/_scroll-triggered_related_content.antlers.html -->

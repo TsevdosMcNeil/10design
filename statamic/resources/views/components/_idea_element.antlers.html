@@ -1,0 +1,46 @@
+{{#
+    @name Idea Element
+    @desc A row showing one idea.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_idea_element.antlers.html -->
+
+{{ if idea }}
+
+{{# idea | dump #}}
+    <div class="grid md:grid-cols-12 gap-x-4 fluid-container">
+        {{ partial:components/ideas/idea_style_1
+            heading="{{ trans:strings.ideas }}"
+            heading_link="{{ site:permalink }}/ideas"
+            class="col-span-12 -mx-4 md:-mx-10"
+            :title="idea:title"
+            :url="idea:url"
+            :card_background_colour="idea:card_background_colour"
+            :excerpt="idea:excerpt"
+            :idea_team="idea:idea_team"
+            :image="idea:image"
+        }}
+    </div>
+{{ else }}
+    {{ collection:ideas
+        sort="date:desc"
+        limit="1"
+        as="items"
+    }}
+        <div class="grid md:grid-cols-12 gap-x-4 fluid-container">
+            {{ items }}
+                {{ partial:components/ideas/idea_style_1
+                    heading="{{ trans:strings.ideas }}"
+                    heading_link="{{ site:permalink }}/ideas"
+                    class="col-span-12 -mx-4 md:-mx-10"
+                  }}
+
+            {{ /items }}
+        </div>
+    {{ /collection:ideas }}
+{{ /if }}
+
+
+
+<!-- End: /components/_idea_element.antlers.html -->

@@ -1,0 +1,86 @@
+title: 'Scroll-triggered Related Content'
+fields:
+  -
+    handle: link_title
+    field:
+      type: text
+      display: 'Link Title'
+      instructions: 'It will only be displayed if there is “Content” because it will be displayed after this one.'
+      width: 66
+  -
+    handle: text_color
+    field: common.colour
+    config:
+      display: 'Text Color'
+      width: 33
+  -
+    handle: link_url
+    field:
+      type: link
+      display: Link
+  -
+    handle: image
+    field: common.image
+    config:
+      width: 50
+  -
+    handle: portrait_image
+    field:
+      type: toggle
+      display: 'Portrait Image'
+      width: 25
+  -
+    handle: bg_color
+    field: common.colour
+    config:
+      display: 'Background Color'
+      width: 25
+  -
+    handle: card_title
+    field: common.text_rich
+    config:
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - color
+        - bold
+        - italic
+        - removeformat
+      display: 'Card Title'
+  -
+    handle: content
+    field: common.text_rich
+    config:
+      buttons:
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bold
+        - italic
+        - color
+      display: Content
+  -
+    handle: animation
+    field:
+      options:
+        -
+          key: leftright
+          value: 'Left to Right'
+        -
+          key: rightleft
+          value: 'Right to Left'
+      default: rightleft
+      type: select
+      display: Animation
+  -
+    handle: related_height
+    field:
+      type: text
+      display: 'Related Height'
+      instructions: 'Enter the anchor of the element from which the minimum height is to be taken'

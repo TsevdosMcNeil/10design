@@ -1,0 +1,8 @@
+title: 'Related Entry'
+fields:
+  -
+    handle: entry
+    field:
+      type: entries
+      display: 'Related Content'
+      max_items: 2

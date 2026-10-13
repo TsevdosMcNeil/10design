@@ -1,0 +1,8 @@
+# docker-compose.remote.yml — REMOTE only
+# In remote: docker compose -f docker-compose.yml -f docker-compose.remote.yml up -d --build
+services:
+  statamic:
+    ports:
+      - "127.0.0.1:${STATAMIC_SSL_PORT}:9000" # FPM published on loopback for host Nginx (Statamic behind NGINX), 9000 is becasue the statamic container speaks FastCGI, not HTTP (80).  
+  node:
+    profiles: ["build-only"]                    # Keep node out of the default run. # Node/Vite only runs locally. Node now won’t start on the remote server at all. That’s fine if you build assets locally and deploy the compiled public/build. If you’ve ever run npm run build inside the node container on the remote, you’d need to start it there explicitly with docker compose --profile build-only run node.

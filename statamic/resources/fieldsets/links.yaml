@@ -1,0 +1,41 @@
+title: Links
+fields:
+  -
+    handle: links
+    field:
+      fields:
+        -
+          import: link
+      mode: stacked
+      add_row: 'Add link'
+      reorderable: true
+      type: grid
+      localizable: true
+      listable: hidden
+      display: Links
+      replicator_preview: false
+      instructions_position: above
+      visibility: visible
+      fullscreen: false
+      hide_display: false
+  - handle: colour
+    field: common.colour
+    validate:
+      - required
+    config:
+      display: 'Links Colour'
+      width: 25
+  - handle: hover_colour
+    field: common.colour
+    validate:
+      - required
+    config:
+      display: 'Hover Colour'
+      width: 25
+  -  handle: border_colour
+     field: common.colour
+     validate:
+       - required
+     config:
+       display: 'Border Colour'
+       width: 25

@@ -1,0 +1,20 @@
+{{#
+    @name Project card
+    @desc A Project card component.
+    @param class Add optional CSS classes.
+    @param ratio Aspect ratio of the image.
+#}}
+
+{{# aspect-[900/600] #}}
+
+<!-- /components/_projects_card.antlers.html -->
+{{ if selected_project }}
+    {{ selected_project }}
+        {{ partial:components/collection_item
+            :img_ratio="(card_ratio ?? '900/600')"
+            figure_class="flex-1"
+            :article_class="card_classes"
+        }}
+    {{ /selected_project }}
+{{ /if }}
+<!-- End: /components/_projects_card.antlers.html -->

@@ -1,0 +1,28 @@
+{{#
+    @name News Rows
+    @desc The News Rows component.
+    @param class Add optional CSS classes.
+#}}
+
+{{# aspect-[900/600] #}}
+
+<!-- /components/_news_rows.antlers.html -->
+{{ collection:news
+    sort="date:desc"
+    :limit="number_of_news ?? 5"
+    as="items"
+}}
+    {{ unless no_results }}
+        {{ items }}
+            {{ partial:news/row
+                year_at_top="true"
+            }}
+        {{ /items }}
+    {{ else }}
+        <div class="md:col-start-3 md:col-span-6">
+            {{ trans:strings.no_results }}
+        </div>
+    {{ /unless }}
+{{ /collection:news }}
+
+<!-- End: /components/_news_rows.antlers.html -->

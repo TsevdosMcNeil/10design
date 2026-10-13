@@ -1,0 +1,9 @@
+.bouncing-arrow {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    z-index: -1;
+}
+body.body-scrolled .bouncing-arrow {
+    opacity: 0;
+}
+

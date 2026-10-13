@@ -1,0 +1,41 @@
+{{#
+    @name Idea item
+    @desc An Idea item component.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_idea_card.antlers.html -->
+{{ aspect_ratio = '3/2' }}
+{{ if img_ratio }}
+    {{ aspect_ratio = img_ratio }}
+{{ /if }}
+{{  unless aspect_ratio | fraction_to_decimal | is_numeric }}
+  {{ aspect_ratio = '3/2' }}
+{{ /unless }}
+
+{{ fig_class = 'mb-3 group-hover:opacity-50 transition-all duration-300' }}
+{{ if figure_class }}
+    {{ fig_class .= ' ' + figure_class }}
+{{ /if }}
+
+<article class="flex flex-col {{ card_classes }}">
+    <a href="{{ url }}" class="group focus:outline-none flex-1 flex flex-col">
+        {{  partial:components/image
+            :image="image"
+            :figure_class="fig_class"
+            img_class="h-full w-full object-cover"
+            :ratio="aspect_ratio"
+            sizes="(min-width: 1280px) 430px, (min-width: 768px) 30vw, 90vw"
+            lazy="true"
+            cover="true"
+        }}
+
+        <div class="flex flex-col">
+            <h3 class="h4">
+                {{ title }}
+            </h3>
+            <span class="block text-darkgrey text-sm mt-1 min-h-[25px]">{{ trans:strings.ideas }}</span>
+        </div>
+    </a>
+</article>
+<!-- End: /components/_idea_card.antlers.html -->

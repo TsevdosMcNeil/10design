@@ -1,0 +1,108 @@
+title: Carousel
+fields:
+  -
+    handle: carousel
+    field:
+      type: replicator
+      display: Carousel
+      localizable: false
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            slide:
+              display: 'New slide'
+              fields:
+                -
+                  handle: image
+                  field: common.image
+                  config:
+                    validate:
+                      - required
+                -
+                  handle: video
+                  field:
+                    type: video
+                    display: Video
+                    localizable: false
+                -
+                  handle: top_caption
+                  field: common.text_plain
+                  config:
+                    display: 'Top Caption'
+                -
+                  handle: caption
+                  field: common.text_plain
+                  config:
+                    display: Caption
+                -
+                  handle: bottom_caption
+                  field: common.text_plain
+                  config:
+                    display: 'Bottom Caption'
+                -
+                  handle: slide_link
+                  field:
+                    type: link
+                    display: Link
+                    localizable: false
+                    width: 66
+                -
+                  handle: link_target
+                  field:
+                    options:
+                      -
+                        key: _self
+                        value: null
+                      -
+                        key: _blank
+                        value: null
+                    default: _self
+                    type: select
+                    display: Target
+                    localizable: false
+                    width: 33
+                -
+                  handle: header_colour
+                  field: common.colour
+                  config:
+                    display: 'Header Colour'
+  -
+    handle: navigation_arrows
+    field:
+      type: toggle
+      display: 'Navigation arrows'
+      width: 33
+      localizable: false
+  -
+    handle: navigation
+    field:
+      type: toggle
+      display: 'Navigation buttons'
+      width: 33
+      localizable: false
+  -
+    handle: full_size
+    field:
+      type: toggle
+      display: 'Full size'
+      width: 33
+      localizable: false
+  -
+    handle: autoplay
+    field:
+      type: toggle
+      display: Autoplay
+      width: 33
+      localizable: false
+  -
+    handle: transition
+    field:
+      options:
+        carousel: Slide
+        gallery: Fade
+      default: carousel
+      type: button_group
+      display: Transition
+      width: 66
+      localizable: false

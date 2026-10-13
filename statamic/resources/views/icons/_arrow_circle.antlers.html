@@ -1,0 +1,54 @@
+{{#
+    @name Arrow Circle button
+    @desc An arrow button that can be used for navigation links.
+#}}
+
+
+{{#
+    group-hover:fill-lightblue
+    group-hover:fill-blue
+#}}
+
+
+<!-- /icons/_arrow_circle.antlers.html -->
+
+{{ svg_default_class = 'mobile-only:w-[26px] mobile-only:h-[26px] mt-[5px] md:mt-[10px]' }}
+{{ if svg_class }}
+    {{ svg_class = svg_class }}
+{{ else }}
+ {{ if svg_add_class }}
+      {{ svg_class = svg_add_class + ' ' + svg_default_class }}
+  {{ else }}
+      {{ svg_class = svg_default_class }}
+  {{ /if }}
+{{ /if }}
+
+
+{{ if svg_width }}
+    {{ svg_width = svg_width }}
+{{ else }}
+    {{ svg_width = '35' }}
+{{ /if }}
+
+{{ if svg_height }}
+    {{ svg_height = svg_height }}
+{{ else }}
+    {{ svg_height = '35' }}
+{{ /if }}
+
+
+<svg xmlns="http://www.w3.org/2000/svg"
+    width="{{ svg_width }}"
+    height="{{ svg_height }}"
+    class="{{ svg_class }}"
+    viewBox="0 0 30 30"
+    fill="none"
+>
+    <circle cx="15" cy="15" r="15" transform="rotate(-180 15 15)" class="{{ circle_class }}" />
+    <path d="M15 20L20 15M15 10L20 15M20 15L10.5 15" class="{{ path_class }}" />
+</svg>
+
+{{ svg_class = null }}
+{{ svg_width = null }}
+{{ svg_height = null }}
+<!-- End /icons/_arrow_circle.antlers.html -->

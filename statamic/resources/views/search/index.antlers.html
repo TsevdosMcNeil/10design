@@ -1,0 +1,72 @@
+{{#
+    @name Search page
+    @desc The search page template.
+#}}
+
+<!-- /search/index.antlers.html -->
+{{ no_exact_results = false }}
+{{ no_aprox_results = false }}
+{{ search:results index="exact" exact="true" }}
+  {{ if no_results }}
+    {{ no_exact_results = true }}
+  {{ /if }}
+{{ /search:results }}
+
+{{ if no_exact_results }}
+  {{ search:results index="default" }}
+    {{ if no_results }}
+      {{ no_aprox_results  = true }}
+    {{ /if }}
+  {{ /search:results }}
+{{ /if }}
+
+<main id="content"
+  class="outer-grid search-page"
+>
+  <section class="pt-20 md:pt-[160px] 2xl:pt-[200px] fluid-container min-h-[80vh] pb-20 md:pb-20">
+    <form action="{{ site:permalink }}/search"
+      class="flex items-center border-black border-b w-full"
+      autocomplete="off"
+    >
+      <input type="search"
+        name="q"
+        placeholder="{{ if no_exact_results }}{{ if no_aprox_results }}{{trans:strings.search_results }} '{{get:q }}'{{ else }}{{ trans:strings.search_no_exact_results_1 }} '{{get:q}}', {{trans:strings.search_no_exact_results_2 }}{{ /if }}{{ else }}{{trans:strings.search_results }} '{{get:q }}'{{ /if }}"
+        class="py-2.5 pl-0 text-xl
+          outline-0 bg-transparent border-0 w-full
+          text-beige placeholder-beige tracking-wide "
+      />
+    </form>
+
+    <div class="grid grid-cols-12 md:gap-4">
+      <div class="col-span-12 md:col-span-4 xl:col-span-5 mt-6 md:mt-4"></div>
+      <div class="col-span-12 md:col-span-8 xl:col-span-7 max-h-[590px] h-[105%] overflow-y-auto results">
+        <div class="pr-0">
+
+            {{ if no_exact_results }}
+              {{ search:results index="default" }}
+                {{ if no_results }}
+                  <p class="leading-[30px]
+                    tracking-tight
+                    pt-4"
+                  >{{ trans:strings.search_no_results }}</p>
+                {{ else }}
+
+                  {{ if collection }}
+                    {{ partial:search/result }}
+                  {{ /if }}
+                {{ /if }}
+              {{ /search:results }}
+            {{ else }}
+              {{ search:results index="exact" exact="true" }}
+                  {{ if collection }}
+                    {{ partial:search/result }}
+                {{ /if }}
+              {{ /search:results }}
+            {{ /if }}
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End: /search/index.antlers.html -->

@@ -1,0 +1,165 @@
+{{#
+    @name Projects show
+    @desc The Projects show template.
+#}}
+
+<!-- /projects/show.antlers.html -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ permalink }}"
+        },
+        "headline": "{{ title }}",
+        "image": "{{ config:app:url }}{{ image }}",
+        "datePublished": "{{ date format="Y-m-d\TH:i:s" }}",
+        "author": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}",
+            "url": "{{ config:app:url }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}"{{ if seo:organization_logo }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config:app:url }}{{ glide:seo:organization_logo width='336' height='336' fit='contain' }}"
+            }{{ /if }}
+        }
+    }
+</script>
+
+{{ footer_background_colour = 'blue' }}
+
+{{ post_category =  '' }}
+
+{{ if categories }}
+    {{ categories }}
+        {{ post_category =  title }}
+    {{ /categories }}
+{{ endif }}
+
+
+{{# color-item-lightblue color-item-blue color-item-darkblue color-item-pink color-item-yellow color-item-orange color-item-orange color-item-green #}}
+
+<main id="content"
+    class="outer-grid pb-[50px]"
+    x-data
+>
+    <div id="date" class="fluid-container text-blue h4 tracking-wide block md:hidden mobile-only:text-[14px] mobile-only:leading-[24px]">
+        {{ date format="Y.m.d" }}
+    </div>
+
+    <header class="grid md:grid-cols-12 gap-4 w-full p-0 mobile-only:mt-6 mobile-only:mb-2">
+      {{ if hero_video }}
+        {{  partial:components/video
+          video_id="hero_video"
+          :video_url="hero_video"
+          wrapper_class="video-wrapper relative z-[-1]
+            w-screen max-w-screen
+            h-[234px] md:h-screen
+            full-overlay
+            overflow-hidden"
+          video_class="absolute
+            top-1/2 left-1/2
+            translate-y-[-50%] translate-x-[-50%]
+            w-full h-full
+            object-cover"
+          video_autoplay="1"
+          video_loop="1"
+          video_muted="1"
+          is_background_video="1"
+        }}
+        {{  partial:components/image
+          :image="image"
+          figure_class="!absolute z-[-2]
+              w-full max-w-screen
+              md:col-span-12
+              p-0 full-overlay
+              h-[234px] md:h-screen"
+          img_class="object-cover object-center w-full h-full"
+          ratio="3/2"
+        }}
+      {{ else }}
+        {{  partial:components/image
+          :image="image"
+          figure_class="w-full max-w-full md:col-span-12 p-0 h-[234px] md:h-screen full-overlay"
+          img_class="object-cover object-center w-full h-full"
+          ratio="3/2"
+        }}
+      {{ /if }}
+
+
+        {{ partial:components/bouncing_arrow
+            arrow_link="#block"
+        }}
+    </header>
+
+    <div id="block" class="grid-cols-12 fluid-container gap-[16px] md:gap-[32px] py-4 md:py-8 hidden md:grid">
+        <div class="metadata col-span-12 md:col-span-3">
+            <div id="category"
+            class="mb-4 text-blue text-sm md:text-md">
+                {{ post_category }}
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-9 xl:col-span-6">
+            <h1 class="text-2xl md:text-3xl tracking-wide">
+                {{ title | nl2br }}
+            </h1>
+            <div id="date"
+                class="text-blue h4
+                    mt-4 mb-[100px] tracking-wide
+            ">
+                {{ date format="Y.m.d" }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="news-content">
+        {{ page_builder scope="block" }}
+            {{ partial src="page_builder/{type}" }}
+        {{ /page_builder }}
+    </div>
+
+
+    <div class="fluid-container
+      mt-6 md:mt-20
+      flex justify-between items-center"
+    >
+      {{ partial:components/link_with_arrow
+          link_url="{{ site:permalink + '/news' }}"
+          title="{{ trans:strings.back_to_news }}"
+          text_size="h4"
+          colour="black"
+          arrow_background="sand"
+          hover_colour="blue"
+          arrow_position="left"
+      }}
+
+      {{ collection:next
+          in="news"
+          disable_url:isnt=true
+          sort="date"
+          limit="1"
+          as="items"
+      }}
+        {{ unless no_results }}
+          {{ items }}
+            {{ partial:components/link_with_arrow
+                link_url="{{ url }}"
+                title="{{ trans:strings.view_next_post }}"
+                text_size="h4"
+                colour="black"
+                arrow_background="sand"
+                hover_colour="blue"
+            }}
+          {{ /items }}
+        {{ /unless }}
+      {{ /collection:next }}
+    </div>
+
+</main>
+<!-- /projects/show.antlers.html -->

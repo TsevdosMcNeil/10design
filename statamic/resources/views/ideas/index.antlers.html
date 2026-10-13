@@ -1,0 +1,20 @@
+{{#
+    @name Ideas index
+    @desc The Ideas index template.
+#}}
+
+<!-- /ideas/index.antlers.html -->
+{{ livewire:styles }}
+<main id="content"
+      class="outer-grid livewirepage"
+>
+    {{ page_builder scope="block" }}
+        {{ partial src="page_builder/{type}" }}
+    {{ /page_builder }}
+
+    <section>
+        {{ livewire:show-ideas }}
+    </section>
+</main>
+{{ livewire:scriptConfig }}
+<!-- End: /ideas/index.antlers.html -->

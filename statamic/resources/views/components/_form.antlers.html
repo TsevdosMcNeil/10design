@@ -1,0 +1,22 @@
+{{#
+    @name Form
+    @desc A reusable form component. Pass in a `form` parameter like 'newsletter' or 'contact-us'.
+    @param form The form handle
+#}}
+
+<!-- /components/_form.antlers.html -->
+
+{{ if form }}
+    {{ if form.handle == "newsletter" }}
+        {{ partial:forms/ajaxform
+            :headline="headline"
+            :handle="form.handle"
+        }}
+    {{ elseif form.handle == "contact-us" }}
+        {{ form:contact-us }}
+            {{ partial:components/contact }}
+        {{ /form:contact-us }}
+    {{ /if }}
+{{ /if }}
+
+<!-- End: /components/_form.antlers.html -->

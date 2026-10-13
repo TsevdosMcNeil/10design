@@ -1,0 +1,33 @@
+{{#
+    @name Single Theme Link
+    @desc A link to s single theme.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_theme_link.antlers.html -->
+
+{{ hover_colour = '' }}
+{{ theme_title = '' }}
+{{ theme_url  = '' }}
+
+{{ if single_theme }}
+    {{ hover_colour = single_theme:theme_colour }}
+    {{ theme_title = single_theme:title }}
+    {{ theme_url = single_theme:permalink }}
+{{ /if }}
+
+<a href="{{ theme_url }}"
+    @mouseenter="bg = '{{ hover_colour }}'"
+    @mouseleave="bg = ''"
+>
+    {{ partial:typography/h2
+        :content="theme_title"
+        color="text-black hover:text-white"
+        class="theme-link text-xl md:text-4xl mobile-only:leading-[36px]
+        lg:text-5xl 2xl:text-[99.5px] 2xl:leading-[130px]
+        duration-[300ms]
+        tracking-tight font-normal"
+    }}
+</a>
+
+<!-- End: /components/_theme_link.antlers.html -->

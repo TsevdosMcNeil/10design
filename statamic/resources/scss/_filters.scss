@@ -1,0 +1,27 @@
+.livewire-filter {
+    color: var(--color-grey);
+    &:hover {
+      color: var(--color-grey);
+    }
+    &.selected {
+      color: var(--color-black);
+    }
+}
+
+.livewire-filter-list{
+  .livewire-filter {
+    @media screen and (min-width: 768px) {
+      padding-bottom: 10px;
+    }
+  }
+}
+
+
+.isDisabled {
+  pointer-events: none;
+  opacity: 0.5;
+  color: var(--color-grey);
+  @media screen and (min-width: 768px) {
+    color: var(--color-black);
+  }
+}

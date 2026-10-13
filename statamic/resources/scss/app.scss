@@ -1,0 +1,22 @@
+/* Resources */
+@use "typography";
+@use "carousel";
+@use "forms";
+@use "buttons";
+@use "filters";
+@use "scroll-triggered";
+@use "cookies";
+
+/* Layout */
+@use "header";
+@use "footer";
+
+/* Pages */
+@use "home";
+@use "people";
+@use "contact";
+@use "projects";
+@use "themes";
+@use "ideas";
+@use "news";
+@use "pages";

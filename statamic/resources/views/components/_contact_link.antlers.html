@@ -1,0 +1,30 @@
+{{#
+    @name Contact link attributes
+    @param* label The caption label.
+    @param as The wrapping element. Defaults to `a`.
+#}}
+
+<!-- /components/_contact_link.antlers.html -->
+{{ link_class = 'flex items-center gap-0.5 justify-between transition-all duration-300' }}
+{{ if link_colour }}
+    {{ link_class .= ' text-' + link_colour }}
+{{ else }}
+    {{ link_class .= ' text-black' }}
+{{ /if }}
+{{ if hover_colour }}
+  {{ link_class .= ' hover:text-' + hover_colour  }}
+{{ /if }}
+
+{{ if text_size }}
+    {{ link_class .=  ' ' + text_size }}
+{{ /if }}
+
+<a class="{{ link_class }}"
+  {{ slot:attributes }}
+  {{ !faux ?= { partial:statamic-peak-tools::snippets/button_attributes } }}
+>
+  <span class="min-w-fit">
+      {{ link_type == 'email' ? { label | obfuscate_email } : label }}
+  </span>
+</a>
+<!-- End: /components/_contact_link.antlers.html -->

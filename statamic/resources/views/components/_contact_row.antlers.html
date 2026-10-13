@@ -1,0 +1,49 @@
+{{#
+    @name Contact Row
+#}}
+
+{{ cell_class = 'flex justify-between items-center
+        border-t border-black
+        pt-[8px] pb-[10px] md:pt-5 md:pb-6 -mb-6' }}
+
+{{ if top_line }}
+    {{ cell_class .= ' border-t'  }}
+{{ /if }}
+
+{{ if bottom_line }}
+    {{ cell_class .= ' xl:border-b ' }}
+{{ /if }}
+
+{{ if mobile_bottom_line }}
+  {{ cell_class .= ' border-b ' }}
+{{ /if }}
+
+
+{{ text_class = 'text-' + text_colour + ' hover:text-' + hover_colour }}
+
+{{ if top_line }}
+    {{ text_class .= ' border-t'  }}
+{{ /if }}
+
+{{ if bottom_line }}
+    {{ text_class .= ' border-b' }}
+{{ /if }}
+
+
+
+<!-- /components/_contact_row.antlers.html -->
+<div class="contact_row">
+    <div class="{{ cell_class }}">
+      <div class="m-0 h-[26px]">
+        <h4 class="text-darkgrey leading-none
+          mobile-only:!text-[14px] mobile-only:!leading-[16px]"
+        >{{ title }}</h4>
+      </div>
+      <div class="m-0 h-[26px]">
+        {{ content }}
+            {{ partial src="components/{type}" }}
+        {{ /content }}
+      </div>
+    </div>
+</div>
+<!-- End: /components/_enquire.antlers.html -->

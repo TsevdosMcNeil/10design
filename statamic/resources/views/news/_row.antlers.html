@@ -1,0 +1,65 @@
+{{#
+    @name New Row item
+    @desc A row showing one new.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /news/_row.antlers.html -->
+<article class="col-span-12 max-w-none pb-4 md:pb-[46px] pt-[35px] border-t hide-arrow-mobile {{ if !year_at_top }} mobile-only:pb-0 {{ /if }}">
+    <a href="{{ url }}"
+        class="group focus:outline-none flex-1 flex md:flex-row flex-col">
+
+        <div class="-mt-5 md:max-w-[80%]">
+            {{ if year_at_top }}
+                <div id="date"
+                    class="text-blue mobile-only:leading-[12px] text-[10px] md:text-base tracking-tight">
+                    {{ date format="Y.m.d" }}
+                </div>
+            {{ else }}
+                {{ if categories }}
+                    {{ post_category =  '' }}
+                    {{ categories }}
+                      {{ post_category = post_category + ", " + title }}
+                    {{ /categories }}
+                    {{ post_category = post_category | trim | remove_left(',') }}
+                {{ else }}
+                  {{ post_category =  '&nbsp;' }}
+                {{ endif }}
+                <div id="category"
+                    class="text-blue text-sm mobile-only:leading-[18px] mobile-only:text-[14px]">
+                    {{ post_category }}
+                </div>
+            {{ endif }}
+            <h3 class="
+                {{ if year_at_top }} mobile-only:leading-[20px] mobile-only:text-[16px] {{ /if }}
+                {{ if !year_at_top }} mobile-only:leading-[18px] mobile-only:text-[14px] {{ /if }}
+                h3 tracking-tight group-hover:text-blue
+            ">
+                {{ title }}
+            </h3>
+        </div>
+
+        {{ if !year_at_top }}
+        <div id="date"
+            class="h3 text-blue
+            ml-0 md:ml-auto
+            flex flex-col justify-end md:justify-start
+            md:mt-[-7px]
+            tracking-tight  mobile-only:leading-[18px] mobile-only:text-[14px]">
+            {{ date format="Y.m.d" }}
+        </div>
+        {{ endif }}
+
+        {{ if year_at_top }}
+
+        {{  partial:icons/arrow_circle
+            svg_class="opacity-0 group-hover:opacity-100 transition-all duration-300 justify-end ml-auto my-auto flex-shrink-0"
+            circle_class="transition-all duration-300 fill-antiquewhite group-hover:fill-blue"
+            :path_class="stroke_class"
+        }}
+
+        {{ endif }}
+
+    </a>
+</article>
+<!-- End: /news/_row.antlers.html -->

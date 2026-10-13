@@ -1,0 +1,62 @@
+title: 'Article Card'
+fields:
+  -
+    handle: selected_project
+    field:
+      max_items: 1
+      collections:
+        - projects
+        - ideas
+        - news
+      type: entries
+      display: Article
+      sortable: false
+  -
+    handle: card_classes
+    field:
+      type: text
+      display: 'Card Classes'
+      width: 50
+  -
+    handle: card_ratio
+    field:
+      options:
+        -
+          key: default
+          value: null
+        -
+          key: 1/1
+          value: null
+        -
+          key: 2/3
+          value: null
+        -
+          key: 3/2
+          value: null
+        -
+          key: 4/3
+          value: null
+        -
+          key: 16/9
+          value: null
+        -
+          key: 8/9
+          value: null
+      default: default
+      type: select
+      display: Ratio
+      width: 50
+  -
+    handle: type_colour
+    field: common.colour
+    config:
+      display: 'Article Type Colour'
+      width: 66
+      if:
+        show_article_type: 'equals true'
+  -
+    handle: show_article_type
+    field:
+      type: toggle
+      display: 'Show Article Type'
+      width: 33

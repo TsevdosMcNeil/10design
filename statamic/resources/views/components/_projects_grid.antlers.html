@@ -1,0 +1,117 @@
+{{#
+    @name Projects Grid
+    @desc A row showing a grid of projects
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_projects_grid.antlers.html -->
+
+{{# aspect-[36/49] #}}
+{{ if projects }}
+
+  <div id="projectsGrid"
+    class="w-full
+      grid md:grid-cols-12
+      gap-4"
+  >
+  {{ projects }}
+    {{# figure_class = "flex-1" #}}
+    {{ colum_card_class = 'col-span-6 md:col-span-6 xl:col-span-6' }}
+    {{ figure_class = "landscape relative w-full h-0 pb-[66.6%]" }}
+    {{ if index == 0 }}
+      {{ figure_class .= " first" }}
+    {{ /if }}
+    {{ img_ratio = '44/29' }}
+    {{ project_image = image }}
+    {{ if index == 1 || index == 2 }}
+      {{ colum_card_class = 'col-span-6 md:col-span-3 xl:col-span-3' }}
+      {{ img_ratio = '36/49' }}
+      {{ figure_class = "portrait relative w-full h-0 pb-[66.6%] md:pb-[137%]" }}
+      {{ if portrait_image }}
+          {{ project_image = portrait_image }}
+      {{ /if }}
+    {{ /if }}
+    <div class="{{ colum_card_class }} max-w-none md:pb-12">
+      {{ partial:components/collection_item
+        :image="project_image"
+        :img_ratio="img_ratio"
+        :figure_class="figure_class"
+        image_class="absolute"
+      }}
+    </div>
+  {{ /projects }}
+  </div>
+
+{{ else }}
+
+  {{ collection:projects
+      sort="date:desc"
+      limit="5"
+      as="items"
+  }}
+    <div id="projectsGrid"
+      class="w-full
+        grid md:grid-cols-12
+        gap-4"
+    >
+      {{ items }}
+        {{# figure_class = "flex-1" #}}
+        {{ colum_card_class = 'col-span-6 md:col-span-6 xl:col-span-6' }}
+        {{ figure_class = "landscape relative w-full h-0 pb-[66.6%]" }}
+        {{ if index == 0 }}
+          {{ figure_class .= " first" }}
+        {{ /if }}
+        {{ img_ratio = '44/29' }}
+        {{ project_image = image }}
+        {{ if index == 1 || index == 2 }}
+          {{ colum_card_class = 'col-span-6 md:col-span-3 xl:col-span-3' }}
+          {{ img_ratio = '36/49' }}
+          {{ figure_class = "portrait relative w-full h-0 pb-[66.6%] md:pb-[137%]" }}
+          {{ if portrait_image }}
+              {{ project_image = portrait_image }}
+          {{ /if }}
+        {{ /if }}
+        <div class="{{ colum_card_class }} max-w-none md:pb-12">
+          {{ partial:components/collection_item
+            :image="project_image"
+            :img_ratio="img_ratio"
+            :figure_class="figure_class"
+            image_class="absolute"
+          }}
+        </div>
+      {{ /items }}
+    </div>
+  {{ /collection:projects }}
+{{ /if }}
+<script>
+//Make all figure.portrait to have the same height as figure.first
+const resizePortraits = () => {
+  //console.log('resizePortraits called');
+  const projectsGrid = document.getElementById('projectsGrid');
+  if (!projectsGrid) return;
+
+  const firstFigure = projectsGrid.querySelector('figure.first img'); //we take the img height becasue the figure has h-0
+  if (firstFigure) {
+
+    //console.log('First figure found:', firstFigure);
+    const firstHeight = firstFigure.offsetHeight;
+    const portraitFigures = projectsGrid.querySelectorAll('figure.portrait');
+    portraitFigures.forEach(figure => {
+      //figure.style.height = `${firstHeight}px`;
+      //change the padding bottom to `${firstHeight}px`;
+      //console.log('Setting padding bottom for figure:', figure);
+      figure.style.paddingBottom = `${firstHeight}px`;
+    });
+  }
+};
+
+// Initial resize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  resizePortraits();
+});
+
+// Resize on window resize
+window.addEventListener('resize', resizePortraits);
+</script>
+
+<!-- End: /components/_projects_grid.antlers.html -->

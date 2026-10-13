@@ -1,0 +1,50 @@
+
+{{#
+    @name Filter Element
+    @desc HTML code for the filter li element that is included in the list.
+    @param tax           The taxonomy name
+    @param slug          The slug of the taxonomy
+    @param title         The title of the taxonomy
+    @param color         The color of the taxonomy (if any)
+#}}
+
+
+{{ if tax }}
+<li id="{{ slug }}"
+  class="livewire-filter
+    cursor-pointer
+    flex
+    whitespace-nowrap
+    text-base leading-[24px] md:leading-none
+    pr-[50px]
+    {{ if color && tax === "specialisms"  }} md:-ml-[22px] {{ /if }}"
+  x-bind:class="selected_{{ tax }}_slug.includes('{{ slug }}')
+    ? 'selected'
+    : ''"
+  @click="select_filter(
+    '{{ slug }}',
+    '{{ tax }}',
+    selected_{{ tax }}_slug.includes('{{ slug }}')
+      ? 'remove'
+      : 'add'
+    )"
+>
+    {{ if color && tax === "specialisms" }}
+        <span class="colour-dot
+          mobile-only:hidden
+          inline-block
+          rounded-full flex-shrink-0
+          w-[15px] h-[15px]
+          mr-[5px] mt-[5px]
+        "
+        style="background-color: {{ color }};"
+        ></span>
+    {{ /if }}
+    <span class="inline-block
+      mobile-only:text-xl
+      whitespace-normal"
+    >{{ title }}</span>
+</li>
+{{ color = null }}
+{{ /if }}
+

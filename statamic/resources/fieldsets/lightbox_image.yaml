@@ -1,0 +1,21 @@
+title: 'Lightbox Person'
+fields:
+  -
+    handle: lightbox_bg_colour
+    field: common.colour
+    config:
+      display: 'Background Colour'
+  -
+    handle: selected_person
+    field:
+      max_items: 1
+      mode: default
+      create: true
+      collections:
+        - people
+      type: entries
+      display: Person
+      listable: hidden
+      instructions_position: above
+      visibility: visible
+      hide_display: false

@@ -1,0 +1,53 @@
+{{#
+    @name Related Entries
+    @desc Section with related entries of the current entry
+    @set related_entries
+#}}
+
+<!-- /components/_single_related_entries.antlers.html -->
+
+{{ if related_entries }}
+  {{# aspect-[14/16] aspect-[14/19] aspect-[28/19]  #}}
+  <div class="fluid-container
+    grid grid-cols-12 gap-4
+    bg-antiquewhite
+    md:py-10 pt-4 pb-[80px]"
+  >
+    <div class="col-span-12 lg:col-span-4
+      mb-2 md:mb-4
+      mobile-only:text-[26px] mobile-only:leading-[30px]">
+        <h2>{{ trans:strings.related }}</h2>
+    </div>
+
+    {{ total_entries = related_entries | length }}
+    {{ related_entries }}
+      {{ related_entry_ratio = "28/19" }}
+      {{ related_entry_classes = "col-span-12 md:col-span-6 lg:col-span-5" }}
+      {{ if index == 0 && total_entries > 1 }}
+        {{ related_entry_ratio = "14/16" }}
+        {{ related_entry_classes = "col-span-12 md:col-span-6 lg:col-span-3 md:-ml-[3px]" }}
+      {{ /if }}
+
+      {{ if total_entries == 1 }}
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 md:-ml-[3px]"></div>
+      {{ /if }}
+
+      <div class="{{ related_entry_classes }}">
+        {{ if collection == "ideas" }}
+          {{ partial:components/idea_card
+              :img_ratio="related_entry_ratio"
+              figure_class="flex-1"
+          }}
+        {{ else }}
+          {{ partial:components/collection_item
+              :img_ratio="related_entry_ratio"
+              figure_class="flex-1"
+              card_classes="h-full"
+          }}
+        {{ /if }}
+      </div>
+    {{ /related_entries }}
+  </div>
+{{ endif }}
+
+<!-- End /components/_single_related_entries.antlers.html -->

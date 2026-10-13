@@ -1,0 +1,202 @@
+{{#
+@name People show
+@desc Template to display team members in mobile layout.
+#}}
+
+<!-- /people/show.antlers.html -->
+<script>
+  // On desktop, Redirect to the people list page with the slug as a query parameter
+  document.addEventListener('DOMContentLoaded', () => {
+    /*
+      const isDesktop = window.innerWidth >= 1024; // Tailwind's lg breakpoint
+
+      const pathMatch = window.location.pathname.match(/^\/people\/([\w-]+)$/);
+
+      if (isDesktop && pathMatch) {
+          const slug = pathMatch[1];
+          const redirectUrl = `/people?open=${slug}`;
+          window.location.replace(redirectUrl);
+      } else {
+          //remove class 'opacity-0' from the main element
+          const memberElement = document.getElementById('singleMember');
+          if (memberElement) {
+              memberElement.classList.remove('opacity-0');
+          }
+      }
+      */
+
+
+    const memberElement = document.getElementById('singleMember');
+    if (memberElement) {
+      memberElement.classList.remove('opacity-0');
+    }
+  });
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "PeopleMember",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ permalink }}"
+        },
+        "headline": "{{ title }}",
+        "image": "{{ config:app:url }}{{ image }}",
+        "datePublished": "{{ date format="Y-m-d\TH:i:s" }}",
+        "author": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}",
+            "url": "{{ config:app:url }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}"{{ if seo:organization_logo }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config:app:url }}{{ glide:seo:organization_logo width='336' height='336' fit='contain' }}"
+            }{{ /if }}
+        }
+    }
+</script>
+
+<main id="content"
+  class="single-person"
+>
+  <div id="singleMember"
+    class="opacity-0"
+  >
+
+    {{ landscape_figure_class = "max-h-[230px] w-full md:hidden" }}
+    {{ portrait_figure_class = "max-h-[320px] md:max-h-[700px] mobile-only:hidden" }}
+    {{ if lightbox_bg_colour }}
+    {{ portrait_figure_class += ' bg-'+lightbox_bg_colour }}
+    {{ landscape_figure_class += ' bg-'+lightbox_bg_colour }}
+    {{ else }}
+    {{ portrait_figure_class += ' bg-grey' }}
+    {{ landscape_figure_class += ' bg-grey' }}
+    {{ endif }}
+
+    <section id="memberProfile"
+      x-data="{ shown_profile: false }"
+      x-intersect.once="shown_profile = true;"
+      class="fluid-container
+          md:min-h-screen
+          grid gap-2 md:gap-4 md:grid-cols-12
+          text-black bg-white
+          opacity-0 mobile-only:mt-4
+      "
+      :class="shown_profile ? 'animate-appearsin' : ''"
+    >
+      <div class="col-span-12
+          pb-4 md:pb-10 lg:pb-20 md:pt-5
+          max-w-[calc(100%-190px)]
+          order-2 md:order-1
+      ">
+        <header>
+          {{ partial:typography/h3
+            :content="title"
+            class="tracking-normal mobile-only:text-md"
+          }}
+        </header>
+        {{ partial:typography/h3
+          :content="person_position"
+          class="text-red tracking-normal mobile-only:text-md"
+        }}
+        {{ partial:typography/h3
+          :content="person_qualifications | upper"
+          color="text-grey"
+          class="mobile-only:text-md"
+        }}
+      </div>
+
+      <div class="col-span-12 md:col-span-6 lg:col-span-4
+          order-3 md:order-1
+          mobile-only:text-[14px] text-base
+          mobile-only:leading-[20px] leading-[24px]
+      ">
+        {{ person_description_left_column }}
+      </div>
+
+      <div class="hidden lg:block
+          lg:col-span-1
+          order-1
+      "></div>
+
+      <div class="max-w-none
+          col-span-12 md:col-span-6 lg:col-span-4
+          order-1
+      ">
+        {{ partial:components/image
+          :image="person_profile_image"
+          :figure_class="landscape_figure_class"
+          img_class="w-full h-full object-cover object-top"
+          image_sizes="100vw, (min-width: 768px) 50vw, (min-width: 992px) 25vw"
+          ratio="3/2"
+        }}
+        {{ partial:components/image
+          :image="person_profile_image"
+          :figure_class="portrait_figure_class"
+          img_class="w-full h-full object-cover object-center"
+          image_sizes="100vw, (min-width: 768px) 50vw, (min-width: 992px) 25vw"
+          ratio="2/3"
+        }}
+      </div>
+
+      <div class="col-span-12 md:col-span-6 lg:col-span-2
+          mobile-only:text-[14px] text-base
+          mobile-only:leading-[20px] leading-[24px]
+          order-4
+      ">
+        {{ person_description_right_column }}
+      </div>
+
+      <div class="col-span-12
+          py-5 md:py-12
+          flex justify-start md:justify-end
+          items-center gap-2
+          order-5
+      ">
+      {{#
+        Instead the collection:prev/next standard tag,
+        we are using our own custom tag 'people_adjacent' for navigation
+      #}}
+        {{ people_adjacent }}
+          {{# Previous button #}}
+          {{ if prev }}
+            <a href="{{ prev:url }}"
+              role="button"
+              class="block group"
+              aria-label="Previous: {{ prev:title }}"
+            >
+              {{ partial:icons/arrow_circle
+                svg_width="30"
+                svg_height="30"
+                svg_class="transform rotate-180"
+                circle_class="fill-sand group-hover:fill-red"
+                path_class="stroke-black"
+              }}
+            </a>
+          {{ /if }}
+          {{# Next button #}}
+          {{ if next }}
+            <a href="{{ next:url }}"
+              role="button"
+              class="block group"
+              aria-label="Next: {{ next:title }}"
+            >
+              {{ partial:icons/arrow_circle
+                svg_width="30"
+                svg_height="30"
+                svg_class=" "
+                circle_class="fill-sand group-hover:fill-red"
+                path_class="stroke-black"
+              }}
+            </a>
+          {{ /if }}
+        {{ /people_adjacent }}
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- /people/show.antlers.html -->

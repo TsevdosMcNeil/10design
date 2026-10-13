@@ -1,0 +1,408 @@
+{{#
+    @name News index page
+    The filters are managed by Livewire in app/Http/Livewire/ShowNews.php
+
+    The 'collectiontax' variable is defined in app/Http/Livewire/ShowNews.php and is dependent on the 'show_filters' select box in the CMS.
+    The 'loader' variable is defined in app/Http/Livewire/ShowNews.php.
+#}}
+<div
+    x-data="newsInit()"
+>
+<!-- /livewire/show-news.antlers.html -->
+  {{# Filters #}}
+  <section
+    x-show="!hidefilters"
+    wire:loading.class="isDisabled"
+    id="projectFiltersWrapper"
+    @hide-filters.window="hidefilters = $event.detail"
+    class="fluid-container
+      grid md:grid-cols-12
+      gap-0 md:gap-y-2 md:gap-x-4
+      items-center
+      mt-6 md:mt-[160px] 2xl:mt-[230px] mb-8"
+  >
+
+    {{# Filters Show/Hide/Reset #}}
+    <div class="mobile-only:hidden
+        col-span-6
+        md:text-lg xl:text-xl
+        grid grid-cols-6"
+    >
+      <div class="col-span-2">
+          <button @click="
+                  expanded_filters = ! expanded_filters;
+                  filter_clicked = true;"
+                  class="text-black group hover:text-darkgrey tracking-tight flex items-center"
+          >
+              <span x-show="!expanded_filters">{{ trans:strings.filter }}</span>
+              <span x-show="expanded_filters">{{ trans:strings.hide }}</span>
+              <svg
+                  class="ml-1.5 mt-1.5 xl:mt-[13px] transition-all duration-300"
+                  :class="expanded_filters ? 'rotate-180' : ''"
+                  width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 6L7 12M13 6L7 12M7 12L7 0.599998" class="stroke-black group-hover:stroke-grey"/>
+              </svg>
+          </button>
+      </div>
+      <div class="col-span-4">
+          <button x-show="expanded_filters"
+                  @click="clear_filters('all')"
+                  class="text-black hover:text-darkgrey tracking-tight"
+          >{{ trans:strings.reset }}</button>
+      </div>
+    </div>
+
+    {{# Search Bar #}}
+    <div class="col-span-12 md:col-span-6">
+      <form class="flex
+          border-black
+          mobile-only:border-t md:border-b
+          relative"
+        wire:submit.prevent="setOfEntries"
+      >
+        <input type="text"
+          class="w-full
+            pr-6 pl-0
+            pt-[9px] pb-[12px] md:py-3
+            border-none border-b border-black filterview-grid
+            outline-0 leading-none
+            text-xl md:text-lg xl:text-xl
+            h-[48px] md:h-12
+            placeholder-black"
+          placeholder="{{ trans:strings.search_news }}"
+          wire:model="searchQuery"
+        />
+        <button type="button"
+          wire:click="setOfEntries"
+        >
+          <svg class="block md:hidden
+            absolute right-0 top-[50%]
+            transform -translate-y-1/2 rotate-[270deg]"
+            width="12"
+            height="11"
+            viewBox="0 0 12 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M1 5.00002L6.00002 10M11 5.00001L6.00002 10M6.00002 10L6 0.500019" stroke="black"/>
+          </svg>
+          <svg class="mobile-only:hidden
+              absolute right-0 top-[50%]
+              transform -translate-y-1/2"
+            width="21"
+            height="22"
+            viewBox="0 0 21 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M10 21L20 11M10 1L20 11M20 11L0.999999 11" stroke="black"/>
+          </svg>
+        </button>
+      </form>
+      {{ unless news }}
+        <p class="leading-[30px] tracking-[-0.03%] mt-[35px]">{{ trans:strings.no_results_found }}</p>
+      {{ /unless }}
+    </div>
+
+    {{# Mobile Filters #}}
+    <div class="md:hidden col-span-12">
+      {{ partial:layout/filter-collapse
+          :wrap_class="wrap_class"
+          :filters="collectiontax"
+          :sitehandle="sitehandle"
+      }}
+    </div>
+
+    {{# Desktop Filters #}}
+    {{ wrap_class = "taxonomy-filter w-1/3 "}}
+    <div class="mobile-only:hidden
+        col-span-12 md:col-span-6
+        md:overflow-visible
+        overflow-hidden"
+      x-show="expanded_filters"
+      x-collapse.duration.750ms
+      x-bind:class="expanded_filters ? 'expanded' : ''"
+      class="expanse"
+    >
+        <div class="w-full flex">
+            {{ foreach:collectiontax }}
+                {{ partial:layout/filter-list
+                    :wrap_class="wrap_class"
+                    :tax="value"
+                    :sitehandle="sitehandle"
+                }}
+            {{ /foreach:collectiontax}}
+        </div>
+    </div>
+  </section>
+
+    {{#
+     # Posts
+    #}}
+
+    {{# Loading animation #}}
+    <div  wire:loading.class="flex"
+        wire:loading.class.remove="hidden"
+        class="fluid-container
+            gap-0
+            pt-8 pb-8  md:pt-40 md:pb-40
+            bg-icon grey-icon
+            hidden
+            h-screen">
+            {{ partial:icons/loading }}
+    </div>
+    {{# Grid #}}
+    <section id="postsGrid"
+        wire:loading.class="hidden"
+        wire:message.processed="console.log('updated from HTML')"
+        class="fluid-container
+            grid
+            md:grid-cols-12
+            gap-4
+            pb-8 md:pb-20
+            bg-icon grey-icon"
+        x-data="first_load()"
+    >
+        {{ if news }}
+            {{ news }}
+                {{ colum_card_class = '' }}
+                {{ figure_card_class = "relative w-full h-0 pb-[66.6%]" }}
+                {{ img_ratio = '44/29' }}
+
+                {{ if !hasActiveFilters }}
+                  {{ if index <= 3 }}
+                      <div class="col-span-12 md:col-span-6 max-w-none md:pb-12">
+                          {{ partial:components/collection_item
+                              :img_ratio="img_ratio"
+                              image_class="absolute"
+                              :figure_class="figure_card_class"
+                          }}
+                      </div>
+                  {{ else }}
+                      {{ partial:news/row }}
+                  {{ /if }}
+                {{ else }}
+                  <div class="col-span-12 md:col-span-6 max-w-none md:pb-12">
+                    {{ partial:components/collection_item
+                      :img_ratio="img_ratio"
+                      image_class="absolute"
+                      :figure_class="figure_card_class"
+                    }}
+                  </div>
+                {{ /if }}
+            {{ /news }}
+        {{ /if }}
+    </section>
+
+    <div class="md:pb-20 pb-10 fluid-container">
+        {{ if hasMore }}
+            <button class="flex gap-2
+                md:text-lg xl:text-xl
+                items-center
+                leading-none xl:leading-[30px]
+                xl:tracking-wide
+                mx-auto
+                group load-more
+                hover:text-blue"
+                wire:click="loadMore"
+            >{{ trans:strings.load_more }} {{  partial:icons/plus_circle
+                svg_width="20"
+                svg_height="20"
+                svg_class="mt-[8px] md:mt-[10px] xl:mt-[12px]"
+                circle_class="stroke-black group-hover:stroke-blue"
+                path_class="stroke-black group-hover:stroke-blue"
+            }}
+            </button>
+        {{ endif }}
+    </div>
+
+
+    <script>
+        function newsInit() {
+
+            return {
+                firstload:                 true,
+                hidefilters:               false,
+                filter_clicked:            false,
+                selectedFilters:           {
+                    categories: document.getElementById('categories')
+                },
+                selectedTaxonomies:        [],
+                defaultTaxonomies:         {
+                    grid: []
+                },
+                expanded_filters:      false,
+            {{ foreach:collectiontax }}
+                expanded_{{ value }}:      false,
+                selected_{{ value }}_slug: {{ livewire:entangle property='selectedSlugs.{ value }' }},
+            {{ /foreach:collectiontax }}
+
+                select_filter(
+                    slug,
+                    filter,
+                    action
+                ) {
+                    // console.log('select_filter action:' + action + ' slug:' + slug + ' filter:' + filter);
+
+                    //check if there is one selected filter (taxonomy), in that case clear that taxonomy
+                    if (filter && filter !== null) {
+                      this.clear_filters(filter);
+                    }
+
+                    if( action == 'add') {
+                        {{ foreach:collectiontax }}
+                            //check if filter exists
+                            if( filter && filter === '{{ value }}' ) {
+                                this.selected_{{ value }}_slug.push(slug);
+                            }
+                        {{ /foreach:collectiontax }}
+
+                        document.getElementById(slug).classList.remove('text-primary');
+                        document.getElementById(slug).classList.add('text-black');
+                    }
+                    if( action == 'remove') {
+                        {{ foreach:collectiontax }}
+                            if( filter
+                                && filter === '{{ value }}') {
+                                this.selected_{{ value }}_slug = this.selected_{{ value }}_slug.filter(item => item !== slug);
+                            }
+                        {{ /foreach:collectiontax }}
+
+                        document.getElementById(slug).classList.remove('text-black');
+                        document.getElementById(slug).classList.add('text-primary');
+                    }
+
+                    this.$wire.setOfEntries();
+
+                    Livewire.hook('message.processed', (message, component) => {
+                        // Trigger Alpine function after every Livewire update
+                        //console.log('update', filter);
+                        let items = document.querySelectorAll('article');
+                        this.getArticles(items, filter);
+                    });
+
+                },
+                getArticles( items, filteredBy ) {
+                    //console.log('getArticles');
+                    //console.log('filteredBy ', filteredBy);
+
+                    let filterWraps = document.querySelectorAll('.taxonomy-filter');
+                    filterWraps.forEach(filterWrap => {
+                        filterWrap.classList.remove('hidden');
+                    });
+                    let specialisms         = [];
+                    let categories           = [];
+                    this.selectedTaxonomies = [];
+
+                    Object.entries(this.selectedFilters).forEach(entry => {
+                        const [key, filter] = entry;
+                        //console.log(key, filter);
+                        if(filter) {
+                            let filterClasses = filter.className.split(' ');
+                            filterClasses.forEach( cls => {
+                                if(cls.startsWith('filtered')) {
+                                    filter.classList.remove(cls);
+                                }
+                            });
+                        }
+                    });
+
+                    items.forEach(item => {
+                        //console.log(item.id);
+                        let classes = item.className.split(' ');
+                        classes.forEach( cls => {
+                            if(cls.startsWith('category-')) {
+                                //remove the string 'category-' of cls
+                                cls = cls.substring(9);
+                                categories.push(cls);
+                            }
+                        });
+
+                    });
+
+                    if(filteredBy == 'all') {
+                        this.selectedTaxonomies = [...new Set(categories)]
+                    }
+
+                    this.update_filters()
+                },
+                update_filters(){
+                    //console.log('update_filters');
+                    Object.entries(this.selectedFilters).forEach(entry => {
+                        const [key, filter] = entry;
+                        //console.log(key, filters);
+                        let filterClasses = filter.className.split(' ');
+                        filterClasses.forEach( cls => {
+                            if(cls.startsWith('filterview')) {
+                                filter.classList.remove(cls);
+                            }
+                        });
+
+                        filter.classList.add('filterview' );
+                        filter.childNodes.forEach(li => {
+                            if(this.selectedTaxonomies.includes(li.id)) {
+                                //console.log(li.id,'no-hidden');
+                                li.classList.add('no-hidden');
+                            }
+                            if(this.defaultTaxonomies.length && this.defaultTaxonomies.includes(li.id)) {
+                                li.classList.add('viewmode');
+                            }
+                        });
+                    });
+
+
+                },
+
+                clear_filters( family ) {
+                    {{ foreach:collectiontax }}
+                        if( family === 'all' ) {
+                            this.selected_{{ value }}_slug = [];
+                        } else if( family === '{{ value }}' ) {
+                            this.selected_{{ value }}_slug = [];
+                        }
+                    {{ /foreach:collectiontax }}
+                    this.$wire.setOfEntries();
+                },
+
+
+                setDefaults() {
+                    //console.log('setDefaults');
+                    //console.log('defaultTaxonomies ',this.defaultTaxonomies);
+                    const groups = {
+                        grid: document.querySelectorAll('article'),
+                    };
+
+                    Object.entries(groups).forEach(entry => {
+                        const [key, items] = entry;
+                        //console.log(key, items);
+                        let taxonomies     = [];
+                        items.forEach(item => {
+                            //console.log(item.id);
+                            let classes = item.className.split(' ');
+                            classes.forEach( cls => {
+                                if(cls.startsWith('category-')) {
+                                    //remove the string 'category-' of cls
+                                    cls = cls.substring(9);
+                                    taxonomies.push(cls);
+                                }
+                            });
+                        });
+                        this.defaultTaxonomies[key] = [...new Set(taxonomies)]
+                    });
+                    //console.log('defaultTaxonomies ',this.defaultTaxonomies);
+                    this.getArticles(groups['grid'], 'all');
+                },
+                first_load() {
+                    if(this.firstload) {
+                        this.firstload = false;
+                        this.setDefaults();
+                    }
+                }
+
+
+            }
+        }
+
+      </script>
+<!-- End: /livewire/show-news.antlers.html -->
+</div>

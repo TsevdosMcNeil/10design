@@ -1,0 +1,55 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+              width: 50
+              localizable: true
+          -
+            handle: order
+            field:
+              input_type: number
+              default: '0'
+              type: text
+              display: Order
+              width: 50
+              localizable: false
+          -
+            handle: content
+            field:
+              type: markdown
+              localizable: true
+          -
+            handle: term_sticky_projects
+            field:
+              max_items: 4
+              collections:
+                - projects
+              type: entries
+              display: 'Sticky Projects'
+              instructions: 'Sticky projects appear at the top of the projects index page only when this is the taxonomy page or the sole taxonomy being filtered. This will not apply if other filters are used.'
+              localizable: true
+              create: false
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              required: true
+              validate:
+                - required
+                - 'max:200'
+              localizable: false
+title: Location

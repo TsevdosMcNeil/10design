@@ -1,0 +1,12 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: General
+        fields:
+          -
+            handle: background_hover_colour
+            field: common.colour
+            config:
+              display: 'Background Colour'

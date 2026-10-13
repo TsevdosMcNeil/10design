@@ -1,0 +1,73 @@
+title: Image
+fields:
+  -
+    handle: image
+    field: common.image
+    config:
+      width: 75
+  -
+    handle: img_id
+    field:
+      type: text
+      display: ID
+      width: 25
+  -
+    handle: size
+    field: common.size
+    config:
+      width: 50
+  -
+    handle: ratio
+    field:
+      options:
+        -
+          key: default
+          value: null
+        -
+          key: 1/1
+          value: null
+        -
+          key: 2/3
+          value: null
+        -
+          key: 3/2
+          value: null
+        -
+          key: 4/3
+          value: null
+        -
+          key: 16/9
+          value: null
+        -
+          key: 8/9
+          value: null
+      default: default
+      type: select
+      display: Ratio
+      width: 50
+  -
+    handle: caption
+    field:
+      type: text
+      localizable: true
+      display: Caption
+  -
+    handle: image_link
+    field:
+      type: link
+      display: 'Image Link'
+      width: 66
+  -
+    handle: target
+    field:
+      options:
+        -
+          key: _self
+          value: null
+        -
+          key: _blank
+          value: null
+      default: _self
+      type: select
+      display: Target
+      width: 33

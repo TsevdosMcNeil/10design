@@ -1,0 +1,123 @@
+{{#
+    @name Preloader
+    @desc The sites preloader rendered on the first visit.
+#}}
+
+<!-- /layout/_preloader.antlers.html -->
+
+{{# bg-linen #}}
+
+{{# preloader | dump #}}
+{{ if preloader}}
+{{ preloader}}
+<div x-data="initPreloader()"
+    id="preloader"
+    class="fixed
+    z-50
+    h-screen
+    w-screen
+    hidden
+">
+    <div id="preloaderBackground"
+        class="absolute
+        w-full
+        h-full
+        top-0
+        left-0
+        -z-1
+        bg-{{ background_colour }}
+
+    "></div>
+
+    <div class="absolute
+        fluid-container
+        top-[50%]
+        -translate-y-1/2
+    ">
+        <div id="preloaderLogo"
+            class="opacity-0">
+            {{  partial:icons/logo
+                svg_width="120"
+                svg_height="97"
+                svg_class="absolute
+                    top-[50%] left-[50%]
+                    -translate-x-1/2 -translate-y-1/2
+                "
+                path_class="fill-black"
+            }}
+        </div>
+
+        <div id="preloaderContent"
+            class="absolute opacity-0
+            top-[50%] left-[50%]
+            -translate-x-1/2 -translate-y-1/2
+            text-center  w-full max-w-[1100px]
+        ">{{  content }}</div>
+    </div>
+
+    <div x-show="autoHidePreloader()"></div>
+
+</div>
+
+<script>
+
+    function initPreloader() {
+
+        const body      = document.querySelector("body");
+        const preloader = document.querySelector("#preloader");
+
+
+
+        setTimeout(() => {
+            //Check if preloader-shown is in the body.classlist.
+            // This class was added by js/modules/preloader.js if the preloader cookie exists
+            //console.log(body.classList.contains('preloader-shown'));
+            //Check also  if preloader has class "hidden", if so, the preloader should be hidden and the body can have scroll
+            if ( ! body.classList.contains('preloader-shown')
+                && ! preloader.classList.contains('hidden')
+            ) {
+                body.classList.add('overflow-hidden');
+
+            }
+            document.querySelector("#preloaderContent").classList.add('animate-fadein');
+        }, 1000 );
+
+        setTimeout(() => {
+            document.querySelector("#preloaderContent").classList.add('animate-fadeout');
+            document.querySelector("#preloaderLogo").classList.add('animate-fadein');
+        }, 3000 );
+
+        setTimeout(() => {
+            document.querySelector("#preloaderBackground").classList.add('animate-backgroundfadeout');
+        }, 2000 );
+
+        setTimeout(() => {
+            document.querySelector("#preloaderLogo svg").classList.add('animate-logodesplacement');
+        }, 5000 );
+
+        setTimeout(() => {
+            preloader.classList.remove('z-50');
+            preloader.classList.add('-z-50');
+        }, 6000 );
+
+
+
+
+
+        return {
+            autoHidePreloader() {
+                //console.log('autoHidePreloader');
+
+                setTimeout(() => {
+                    body.classList.remove("overflow-hidden");
+                }, 7000)
+
+            },
+        }
+
+    }
+
+  </script>
+{{/preloader}}
+{{ /if }}
+<!-- End: /layout/_preloader.antlers.html -->

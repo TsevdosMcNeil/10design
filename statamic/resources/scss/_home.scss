@@ -1,0 +1,84 @@
+body.homepage {
+  .site-logo a {
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    padding-left: 50px;
+  }
+  @media screen and (min-width: 768px) {
+    &:not(.body-scrolled) {
+      .navigation-logo {
+        svg {
+          opacity: 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .hide-arrow-mobile {
+      svg {
+        display: none;
+      }
+    }
+    .section-wrapper {
+      #projects {
+        .aspect-\[4\/3\] {
+          aspect-ratio: 2 / 3;
+        }
+      }
+    }
+
+    .link-with-arrow.hide-desktop {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      span {
+        display: none;
+      }
+
+      svg {
+        width: 30px !important;
+        height: 30px !important;
+      }
+    }
+  }
+}
+
+.hide-desktop {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+
+html.lang-zh{
+  body.homepage {
+    #practice,
+    #expertise {
+      h2 {
+        @media screen and (min-width: 1536px) {
+          line-height: 64px;
+          letter-spacing: -4%;
+        }
+      }
+    }
+
+    .carousel-title {
+      align-items: center;
+    }
+
+    .links-item {
+      @media screen and (min-width: 768px) {
+        padding-top: 15px;
+      }
+    }
+  }
+}

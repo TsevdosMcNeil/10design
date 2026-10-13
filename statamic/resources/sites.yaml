@@ -1,0 +1,8 @@
+en:
+  name: English
+  url: /
+  locale: en_UK
+中文:
+  name: Chinese
+  url: /zh/
+  locale: zh_CN

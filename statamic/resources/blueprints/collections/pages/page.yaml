@@ -1,0 +1,109 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: General
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              localizable: true
+              listable: true
+              display: Title
+              validate:
+                - required
+          -
+            handle: title_colour
+            field: common.colour
+            config:
+              display: 'Header Text Colour'
+              width: 33
+              localizable: true
+          -
+            handle: footer_background_colour
+            field: common.colour
+            config:
+              display: 'Footer Background Colour'
+              width: 33
+              localizable: true
+      -
+        display: 'Page builder'
+        fields:
+          -
+            import: page_builder
+  seo:
+    display: SEO
+    sections:
+      -
+        display: Basic
+        instructions: 'Basic SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_basic'
+          -
+            handle: keywords_list
+            field:
+              type: list
+              display: 'Keywords List'
+              instructions: 'Add words that help improve internal search results. These keywords are not shown on the website and are not metadata.'
+              localizable: false
+          -
+            handle: exclude_from_search
+            field:
+              type: toggle
+              display: 'Exclude from search'
+              instructions: 'Exclude this post from appearing in internal search results'
+              localizable: false
+      -
+        display: Advanced
+        instructions: 'Advanced SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_advanced'
+      -
+        display: 'Open Graph'
+        instructions: 'Open Graph meta tags for social sharing.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_open_graph'
+      -
+        display: Sitemap
+        instructions: 'Sitemap configuration.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_sitemap'
+      -
+        display: 'JSON-ld Schema'
+        instructions: 'Custom JSON-ld schema objects.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_jsonld'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        display: Meta
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: false
+              validate:
+                - required
+              display: Slug
+              show_regenerate: true
+          -
+            handle: parent
+            field:
+              type: entries
+              collections:
+                - pages
+              max_items: 1
+              listable: false
+              localizable: true
+              display: Parent

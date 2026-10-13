@@ -1,0 +1,43 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              width: 75
+              localizable: false
+              validate:
+                - required
+          -
+            handle: order
+            field:
+              type: text
+              width: 25
+              localizable: false
+              display: Order
+              input_type: number
+          -
+            handle: content
+            field:
+              type: markdown
+              localizable: true
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              required: true
+              validate:
+                - required
+                - 'max:200'
+              localizable: false
+title: Role

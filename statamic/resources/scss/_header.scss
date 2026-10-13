@@ -1,0 +1,184 @@
+nav {
+    .new-content {
+        position: relative;
+
+        &:after {
+            content: "";
+            width: 13px;
+            height: 13px;
+            background: var(--color-orange);
+            position: absolute;
+            top: 30px;
+            right: -13px;
+            border-radius: 50%;
+        }
+
+        &.bg-menu:after {
+            background: var(--color-black);
+        }
+    }
+
+    a:hover .new-content {
+        &:after {
+            background: var(--color-white);
+        }
+    }
+
+  @media screen and (min-width: 1024px) {
+    .menu-item {
+      @media screen and (max-height: 997px) {
+        font-size: 70px;
+        line-height: 85px;
+        margin-top: -0.75rem !important;
+      }
+
+      @media screen and (max-height: 890px) {
+        font-size: 60px;
+        line-height: 75px;
+        margin-top: -0.75rem !important;
+      }
+    }
+  }
+}
+
+.navigation-logo {
+  @media screen and (min-width: 768px) {
+    margin-bottom: -5px;
+  }
+}
+
+.language-switcher {
+  @media screen and (min-width: 768px) {
+    .lang-item {
+      margin-left: 5px;
+      &:before {
+        content: " / ";
+        color: inherit;
+        display: inline-block;
+        margin-right: 5px
+      }
+      &.active:before {
+        opacity: 0.25;
+      }
+    }
+    #langLocaleEnglish,
+    #langSiteen {
+      order: 1;
+      margin-left: 0;
+      &:before {
+        content: "";
+      }
+    }
+    #langLocaleChinese,
+    #langSite中文 {
+      order: 2;
+    }
+    #langLocaleSpanish,
+    #langSitees {
+      order: 3;
+    }
+  }
+}
+
+
+.search-page .results {
+    &::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #EEEEEE;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #898A8D;
+    }
+
+    &:last-child {
+        overflow-y: auto;
+    }
+
+    @media screen and (max-width: 768px) {
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+    }
+}
+
+#content {
+    @media screen and (max-width: 768px) {
+        > div.section-wrapper:first-child > section {
+            padding-top: 0;
+        }
+    }
+}
+
+#fixedMenu.header-scrolled {
+  @media screen and (min-width: 768px) {
+    #topTitle h1 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+  }
+}
+
+
+$color-names: (
+  "black",
+  "lightblue",
+  "blue",
+  "darkblue",
+  "green",
+  "grey",
+  "darkgrey",
+  "orange",
+  "red",
+  "pink",
+  "yellow",
+  "white",
+  "sand",
+  "beige",
+  "linen"
+);
+
+body:not(.overflow-hidden) {
+  @each $name in $color-names {
+    #mainHeader.header-color-#{$name} {
+      #fixedMenu:not(.header-scrolled) {
+        @media screen and (min-width: 768px) {
+          .navigation-logo {
+            svg {
+              path {
+                fill: var(--color-#{$name});
+              }
+            }
+          }
+          #topTitle h1 {
+            color: var(--color-#{$name});
+          }
+          #languageSwitcherWrap {
+            color: var(--color-#{$name});
+          }
+          #searchIcon,
+          #togglerMenu {
+            svg {
+              stroke: var(--color-#{$name});
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+html.lang-zh{
+  #mainDesktopNavigation {
+    li a {
+      font-weight: bold;
+      letter-spacing: -2%;
+    }
+  }
+
+}

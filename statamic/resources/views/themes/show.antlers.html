@@ -1,0 +1,183 @@
+{{#
+    @name Themes show
+    @desc The Themes single template.
+#}}
+
+<!-- /themes/show.antlers.html -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ permalink }}"
+        },
+        "headline": "{{ title }}",
+        "image": "{{ config:app:url }}{{ image }}",
+        "datePublished": "{{ date format="Y-m-d\TH:i:s" }}",
+        "author": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}",
+            "url": "{{ config:app:url }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}"{{ if seo:organization_logo }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config:app:url }}{{ glide:seo:organization_logo width='336' height='336' fit='contain' }}"
+            }{{ /if }}
+        }
+    }
+</script>
+
+{{# text-lightblue text-blue text-darkblue text-pink text-yellow text-orange text-orange text-green
+bg-lightblue bg-blue bg-darkblue bg-pink bg-yellow bg-orange bg-orange bg-green bg-sand
+#}}
+
+
+{{ header_class = "" }}
+{{ header_style = "" }}
+{{ if theme_colour }}
+    {{ header_class += " bg-"+ theme_colour }}
+    {{ footer_background_colour = theme_colour }}
+{{ endif }}
+{{ if title_colour }}
+    {{ header_class += " text-"+ title_colour }}
+{{ endif }}
+{{ if image }}
+    {{ header_style += " background-image: url("+ image+");" }}
+{{ endif }}
+
+
+<main id="content"
+    class="outer-grid"
+    x-data
+>
+
+  <header class="fluid-container
+      h-screen
+      lg:min-h-[820px]
+      grid md:grid-cols-12
+      gap-4 w-full py-0 lg:p-0
+      bg-blend-multiply
+      bg-no-repeat
+      {{ header_class }}"
+    style="{{ header_style}}">
+    <h1 class="col-span-12 xl:col-span-9 3xl:col-span-7
+        p-0
+        mt-[100px] xl:mt-[150px] xl:-ml-[1rem]
+        md:text-[100px] md:leading-[112px]
+        xl:text-[140px] xl:leading-[150px]
+        3xl:text-[160px] 3xl:tracking-[-0.025em] 3xl:leading-[172px]
+        leading-none">
+        {{ title }}
+    </h1>
+    <div class="col-span-12
+        md:col-span-4 md:col-start-1
+        2xl:col-span-2 2xl:col-start-1
+        mt-auto mb-[2.5rem] leading-[26px] tracking-tighter
+        max-w-[270px]">
+        {{ subtitle }}
+    </div>
+    {{ if image }}
+      {{ partial:components/image
+        :image="image"
+        figure_class="!col-span-12 w-full md:hidden opacity-0"
+      }}
+    {{ endif }}
+
+
+
+    {{ partial:components/bouncing_arrow
+        arrow_link="#block"
+    }}
+  </header>
+
+  <div id="block" class="theme-content">
+      {{ page_builder scope="block" }}
+          {{ partial src="page_builder/{type}" }}
+      {{ /page_builder }}
+  </div>
+
+
+  {{ current_theme_color = "green" }}
+  {{ if theme_colour }}
+      {{ current_theme_color = theme_colour }}
+  {{ endif }}
+
+  <div class="fluid-container
+      navigation-items
+      mb-[50px] md:mt-[90px]
+      flex justify-between items-center"
+  >
+    {{ partial:components/link_with_arrow
+        link_url="{{ collections_settings:last_theme_navigation_cta_link }}"
+        title="{{ trans:strings.back_to_themes }}"
+        text_size="h4"
+        colour="black"
+        arrow_background="sand"
+        hover_colour="blue"
+        arrow_position="left"
+    }}
+    {{ collection:next
+        in="themes"
+        disable_url:isnt=true
+        sort="order"
+        limit="1"
+        as="items"
+    }}
+      {{ if no_results }}
+      <a class="h4 link-with-arrow
+          outline-0 relative
+          inline-flex items-center
+          md:tracking-[-0.05em] md:leading-[30px]
+          gap-1 md:gap-3 group mobile-only:text-md mobile-only:p-0
+          transition-all duration-300
+          text-black hover:text-{{ current_theme_color }}"
+        href="{{ collections_settings:last_theme_navigation_cta_link }}"
+      >
+        <div class="flex flex-col text-right md:text-left md:mt-[-8px]">
+          {{ collections_settings:last_theme_navigation_cta_label }}
+            <span class="text-base line-clamp-3
+            absolute top-6 pb-[4px]
+            opacity-0 md:group-hover:opacity-100 transition-all
+            md:tracking-[-0.05em]">{{ collections_settings:last_theme_navigation_cta_subtitle }}</span>
+        </div>
+          {{ circle_class = "transition-all duration-300 fill-sand group-hover:fill-" + current_theme_color }}
+          {{  partial:icons/arrow_circle
+              svg_class="mobile-only:w-[15px] mobile-only:h-[15px] mobile-only:mt-[7px]"
+              :circle_class="circle_class"
+              path_class="stroke-black"
+          }}
+      </a>
+      {{ else }}
+      {{ items }}
+          <a class="h4 link-with-arrow outline-0 relative
+             inline-flex items-center
+             md:tracking-[-0.05em] md:leading-[30px]
+             gap-1 md:gap-3 group mobile-only:text-md mobile-only:p-0
+             transition-all duration-300
+             text-black hover:text-{{ current_theme_color }}"
+            href="{{ url }}"
+          >
+            <div class="flex flex-col text-right md:text-left md:mt-[-8px]">
+              {{ trans:strings.view_next_theme }}
+                <span class="text-base line-clamp-3
+                absolute top-6 pb-[4px]
+                opacity-0 md:group-hover:opacity-100 transition-all
+                md:tracking-[-0.05em]">{{ title }}</span>
+            </div>
+              {{ circle_class = "transition-all duration-300 fill-sand group-hover:fill-" + current_theme_color }}
+              {{  partial:icons/arrow_circle
+                  svg_class="mobile-only:w-[15px] mobile-only:h-[15px] mobile-only:mt-[7px]"
+                  :circle_class="circle_class"
+                  path_class="stroke-black"
+              }}
+          </a>
+      {{ /items }}
+    {{ /if }}
+  {{ /collection:next }}
+  </div>
+</main>
+<!-- /themes/show.antlers.html -->

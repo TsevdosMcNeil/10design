@@ -1,0 +1,189 @@
+
+# Ignore all files and directories starting with . or ~ or ._ or ending with ~
+.*
+~*
+*~
+._*
+
+.env
+.env.backup
+.phpunit.result.cache
+/.phpunit.cache
+.antlers.json
+package-lock.json
+composer.lock
+tpass
+
+# ignore node dependency directories
+node_modules/
+/node_modules
+dist/
+dist-product/
+bower_components
+vendor/
+/vendor
+
+
+
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
+.Trashes
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.sublime*
+*.komodoproject
+*.code-workspace
+*.elc
+*.esproj
+*.tmproj*
+
+Homestead.json
+Homestead.yaml
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+npm-debug.log
+yarn-error.log
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ignore files that a local computer might use for its own convenience
+.DS_Store
+*.swp
+*.pyc
+
+
+# local build tools
+.vagrant
+.idea
+*.sassc
+*.scssc
+*.codekit
+*.sh
+*.lock
+phpcs.xml
+*.sass-cache
+
+# Numerous always-ignore extensions
+*.bak
+*.cvs
+*.db
+*.diff
+*.err
+*.orig
+*.rej
+
+# Ignore potentially dangerous files (dependabot alerts)
+yarn.lock
+
+# Custom files
+composer.phar
+public/1n7h0.php
+
+# -------------------------
+# Statamic Specific
+# -------------------------
+
+# ignore users directories
+/statamic/users
+
+# ignore content
+/statamic/content
+
+# Ignore public files
+/statamic/public
+
+# Ignore Storage files
+/statamic/storage/*.key
+/statamic/storage/forms
+
+
+# Livewire files (ignore unless the livewire config is needed in remote server)
+#/statamic/config/livewire.php
+#/statamic/public/vendor/livewire/
+#/statamic/resources/views/vendor/livewire/
+
+
+# -------------------------
+# BEGIN Whitelisted Files
+# -------------------------
+
+# track these files, if they exist
+!.gitignore
+!.gitattributes
+!.github
+!.editorconfig
+!.phpcs.xml.dist
+!.babelrc.js
+!.browserslist
+!README.md
+!CHANGELOG.md
+# -- sometimes these files won't be ignored becuse
+# -- they are needed for DO app
+# !package-lock.json
+# !composer.lock
+
+
+# Migration files
+!*.sql.gz
+!replace-urls.sh
+
+
+# track favicon files, if they exist
+!android-chrome-*.png
+!apple-touch-icon*.png
+!browserconfig.xml
+!favicon*.png
+!favicon*.ico
+!manifest.json
+!mstile-*.png
+!safari-pinned-tab.svg
+!site.webmanifest
+
+
+# Track these content files, if they exist
+#!content/assets/*.*
+#!content/navigation/*.*
+
+# track favicon, if it exists
+!/statamic/public/
+/statamic/public/*
+!/statamic/public/visuals/
+/statamic/public/visuals/*
+!/statamic/public/visuals/favicon.jpg
+
+# track peak image, if it exists
+#!/statamic/public/images/a-peak.jpg
+
+# track marker image, if it exists
+!/statamic/public/assets/marker.png
+
+# track these globals, if they exist
+!/statamic/content/
+/statamic/content/*
+!/statamic/content/globals/
+/statamic/content/globals/*
+/statamic/content/globals/*.*
+!/statamic/content/globals/collections_settings.yaml

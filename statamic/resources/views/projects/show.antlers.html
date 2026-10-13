@@ -1,0 +1,378 @@
+{{#
+    @name Projects show
+    @desc The Projects show template.
+#}}
+
+<!-- /projects/show.antlers.html -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ permalink }}"
+        },
+        "headline": "{{ title }}",
+        "image": "{{ config:app:url }}{{ image }}",
+        "datePublished": "{{ date format="Y-m-d\TH:i:s" }}",
+        "author": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}",
+            "url": "{{ config:app:url }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ config:app:name }}"{{ if seo:organization_logo }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config:app:url }}{{ glide:seo:organization_logo width='336' height='336' fit='contain' }}"
+            }{{ /if }}
+        }
+    }
+</script>
+
+{{ project_specialism   =  '' }}
+{{ project_location =  '' }}
+
+{{ if specialisms }}
+    {{ specialisms }}
+        {{ project_specialism +=  title+ ", " }}
+    {{ /specialisms }}
+    {{ project_specialism = project_specialism | substr:0:-2 }}
+{{ endif }}
+
+
+{{ if locations }}
+    {{ locations }}
+        {{ project_location =  title }}
+    {{ /locations }}
+{{ endif }}
+
+{{ if location_area }}
+    {{ project_location = location_area }}
+{{ endif }}
+
+{{# color-item-lightblue color-item-blue color-item-darkblue color-item-pink color-item-yellow color-item-orange color-item-orange color-item-green #}}
+
+<main id="content"
+    class="outer-grid single-project"
+    x-data
+>
+
+    <header class="grid md:grid-cols-12 gap-4 w-full p-0 relative mobile-only:mt-6">
+      {{ if hero_video }}
+        {{  partial:components/video
+          video_id="hero_video"
+          :video_url="hero_video"
+          wrapper_class="video-wrapper relative z-[-1]
+            w-screen max-w-screen
+            h-[234px] md:h-screen
+            full-overlay
+            overflow-hidden"
+          video_class="absolute
+            top-1/2 left-1/2
+            translate-y-[-50%] translate-x-[-50%]
+            w-full h-full
+            object-cover"
+          video_autoplay="1"
+          video_loop="1"
+          video_muted="1"
+          is_background_video="1"
+        }}
+        {{  partial:components/image
+          :image="image"
+          figure_class="!absolute z-[-2]
+              w-full max-w-screen
+              md:col-span-12
+              p-0 full-overlay
+              h-[234px] md:h-screen"
+          img_class="object-cover object-center w-full h-full"
+          ratio="3/2"
+        }}
+
+      {{ else }}
+        {{  partial:components/image
+          :image="image"
+          figure_class="w-full max-w-screen md:col-span-12 p-0 h-[234px] md:h-screen full-overlay"
+          img_class="object-cover object-center w-full h-full"
+          ratio="3/2"
+        }}
+      {{ /if }}
+
+
+
+        {{ partial:components/bouncing_arrow
+            arrow_link="#block"
+        }}
+    </header>
+
+    <div id="block"
+      class="fluid-container
+          grid grid-cols-12
+          gap-[16px] md:gap-[32px]
+          py-4 md:py-8"
+      >
+        <div class="metadata mobile-only:hidden
+            col-span-12 md:col-span-3 leading-[24px]">
+          <div id="location" class="mb-4">
+              {{ partial:typography/h3
+                  content="{{ trans:strings.location }}"
+                  class="block mb-0 text-base"
+              }}
+              {{ partial:typography/p
+                  :content="project_location"
+                  class="block text-red"
+              }}
+          </div>
+          {{ if project_size }}
+              <div id="size" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.size }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_size"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_year }}
+              <div id="year" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.year }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_year"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_specialism }}
+              <div id="year" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.expertise }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_specialism"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_status }}
+              <div id="status" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.status }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_status"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+
+        </div>
+
+        <h2 class="project-excerpt
+          col-span-12 md:col-span-9 xl:col-span-6
+          md:h1 2xl:text-7xs 2xl:tracking-[-0.05em] 2xl:-mt-[12px]">
+            {{ subtitle }}
+        </h2>
+
+        <div class="metadata md:hidden
+          col-span-6 leading-[24px]">
+          <div id="location" class="mb-4">
+              {{ partial:typography/h3
+                  content="{{ trans:strings.location }}"
+                  class="block mb-0 text-base"
+              }}
+              {{ partial:typography/p
+                  :content="project_location"
+                  class="block text-red"
+              }}
+          </div>
+          {{ if project_size }}
+              <div id="size" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.size }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_size"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_year }}
+              <div id="year" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.year }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_year"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_specialism }}
+              <div id="year" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.expertise }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_specialism"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+          {{ if project_status }}
+              <div id="status" class="mb-4">
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.status }}"
+                      class="block mb-0 text-base"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_status"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+
+        </div>
+
+
+        {{ if key_points }}
+          <div class="key-points
+              col-span-6
+              md:col-span-3 xl:pl-[16.66%]
+              relative
+              z-10
+              leading-[24px]"
+          >
+            <div class="md:absolute
+              md:top-[calc(100%+4rem)]
+              md:pr-8 xl:pr-0
+            ">
+              {{ partial:typography/h3
+                  content="{{ trans:strings.keypoints }}"
+                  class="block
+                    text-base text-red
+                    mb-3 md:mb-4"
+              }}
+
+              {{ key_points }}
+                {{ if anchor }}
+                  <a href="{{ anchor }}"
+                    class="text-black hover:text-red
+                      border-t border-black
+                      pr-4 pt-1 pb-2 md:pb-4
+                      block"
+                  >{{ key_point }}</a>
+                {{ else }}
+                  <p class="text-black
+                      border-t border-black
+                      pr-4 pt-1 pb-2 md:pb-4
+                      block"
+                  >{{ key_point }}</p>
+                {{ /if }}
+              {{ /key_points }}
+            </div>
+          </div>
+        {{ /if }}
+    </div>
+
+    <div class="project-content">
+        {{ page_builder scope="block" }}
+            {{ partial src="page_builder/{type}" }}
+        {{ /page_builder }}
+    </div>
+
+    {{ if project_team || project_photography || project_collaborators }}
+        {{ has_two_columns = false }}
+        {{ if project_two_columns }}
+            {{ has_two_columns = project_two_columns }}
+        {{ /if }}
+
+        <div class="project-credits
+            fluid-container
+            grid grid-cols-12 gap-x-6
+            leading-[24px] tracking-wide"
+        >
+          <div class="col-span-2 {{ if !project_two_columns }}col-span-7{{ /if }}"></div>
+          <div class="md:pl-2 pb-6
+            md:border-l  border-black
+            col-span-12 lg:col-span-5"
+          >
+              {{ if project_team }}
+                  <div class="project-team mb-4">
+                      {{ partial:typography/h3
+                          content="{{ trans:strings.team }}"
+                          class="block mb-0 text-base leading-[24px] tracking-wide"
+                      }}
+                      {{ partial:typography/p
+                          :content="project_team"
+                          class="block text-red"
+                      }}
+                  </div>
+              {{ /if }}
+
+              {{ if project_photography }}
+                  <div class="project-photography mb-4">
+                      {{ partial:typography/h3
+                          content="{{ trans:strings.photography }}"
+                          class="block mb-0 text-base leading-[24px] tracking-wide"
+                      }}
+                      {{ partial:typography/p
+                          :content="project_photography"
+                          class="block text-red"
+                      }}
+                  </div>
+              {{ /if }}
+
+              {{ if project_collaborators && !has_two_columns }}
+                  <div class="project-collaborators mb-4">
+                      {{ partial:typography/h3
+                          content="{{ trans:strings.collaborators }}"
+                          class="block mb-0 text-base leading-[24px] tracking-wide"
+                      }}
+                      {{ partial:typography/p
+                          :content="project_collaborators"
+                          class="block text-red"
+                      }}
+                  </div>
+              {{ /if }}
+          </div>
+
+          {{ if project_collaborators && has_two_columns }}
+              <div class="md:pl-2 pb-6 mobile-only:-mt-6
+                md:border-l  border-black
+                col-span-12 lg:col-span-5"
+              >
+                  {{ partial:typography/h3
+                      content="{{ trans:strings.collaborators }}"
+                      class="block mb-0 text-base leading-[24px] tracking-wide"
+                  }}
+                  {{ partial:typography/p
+                      :content="project_collaborators"
+                      class="block text-red"
+                  }}
+              </div>
+          {{ /if }}
+        </div>
+    {{ /if }}
+
+    {{ if bottom_entry }}
+      {{ partial:components/_single_related_entries
+          :related_entries="bottom_entry"
+      }}
+    {{ /if }}
+
+  <div class="photoswipe-carousel-wrapper">
+    <div class="pswp-gallery pswp-gallery--single-column" id="single-project-gallery"></div>
+  </div>
+</main>
+<!-- /projects/show.antlers.html -->

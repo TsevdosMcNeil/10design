@@ -1,0 +1,26 @@
+{{#
+    @name Projects index
+    @desc The Projects index template.
+#}}
+
+<!-- /projects/index.antlers.html -->
+{{ livewire:styles }}
+<main id="content"
+    class="outer-grid
+    livewirepage"
+>
+    {{ page_builder scope="block" }}
+        {{ partial src="page_builder/{type}" }}
+    {{ /page_builder }}
+
+    <section>
+        {{ livewire:show-projects }}
+        {{# livewire:show-entangle #}}
+    </section>
+
+
+</main>
+<!-- End: /projects/index.antlers.html -->
+
+{{ livewire:scriptConfig }}
+

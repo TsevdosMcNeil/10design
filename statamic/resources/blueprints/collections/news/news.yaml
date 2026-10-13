@@ -1,0 +1,141 @@
+title: New
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: General
+        fields:
+          -
+            handle: title
+            field:
+              type: textarea
+              required: true
+              display: Title
+              validate:
+                - required
+              localizable: true
+          -
+            handle: title_colour
+            field: common.colour
+            config:
+              display: 'Header Text Colour'
+              width: 33
+              default: white
+              localizable: true
+      -
+        display: 'Page builder'
+        fields:
+          -
+            import: page_builder
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        display: Meta
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: false
+              validate:
+                - required
+              display: Slug
+              show_regenerate: true
+          -
+            handle: date
+            field:
+              type: date
+              required: true
+              default: now
+              listable: true
+              validate:
+                - required
+              display: Date
+              time_required: false
+              earliest_date: '2021-01-01'
+              localizable: true
+          -
+            handle: image
+            field: common.image
+            config:
+              mode: grid
+              localizable: true
+              listable: true
+              width: 100
+              validate:
+                - required
+          -
+            handle: hero_video
+            field:
+              type: video
+              display: 'Hero Video'
+              localizable: true
+          -
+            handle: thumbnail
+            field: common.image
+            config:
+              mode: grid
+              localizable: true
+              listable: true
+              display: Thumbnail
+              width: 100
+              instructions: 'Optional image used specifically for cards. If left blank, the featured image will be used instead.'
+          -
+            handle: categories
+            field:
+              type: terms
+              taxonomies:
+                - categories
+              display: Categories
+              mode: select
+              localizable: true
+              max_items: 1
+  seo:
+    display: SEO
+    sections:
+      -
+        display: Basic
+        instructions: 'Basic SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_basic'
+          -
+            handle: keywords_list
+            field:
+              type: list
+              display: 'Keywords List'
+              instructions: 'Add words that help improve internal search results. These keywords are not shown on the website and are not metadata.'
+              localizable: false
+          -
+            handle: exclude_from_search
+            field:
+              type: toggle
+              display: 'Exclude from search'
+              instructions: 'Exclude this post from appearing in internal search results'
+              localizable: false
+      -
+        display: Advanced
+        instructions: 'Advanced SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_advanced'
+      -
+        display: 'Open Graph'
+        instructions: 'Open Graph meta tags for social sharing.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_open_graph'
+      -
+        display: Sitemap
+        instructions: 'Sitemap configuration.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_sitemap'
+      -
+        display: 'JSON-ld Schema'
+        instructions: 'Custom JSON-ld schema objects.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_jsonld'

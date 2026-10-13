@@ -1,0 +1,28 @@
+
+
+#projectsGrid {
+  &.sticked_elements {
+    div.sticked {
+      grid-column: span 6 / span 6 !important;
+      figure {
+        padding-bottom: 66.6% !important;
+        aspect-ratio: 44 / 29 !important;
+      }
+    }
+  }
+  &:not(.sticked_elements){
+    div[data-index="0"],
+    div[data-index="1"],
+    div[data-index="2"],
+    div[data-index="3"] {
+      grid-column: span 6 / span 6 !important;
+      figure {
+        padding-bottom: 66.6% !important;
+        aspect-ratio: 44 / 29 !important;
+      }
+    }
+  }
+}
+
+
+

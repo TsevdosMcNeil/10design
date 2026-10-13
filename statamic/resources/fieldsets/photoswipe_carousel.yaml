@@ -1,0 +1,17 @@
+title: Photoswipe Carousel
+fields:
+  -
+    handle: images
+    field:
+      type: replicator
+      display: Carousel
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            slide:
+              display: 'New image'
+              fields:
+                -
+                  handle: image
+                  field: common.image

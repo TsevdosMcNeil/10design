@@ -1,0 +1,53 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              width: 75
+              validate:
+                - required
+              localizable: true
+          -
+            handle: color
+            field:
+              type: color
+              display: Colour
+              width: 25
+              localizable: false
+          -
+            handle: content
+            field:
+              type: markdown
+              localizable: true
+          -
+            handle: term_sticky_projects
+            field:
+              type: entries
+              display: 'Sticky Projects'
+              instructions: 'Sticky projects appear at the top of the projects index page only when this is the taxonomy page or the sole taxonomy being filtered. This will not apply if other filters are used.'
+              localizable: true
+              max_items: 4
+              collections:
+                - projects
+              create: false
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              required: true
+              validate:
+                - required
+                - 'max:200'
+              localizable: false
+title: Specialism

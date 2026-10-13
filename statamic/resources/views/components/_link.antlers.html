@@ -1,0 +1,28 @@
+{{#
+    @name Link attributes
+    @param* label The caption label.
+    @param as The wrapping element. Defaults to `a`.
+#}}
+
+<!-- /components/_link.antlers.html -->
+{{ if label }}
+    <{{ as or 'a' }}
+        class="
+            flex items-center gap-0.5 justify-between transition-all duration-300
+            {{ class }}
+        "
+        {{ slot:attributes }}
+        {{ !faux ?= { partial:statamic-peak-tools::snippets/button_attributes } }}
+    >
+        <span class="min-w-fit h2 mobile-only:text-md mobile-only:leading-none">
+            {{ link_type == 'email' ? { label | obfuscate_email } : label }}
+        </span>
+
+        {{  partial:icons/arrow_circle
+            svg_class="opacity-0 group-hover:opacity-100 transition-all duration-300 mt-1"
+            :circle_class="path_class"
+            :path_class="stroke_class"
+        }}
+    </{{ as or 'a' }}>
+{{ /if }}
+<!-- End: /components/_link.antlers.html -->

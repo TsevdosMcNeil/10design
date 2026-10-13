@@ -1,0 +1,21 @@
+title: Form
+fields:
+  -
+    handle: headline
+    field:
+      type: text
+      localizable: true
+      display: Headline
+  -
+    handle: description
+    field: common.text_plain
+    config:
+      display: Description
+  -
+    handle: form
+    field:
+      max_items: 1
+      type: form
+      display: Form
+      validate:
+        - required

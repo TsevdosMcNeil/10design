@@ -1,0 +1,44 @@
+{{#
+    @name Bouncing Arrow
+    @desc An absolute bouncing arrow icon
+#}}
+
+<!-- /components/_bouncing_arrow.antlers.html -->
+<div x-data="{ showArrow: false, animateArrow: false }"
+    x-init="
+        setTimeout(() => { showArrow = true; console.log('showArrow', showArrow) }, 1000);
+        setTimeout(() => { animateArrow = true }, 1300);
+    "
+    x-bind:class="{'!z-10': showArrow }"
+
+    class="bouncing-arrow
+    absolute top-[calc(100vh-78px)] left-1/2
+    transform -translate-x-1/2"
+>
+    {{ if arrow_link }}
+        <a href="{{ arrow_link }}" class="flex items-center justify-center">
+    {{ /if }}
+    <div>
+        <svg
+            x-show="showArrow"
+            x-transition:enter="transition-opacity duration-100 ease-out"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-bind:class="{ 'animate-bouncingarrow': animateArrow }"
+
+            class="mx-auto"
+            width="79"
+            height="78"
+            viewBox="0 0 79 78"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle cx="39.8711" cy="38.8711" r="19" fill="white" />
+            <path d="M48.2695 38.8711L39.8726 47.268M39.8726 47.268L31.4757 38.8711M39.8726 47.268L39.8726 30.4742" stroke="black"/>
+        </svg>
+    </div>
+    {{ if arrow_link }}
+        </a>
+    {{ /if }}
+</div>
+<!-- /components/_bouncing_arrow.antlers.html -->

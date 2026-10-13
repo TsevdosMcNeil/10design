@@ -1,0 +1,19 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: newsletter_email
+            field:
+              type: text
+              placeholder: 'Enter your email address...'
+              localizable: false
+          -
+            handle: consent
+            field:
+              type: toggle
+              display: Consent
+              localizable: false
+              inline_label: 'I agree to receive emails from 10 Design, including updates, resources, and marketing communications. I understand I can unsubscribe at any time.'

@@ -1,0 +1,40 @@
+title: Enquire
+fields:
+  -
+    handle: enquire_title
+    field:
+      type: text
+      display: Title
+      width: 50
+      validate:
+        - required
+  -
+    handle: text_colour
+    field: common.colour
+    config:
+      display: 'Link Colour'
+      width: 25
+      required: true
+  -
+    handle: hover_colour
+    field: common.colour
+    config:
+      display: 'Hover Colour'
+      width: 25
+      required: true
+  -
+    handle: enquire_email
+    field:
+      type: text
+      display: Email
+      width: 50
+      validate:
+        - required
+  -
+    handle: enquire_phone
+    field:
+      type: text
+      display: Phone
+      width: 50
+      validate:
+        - required

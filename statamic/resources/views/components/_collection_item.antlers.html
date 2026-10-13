@@ -1,0 +1,438 @@
+{{#
+@name Collection item
+@desc A collectionitem component.
+@param class Add optional CSS classes.
+#}}
+
+<!-- /components/_collection_item.antlers.html -->
+
+{{ index_card = true }}
+{{ if type_colour }}
+  {{ index_card = false }}
+{{ /if }}
+
+
+{{ aspect_ratio = '900/600' }}
+{{ if img_ratio }}
+  {{ aspect_ratio = img_ratio }}
+{{ /if }}
+{{  unless aspect_ratio | fraction_to_decimal | is_numeric  }}
+  {{ aspect_ratio = '900/600' }}
+{{ /unless }}
+
+{{ fig_class = 'mb-2 md:mb-3 group-hover:opacity-50 transition-all duration-300' }}
+{{ if figure_class }}
+  {{ fig_class .= ' ' + figure_class }}
+{{ /if }}
+
+{{ img_class = "h-full w-full object-cover" }}
+{{ if image_class }}
+  {{ img_class .= ' ' + image_class }}
+{{ /if }}
+
+{{ title_class = '' }}
+{{ if title_classes }}
+  {{ title_class = title_classes }}
+{{ /if }}
+
+{{ title_width = "" }}
+{{ if !index_card }}
+  {{ title_width = " max-w-[80%]" }}
+{{ endif }}
+{{ title_class += title_width }}
+
+
+{{ card_classes = '' }}
+{{ if collection == 'projects' }}
+
+  {{ if sticky_project }}
+    {{ card_classes .=' stick-card' }}
+    {{ if sticky_position }}
+      {{ card_classes .=' order-[' + sticky_position + ']' }}
+    {{ /if }}
+  {{ /if }}
+
+  {{ project_id = id }}  {{# capture the current entry's id for use inside term loops #}}
+
+  {{ if specialisms }}
+    {{ specialisms }}
+
+      {{ tax_slug = slug }}
+      {{ card_classes .= ' card-specialisms-' + tax_slug }}
+
+      {{ if term_sticky_projects }}
+        {{ term_sticky_projects }}
+          {{ if id == project_id }}
+            {{ base = 'sticky-specialisms-' + tax_slug }}
+            {{ card_classes .= ' ' + base }}
+
+            {{ idx   = index | format_number(0) }}
+            {{ total = total_results | format_number(0) }}
+            {{ order = ( idx | subtract(total) | subtract(1) ) }}  {{# -N..-1 #}}
+
+            {{ card_classes .= ' ' + base + '-order-[' + ( order | format_number(0) ) + ']' }}
+          {{ /if }}
+        {{ /term_sticky_projects }}
+      {{ /if }}
+
+      {{#
+        Sticky class generation (DRY attempt via partial)
+
+        We originally extracted this logic into the `components/sticky/classes` partial
+        to avoid repeating it for each taxonomy (specialisms, locations, themes).
+        However, appending a partial’s output to a variable inside a taxonomy loop
+        proved unreliable in Antlers: when a taxonomy had only one term, the partial
+        produced no output and the classes were missing.
+
+        To ensure consistent behavior for both single and multiple terms, the
+        sticky-class code is kept inline here, even though it’s repeated.
+
+        Reference (do not re-enable):
+        {{# card_classes .= {partial:components/sticky/classes
+            tax="specialisms"
+            :tax_slug="slug"
+            :project_id="project_id"
+            :sticky_list="term_sticky_projects"} /}}
+      #}}
+
+    {{ /specialisms }}
+  {{ /if }}
+
+  {{ if locations }}
+    {{ locations }}
+
+      {{ tax_slug = slug }}
+      {{ card_classes .= ' card-locations-' + tax_slug }}
+
+      {{ if term_sticky_projects }}
+        {{ term_sticky_projects }}
+          {{ if id == project_id }}
+            {{ base = 'sticky-locations-' + tax_slug }}
+            {{ card_classes .= ' ' + base }}
+
+            {{ idx   = index | format_number(0) }}
+            {{ total = total_results | format_number(0) }}
+            {{ order = ( idx | subtract(total) | subtract(1) ) }}  {{# -N..-1 #}}
+
+            {{ card_classes .= ' ' + base + '-order-[' + ( order | format_number(0) ) + ']' }}
+          {{ /if }}
+        {{ /term_sticky_projects }}
+      {{ /if }}
+
+    {{ /locations }}
+  {{ /if }}
+
+  {{ if themes }}
+    {{ themes }}
+
+      {{ tax_slug = slug }}
+      {{ card_classes .= ' card-themes-' + tax_slug }}
+
+      {{ if term_sticky_projects }}
+        {{ term_sticky_projects }}
+          {{ if id == project_id }}
+            {{ base = 'sticky-themes-' + tax_slug }}
+            {{ card_classes .= ' ' + base }}
+
+            {{ idx   = index | format_number(0) }}
+            {{ total = total_results | format_number(0) }}
+            {{ order = ( idx | subtract(total) | subtract(1) ) }}  {{# -N..-1 #}}
+
+            {{ card_classes .= ' ' + base + '-order-[' + ( order | format_number(0) ) + ']' }}
+          {{ /if }}
+        {{ /term_sticky_projects }}
+      {{ /if }}
+
+    {{ /themes }}
+  {{ /if }}
+
+{{ /if }}
+
+
+{{ if collection == 'projectsToDelete' }}
+
+  {{ if sticky_project }}
+    {{ card_classes .=' stick-card' }}
+    {{ if sticky_position }}
+      {{ card_classes .=' order-[' +sticky_position+']' }}
+    {{ /if }}
+  {{ /if }}
+
+  {{ project_id = id }}  {{# capture the current entry's id for use inside term loops #}}
+
+
+  {{ if specialisms }}
+    {{ specialisms }}
+
+    {{ tax_slug = slug }}
+    {{ card_classes .= ' card-specialisms-' + tax_slug}}
+
+    {{ if term_sticky_projects }}
+      {{ term_sticky_projects }}
+        {{ if id == project_id }}
+          {{ base = 'sticky-specialisms-' + tax_slug  }}
+          {{ card_classes .= ' ' + base }}
+
+          {{ idx   = index | format_number(0) }}
+          {{ total = total_results | format_number(0) }}
+          {{ order = ( idx | subtract:total | subtract:1 ) }}  {{# -N..-1 #}}
+
+          {{ card_classes .= ' ' + base + '-order-[' + ( order | format_number(0) ) + ']' }}
+        {{ /if }}
+      {{ /term_sticky_projects }}
+    {{ /if }}
+
+      {{#
+        Sticky class generation (DRY attempt via partial)
+
+        We originally extracted this logic into the `components/sticky/classes` partial
+        to avoid repeating it for each taxonomy (specialisms, locations, themes).
+        However, appending a partial’s output to a variable inside a taxonomy loop
+        proved unreliable in Antlers: when a taxonomy had only one term, the partial
+        produced no output and the classes were missing.
+
+         To ensure consistent behavior for both single and multiple terms, the
+        sticky-class code is kept inline here, even though it’s repeated.
+
+        Reference (do not re-enable):
+         {{#  card_classes .= {partial:components/sticky/classes
+            tax="specialisms"
+            :tax_slug="slug"
+            :project_id="project_id"
+            :sticky_list="term_sticky_projects"} /}}
+        #}}
+
+
+
+    {{ /specialisms }}
+  {{ endif }}
+
+  {{ if locations }}
+    {{ locations }}
+
+      {{ tax_slug = slug }}
+      {{ card_classes .= ' card-locations-' + tax_slug}}
+
+      {{ if term_sticky_projects }}
+        {{ term_sticky_projects }}
+          {{ if id == project_id }}
+            {{ base = 'sticky-locations-' + tax_slug  }}
+            {{ card_classes .= ' ' + base }}
+
+            {{ idx   = index | format_number(0) }}
+            {{ total = total_results | format_number(0) }}
+            {{ order = ( idx | subtract:total | subtract:1 ) }}  {{# -N..-1 #}}
+
+            {{ card_classes .= ' ' + base + '-order-[' + ( order | format_number(0) ) + ']' }}
+          {{ /if }}
+        {{ /term_sticky_projects }}
+      {{ /if }}
+
+    {{ /locations }}
+  {{ endif }}
+
+  {{ if themes }}
+    {{ themes }}
+
+      {{ tax_slug = slug }}
+      {{ card_classes .= ' card-themes-' + tax_slug}}
+
+      {{ if term_sticky_projects }}
+        {{ term_sticky_projects }}
+          {{ if id == project_id }}
+            {{ base = 'sticky-themes-' + tax_slug  }}
+            {{ card_classes .= ' ' + base }}
+
+            {{ idx   = index | format_number(0) }}
+            {{ total = total_results | format_number(0) }}
+            {{ order = ( idx | subtract:total | subtract:1 ) }}  {{# -N..-1 #}}
+
+            {{ card_classes .= ' ' + base + '-order-[' + (order | format_number:0) + ']' }}
+          {{ /if }}
+        {{ /term_sticky_projects }}
+      {{ /if }}
+
+    {{ /themes }}
+  {{ endif }}
+
+{{ endif }}
+
+
+
+{{ if collection == 'ideas' }}
+  {{ partial:components/ideas/idea_style_5
+    class="col-span-12 lg:col-span-6 mt-0 mb-3"
+    :title="title"
+    :permalink="permalink"
+    card_background_colour="white"
+    :excerpt="excerpt"
+    :idea_team="idea_team"
+    :image="image"
+    :fig_class="fig_class"
+    :img_class="img_class"
+    :aspect_ratio="aspect_ratio"
+    card_title_class="text-3xl 2xl:text-4xl px-2"
+  }}
+  <div class="flex flex-col">
+    {{ if collection && type_colour && !index_card }}
+    <div id="articleType"
+      class="!mb-1 leading-[26px]
+        tracking-wide
+        text-{{ type_colour }}"
+    >
+      {{ collection | ucfirst }}
+    </div>
+    {{ endif }}
+
+    <h3 class="h4 max-w-[80%]">
+      {{ excerpt }}
+    </h3>
+
+  </div>
+{{ else }}
+
+  {{ image_card = image }}
+  {{ if collection == 'news' }}
+    {{ if thumbnail }}
+      {{ image_card = thumbnail }}
+    {{ endif }}
+  {{ endif }}
+
+  <article class="flex flex-col
+    {{ article_class | replace("\r"," ")
+    | replace("\n"," ")
+    | regex_replace('/\s+/', ' ')
+    | trim }}
+    {{ card_classes
+      | replace("\r"," ")
+      | replace("\n"," ")
+      | regex_replace('/\s+/', ' ')
+      | trim
+    }}"
+  >
+    <a href="{{ url }}"
+      class="group focus:outline-none
+        flex-1 flex flex-col"
+    >
+      {{ partial:components/image
+        :image="image_card"
+        :figure_class="fig_class"
+        :img_class="img_class"
+        :ratio="aspect_ratio"
+        sizes="(min-width: 1280px) 430px, (min-width: 768px) 30vw, 90vw"
+        lazy="true"
+        cover="true"
+      }}
+      <div class="flex flex-col">
+        {{ if collection && type_colour && !index_card }}
+        <div id="articleType"
+          class="mobile-only:order-1
+            mb-1 leading-[26px] tracking-wide
+            text-{{ type_colour }}"
+        >
+          {{ collection | ucfirst }}
+        </div>
+        {{ endif }}
+
+        {{ if categories && index_card }}
+
+          {{ post_category = '' }}
+          {{ categories }}
+            {{ post_category += title }}
+          {{ /categories }}
+
+          <div id="category"
+            class="mobile-only:order-1 mobile-only:mb-0
+              mb-[11px] text-blue text-sm md:text-md"
+          >
+            {{ post_category }}
+          </div>
+        {{ endif }}
+
+        <h3 class="h4
+          mobile-only:text-[16px]
+          mobile-only:order-1
+          mobile-only:leading-[20px]
+          !mb-0
+          {{ title_class }}"
+        >
+          {{ title }}
+        </h3>
+
+        {{ if collection == 'news' }}
+        {{ if type_colour }}
+          {{ date_colour = "text-" + type_colour }}
+        {{ else }}
+          {{ date_colour = "text-blue" }}
+        {{ /if }}
+        <div id="date"
+          class="mobile-only:order-1 mobile-only:text-[14px]
+            mt-0 md:mt-1
+            tracking-wide
+            leading-[18px] md:leading-[26px]
+            {{ date_colour }}"
+        >
+          {{ date format="Y.m.d" }}
+        </div>
+        {{ endif }}
+
+        {{ if collection == 'projects' && location_area }}
+          <p class="mobile-only:order-1
+            !mb-0 mt-[2px]
+            leading-[18px] md:leading-[26px]
+            text-[14px] md:text-base"
+          >
+            {{ location_area }}
+          </p>
+        {{ endif }}
+
+        {{ if collection == 'projects' && specialisms }}
+        <div class="mobile-only:order-0">
+          <div class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 md:mt-1">
+            <div class="rounded-full">
+              {{ first_color = '' }}
+              {{ gradient = '' }}
+              {{ width = 0 }}
+              {{# bg-[length:300%_100%] #}}
+
+              {{ specialisms }}
+                {{ if color }}
+                  {{ if first }}
+                    {{ first_color = color }}
+                  {{ /if }}
+
+                  {{ gradient += color }}
+                  {{ width += 2.5 }}
+
+                  {{ if not last }}
+                    {{ gradient += ', ' }}
+                  {{ /if }}
+                {{ /if }}
+              {{ /specialisms }}
+
+              {{ gradient += ', ' + first_color }}
+
+              <div class="h-2.5 rounded-full mt-0.5 md:mt-[4px]
+                  bg-[length:150%_100%] bg-repeat-x
+                  group-hover:animate-gradient-x
+                "
+                style="background-image: linear-gradient(to right, {{ gradient }});
+                  width: {{ width * 0.25 }}rem;"
+              ></div>
+            </div>
+            {{ specialisms }}
+              <span class="text-sm md:text-md opacity-0 group-hover:opacity-100"
+                style="color: {{ color }};">
+                {{ title }}
+              </span>
+            {{ /specialisms }}
+          </div>
+        </div>
+        {{ /if }}
+
+
+      </div>
+    </a>
+  </article>
+{{ endif }}
+<!-- End: /components/_collection_item.antlers.html -->

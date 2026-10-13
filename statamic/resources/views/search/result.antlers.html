@@ -1,0 +1,34 @@
+{{#
+    @name Search page
+    @desc The search page template.
+#}}
+
+<!-- /search/result.antlers.html -->
+<a
+    href="{{ url }}"
+    class="grid grid-cols-12 border-b border-black py-4 text-base leading-[30px] tracking-tight gap-4"
+>
+  <div class="col-span-6">
+      {{ title }}
+  </div>
+  <div class="col-span-6 tracking-wide">
+      {{ if collection:title == 'Pages' }}
+        {{ trans:strings.pages }}
+      {{ elseif collection:title == 'Projects' }}
+        {{ trans:strings.projects }}
+      {{ elseif collection:title == 'Ideas' }}
+        {{ trans:strings.ideas }}
+      {{ elseif collection:title == 'News' }}
+        {{ trans:strings.news }}
+      {{ elseif collection:title == 'People' }}
+        {{ trans:strings.people }}
+      {{ elseif collection:title == 'Offices' }}
+        {{ trans:strings.offices }}
+      {{ elseif collection:title == 'Themes' }}
+        {{ trans:strings.themes }}
+      {{ else }}
+        {{ collection:title  }}
+      {{ /if }}
+  </div>
+</a>
+<!-- End: /search/result.antlers.html -->

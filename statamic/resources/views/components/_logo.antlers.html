@@ -1,0 +1,29 @@
+{{#
+    @name Logo
+    @desc The logo component with a `width` attribute.
+#}}
+
+<!-- /components/_logo.antlers.html -->
+{{ path_class = 'fill-black' }}
+{{ if path_colour }}
+    {{ path_class = 'fill-' + path_colour }}
+{{ /if }}
+
+{{ svg_width = 37 }}
+{{ svg_height = 30 }}
+{{ if width  }}
+    {{ svg_width = width }}
+    {{ svg_height = width * 30/37 }}
+{{ /if }}
+<a
+    aria-label="{{ trans:strings.home }}"
+    href="{{ site:url }}"
+>
+    {{  partial:icons/logo
+        :svg_width="svg_width"
+        :svg_height="svg_height"
+        svg_class=""
+        :path_classr="path_class"
+    }}
+</a>
+<!-- End: /components/_logo.antlers.html -->

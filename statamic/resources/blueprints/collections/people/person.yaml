@@ -1,0 +1,158 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+              display: Name
+              localizable: true
+          -
+            handle: person_profile_image
+            field: common.image
+            config:
+              localizable: true
+              display: 'Portrait Image'
+              width: 50
+          -
+            handle: person_profile_thumbnail_image
+            field:
+              max_files: 1
+              container: images
+              type: assets
+              display: 'Thumbnail image'
+              width: 50
+              localizable: true
+          -
+            handle: person_position
+            field:
+              type: text
+              display: Position
+              localizable: true
+          -
+            handle: disable_url
+            field:
+              type: toggle
+              display: 'Disable URL'
+              width: 30
+              localizable: false
+          -
+            handle: person_qualifications
+            field:
+              type: text
+              display: Qualifications
+              width: 70
+              unless:
+                disable_url: 'equals true'
+              localizable: true
+          -
+            handle: person_description_left_column
+            field:
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - removeformat
+                - quote
+                - anchor
+                - image
+                - table
+                - color
+              remove_empty_nodes: false
+              type: bard
+              display: 'Description (left column)'
+              width: 50
+              unless:
+                disable_url: 'equals true'
+              localizable: true
+          -
+            handle: person_description_right_column
+            field:
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - removeformat
+                - quote
+                - anchor
+                - image
+                - table
+                - color
+              remove_empty_nodes: false
+              type: bard
+              display: 'Description (right column)'
+              width: 50
+              unless:
+                disable_url: 'equals true'
+              localizable: true
+          -
+            handle: sticky_person
+            field:
+              type: toggle
+              display: Sticky
+              instructions: 'When enabled, this member will stay fixed at the top of the list, making it more visible to users. Useful for highlighting important or featured projects.'
+              localizable: false
+              width: 66
+          -
+            handle: sticky_position
+            field:
+              input_type: number
+              type: text
+              display: 'Sticky Position'
+              instructions: 'Set the priority order for pinned members.This overrides the default sorting.'
+              localizable: false
+              width: 33
+              if:
+                sticky_person: 'equals true'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: false
+              validate: 'max:200'
+              show_regenerate: true
+          -
+            handle: date
+            field:
+              type: date
+              required: true
+              default: now
+              localizable: true
+              validate:
+                - required
+          -
+            handle: offices
+            field:
+              type: terms
+              taxonomies:
+                - offices
+              display: Offices
+              mode: select
+              localizable: true
+          -
+            handle: role
+            field:
+              type: terms
+              taxonomies:
+                - role
+              display: Role
+              mode: select
+              localizable: true
+title: Person

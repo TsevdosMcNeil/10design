@@ -1,0 +1,25 @@
+{{#
+    @name Enquire
+#}}
+
+{{ text_class = 'text-' + text_colour + ' hover:text-' + hover_colour }}
+
+<!-- /components/_enquire.antlers.html -->
+<div class="enquire">
+    <div class="mb-2 md:mb-6">
+        <h4 class="text-darkgrey leading-none mobile-only:!text-[14px] mobile-only:!leading-[16px]">{{ enquire_title }}</h4>
+    </div>
+    <div class="grid grid-cols-12 border-y border-black md:pt-5 md:pb-6 pt-[8px] pb-[10px] h4">
+        <div class="mb-0 col-span-7 md:col-span-8 xl:col-span-9">
+            <a class="{{ text_class }} mobile-only:text-[14px] mobile-only:leading-[16px]" href="mailto:{{ enquire_email }}">
+                {{ enquire_email }}
+            </a>
+        </div>
+        <div class="col-span-5 md:col-span-4 xl:col-span-3">
+            <a class="{{ text_class }} mobile-only:text-[14px] mobile-only:leading-[16px]" href="tel:{{ enquire_phone }}">
+                {{ enquire_phone }}
+            </a>
+        </div>
+    </div>
+</div>
+<!-- End: /components/_enquire.antlers.html -->

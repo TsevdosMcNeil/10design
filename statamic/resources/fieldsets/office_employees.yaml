@@ -1,0 +1,16 @@
+title: 'Office Employees'
+fields:
+  -
+    handle: selected_office
+    field:
+      max_items: 1
+      mode: default
+      create: true
+      collections:
+        - offices
+      type: entries
+      display: Office
+      listable: hidden
+      instructions_position: above
+      visibility: visible
+      hide_display: false

@@ -1,0 +1,28 @@
+{{#
+    @name PhotoSwipe Carousel
+    @desc Carousel of images when clicked opens a lightbox with a gallery of images.
+#}}
+
+<div class="photoswipe-carousel-wrapper">
+    <div class="pswp-gallery pswp-gallery--single-column photoswipe-lightbox">
+        {{ images }}
+            <a
+                data-pswp-src="{{ image }}"
+                data-pswp-width="{{ image.width }}"
+                data-pswp-height="{{ image.height }}"
+                data-cropped="true"
+                target="_blank"
+            >
+                {{ if $index == 0 }}
+                    <div class="thumbnail">
+                        {{ partial:components/image
+                            :image="image"
+                            size="full"
+                            img_class="w-full h-full object-cover"
+                        }}
+                    </div>
+                {{ /if }}
+            </a>
+        {{ /images }}
+    </div>
+</div>

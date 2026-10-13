@@ -1,0 +1,54 @@
+{{#
+    @name Static Person
+    @desc Member gallery component.
+    @set page.article.static_person
+#}}
+
+<!-- /components/_static_person.antlers.html -->
+{{ card_figure_class = "bg-blue" }}
+{{ if lightbox_bg_colour }}
+    {{ card_figure_class = 'bg-' + lightbox_bg_colour }}
+{{ endif }}
+{{ card_figure_class .= ' person-image' }}
+
+{{ selected_person }}
+
+    {{ if article_wrapper }}
+        <article class="col-span-3 md:col-span-4 xl:col-span-2">
+    {{ /if }}
+
+    {{ person_slug = slug }}
+
+    {{ person_role = '' }}
+    {{ if role }}
+        {{ person_role = role:title }}
+    {{ endif }}
+
+    {{ person_location = '' }}
+    {{ if locations }}
+        {{ person_location = locations:title }}
+    {{ endif }}
+
+    <a
+        {{ if (! disable_url ) }}
+            href="{{ url }}"
+            rel="noreferrer"
+        {{ endif }}
+        class="group mb-3 person-card"
+    >
+        {{ partial:people/card
+            :card_figure_class="card_figure_class"
+            :person_profile_image="person_profile_image"
+            :title="title"
+            :person_role="person_role"
+            :person_position="person_position"
+        }}
+    </a>
+
+
+
+{{ if article_wrapper }}
+    </article>
+{{ /if }}
+{{ /selected_person }}
+<!-- End: /components/_static_person.antlers.html -->

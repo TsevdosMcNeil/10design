@@ -1,0 +1,28 @@
+.tns-nav {
+    text-align: center;
+    button {
+        margin:5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: bisque;
+        &.tns-nav-active {
+            background-color: #000;
+        }
+    }
+}
+
+.wrapper-carousel.full-size .tiny-carousel > .item figure::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.tns-outer, .tns-inner, .tns-slider {
+    height: 100%;
+}
+
+button[data-action="stop"] {
+    display: none;
+}

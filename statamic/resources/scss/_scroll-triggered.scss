@@ -1,0 +1,16 @@
+
+@media screen and (min-width: 640px) and (max-width: 1024px) {
+  .scroll-triger-title,
+  .scroll-triger-content {
+    p {
+
+      font-size: var(--text-md) !important;
+      line-height: 1.2 !important;
+      margin-bottom: 5px !important;
+    }
+  }
+
+  .scroll-triger-title {
+    margin-bottom: 10px !important;
+  }
+}

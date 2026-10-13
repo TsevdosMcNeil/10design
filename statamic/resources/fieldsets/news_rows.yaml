@@ -1,0 +1,10 @@
+title: 'News Rows'
+fields:
+  -
+    handle: number_of_news
+    field:
+      input_type: number
+      default: '5'
+      type: text
+      display: Number
+      instructions: 'Number of "News" rows to be displayed'

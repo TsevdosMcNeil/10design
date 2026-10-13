@@ -1,0 +1,33 @@
+{{#
+    @name Footer
+    @desc The sites footer rendered on each page.
+#}}
+
+<!-- /layout/_footer.antlers.html -->
+<footer id="footer"
+  class="w-full py-0 mt-auto"
+>
+  {{# Let's users reset consent when you use the consent banner. #}}
+  <div x-show="!$store.consentBanner.getConsentValue('embeds')"
+      class="manage-consent-button"
+  >
+    {{ yield:reset_consent }}
+  </div>
+
+  {{ if footer}}
+    {{ footer}}
+      {{ footer_background = background_colour }}
+      {{ if footer_background_colour }}
+        {{ footer_background = footer_background_colour }}
+      {{ /if }}
+
+      {{ partial:page_builder/section
+        section_gap="6"
+        vertical_padding="8"
+        section_slug="footer"
+        :background_colour="footer_background"
+      }}
+    {{/footer}}
+  {{ /if }}
+</footer>
+<!-- End: /layout/_footer.antlers.html -->

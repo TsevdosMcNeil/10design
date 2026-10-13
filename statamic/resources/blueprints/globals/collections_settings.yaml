@@ -1,0 +1,51 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: Themes
+        fields:
+          -
+            handle: last_theme_navigation_cta_label
+            field:
+              type: text
+              display: 'Last Theme Navigation CTA Label'
+              localizable: true
+              width: 50
+          -
+            handle: last_theme_navigation_cta_link
+            field:
+              type: link
+              display: 'Last Theme Navigation CTA Link'
+              localizable: true
+              width: 50
+          -
+            handle: last_theme_navigation_cta_subtitle
+            field:
+              type: text
+              display: 'Last Theme Navigation CTA Subtitle'
+              localizable: true
+      -
+        display: Ideas
+        fields:
+          -
+            handle: idea_display_author_image_in_card_1
+            field:
+              default: true
+              type: toggle
+              display: 'Display Author Image in Card 1'
+              localizable: false
+          -
+            handle: idea_display_author_image_in_card_2
+            field:
+              default: true
+              type: toggle
+              display: 'Display Author Image in Card 2'
+              localizable: false
+          -
+            handle: idea_display_author_image_in_card_3
+            field:
+              default: true
+              type: toggle
+              display: 'Display Author Image in Card 3'
+              localizable: false

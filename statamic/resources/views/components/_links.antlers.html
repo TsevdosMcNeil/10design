@@ -1,0 +1,45 @@
+{{#
+    @name Links
+    @desc Multiple links component calling in `resources/views/components/_link.antlers.html`.
+    @set page.article.links
+#}}
+
+{{# text-black text-blue text-darkblue text-green text-grey text-darkgrey text-orange text-red text-yellow text-white text-sand text-beige text-antiquewhite #}}
+{{# md:text-black md:text-blue md:text-darkblue md:text-green md:text-grey
+    md:text-darkgrey md:text-orange md:text-red md:text-yellow md:text-white
+    md:text-sand md:text-beige md:text-antiquewhite #}}
+
+{{ if ! link_colour }}
+    {{ link_colour =  'black' }}
+{{ /if }}
+
+{{ if ! hover_colour}}
+    {{ hover_colour =  'white' }}
+{{ /if }}
+
+
+{{ link_classes = ' group h2 pb-[9px] pt-[6px] md:pt-2.5 md:pb-4 leading-none hide-arrow-mobile links-item outline-none' }}
+{{ link_classes .= ' text-' + link_colour }}
+
+{{# hover:text-black hover:text-blue hover:text-darkblue hover:text-green hover:text-grey hover:text-darkgrey hover:text-orange hover:text-red hover:text-yellow hover:text-white hover:text-sand hover:text-beige hover:text-antiquewhite #}}
+{{ link_classes .= ' hover:text-' + hover_colour }}
+
+{{ link_classes .= ' border-b first:border-t border-' + border_colour }}
+
+{{ path_class = 'fill-' + hover_colour }}
+{{ stroke_class = 'stroke-' + link_colour }}
+
+<!-- /components/_links.antlers.html -->
+{{ if links }}
+    {{# The styling when called from any other partial or template. #}}
+    <div class="{{ class }}">
+        {{ links }}
+            {{ partial:components/link
+                :label="label"
+                :class="link_classes"
+                :path_class="path_class"
+                :stroke_class="stroke_class" }}
+        {{ /links }}
+    </div>
+{{ /if }}
+<!-- End: /components/_links.antlers.html -->

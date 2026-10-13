@@ -1,0 +1,89 @@
+{{#
+    @name Idea style 1
+    @desc A card style for displaying ideas.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_idea_style_5.antlers.html -->
+
+{{ idea_aspect_ratio = '900/600' }}
+{{ if aspect_ratio }}
+  {{ idea_aspect_ratio = aspect_ratio }}
+{{ /if }}
+{{  unless idea_aspect_ratio | fraction_to_decimal | is_numeric  }}
+  {{ idea_aspect_ratio = '900/600'}}
+{{ /unless }}
+
+{{ idea_fig_class = 'mb-2 md:mb-3 group-hover:opacity-50 transition-all duration-300' }}
+{{ if fig_class }}
+  {{ idea_fig_class =  fig_class }}
+{{ /if }}
+
+{{ idea_fig_class .= ' !absolute w-full h-full z-[-1]' }}
+
+{{ background = 'bg-white' }}
+{{ if card_background_colour }}
+    {{ background = 'bg-' + card_background_colour }}
+{{ /if }}
+
+{{ idea_fig_class .= ' ' +background }}
+
+{{ idea_img_class = "h-full w-full object-cover" }}
+{{ if img_class }}
+  {{ idea_img_class = img_class }}
+{{ /if }}
+
+
+
+
+{{ title_class = "mobile-only:text-[35px] mobile-only:leading-[36px] md:text-3xl xl:text-4xl 2xl:text-5xl px-2" }}
+{{ if card_title_class }}
+    {{ title_class = card_title_class }}
+{{ /if }}
+
+
+
+<article class="{{ class }}
+    relative
+    aspect-[{{ idea_aspect_ratio }}]"
+>
+    {{ partial:components/image
+      :image="image"
+      :figure_class="idea_fig_class"
+      :img_class="idea_img_class"
+      :ratio="idea_aspect_ratio"
+      sizes="(min-width: 1280px) 430px, (min-width: 768px) 30vw, 90vw"
+      lazy="true"
+      cover="true"
+    }}
+    <a href="{{ url }}"
+      class="group grid grid-cols-12
+        relative
+        h-full">
+        <div class="col-span-12 p-4">
+            <div class="
+                h-full
+                flex flex-col justify-between
+                border-x border-white text-white"
+            >
+                <h1 class="{{ title_class }}">{{ title }}</h1>
+                <div class="team px-2">
+                    {{# Loop through the team members and display their names separated by ampersands. #}}
+                    {{ if idea_team }}
+                        <div class="text-sm 2xl:text-base mt-3">
+                            {{ idea_team }}
+                                {{ if last }}
+                                    <span>{{ title }}</span>
+                                {{ else }}
+                                    <span class="block">{{ title }} &</span>
+                                {{ /if }}
+                            {{ /idea_team }}
+                        </div>
+                    {{ /if }}
+                </div>
+            </div>
+        </div>
+        <div class="opacity-0 group-hover:opacity-50 transition-all duration-300 absolute inset-0 bg-white"></div>
+    </a>
+</article>
+<!-- End: /components/_idea_style_1.antlers.html -->

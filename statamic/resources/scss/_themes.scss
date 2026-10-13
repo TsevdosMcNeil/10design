@@ -1,0 +1,29 @@
+
+body.themes {
+  #mainHeader.header-color-white {
+    #fixedMenu:not(.header-scrolled) {
+      .navigation-logo {
+        svg {
+          path {
+            fill: var(--color-white);
+          }
+        }
+      }
+    }
+  }
+  main {
+    header {
+      background-size: calc(100% - 2rem) auto;
+      background-position: right 1rem bottom 1rem;
+      @media screen and (max-width: 767px) {
+        margin-top: -130px;
+      }
+      @media screen and (min-width: 768px) {
+        background-size: calc(100%*7/12) auto;
+        background-position: right 2.5rem bottom 2.5rem;
+      }
+    }
+  }
+}
+
+

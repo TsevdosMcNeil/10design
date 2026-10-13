@@ -1,0 +1,54 @@
+title: 'Contact Row'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      localizable: false
+  -
+    handle: top_line
+    field:
+      default: true
+      type: toggle
+      display: 'Top Line'
+      localizable: false
+      width: 33
+  -
+    handle: bottom_line
+    field:
+      type: toggle
+      display: 'Bottom Line'
+      localizable: false
+      width: 33
+  -
+    handle: mobile_bottom_line
+    field:
+      type: toggle
+      display: 'Mobile Bottom Line'
+      localizable: false
+      width: 33
+  -
+    handle: content
+    field:
+      remove_empty_nodes: false
+      type: bard
+      display: Content
+      localizable: false
+      sets:
+        interactive:
+          display: Interactive
+          icon: programming-script-code
+          sets:
+            link_with_arrow:
+              display: 'Link with arrow'
+              icon: arrow-right
+              fields:
+                -
+                  import: link_with_arrow
+            contact_link:
+              display: 'Contact Link'
+              icon: link-external
+              fields:
+                -
+                  import: contact_link

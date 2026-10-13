@@ -1,0 +1,280 @@
+title: Projects
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: General
+        fields:
+          -
+            handle: title
+            field:
+              type: textarea
+              required: true
+              display: Title
+              validate:
+                - required
+              localizable: true
+          -
+            handle: title_colour
+            field: common.colour
+            config:
+              display: 'Header Text Colour'
+              width: 33
+              default: white
+              localizable: true
+          -
+            handle: footer_background_colour
+            field: common.colour
+            config:
+              display: 'Footer Background Colour'
+              width: 33
+              localizable: true
+          -
+            handle: subtitle
+            field: common.text_plain
+            config:
+              display: Subtitle
+          -
+            handle: sticky_project
+            field:
+              type: toggle
+              display: Sticky
+              instructions: 'When enabled, this project will stay fixed at the top of the list, making it more visible to users. Useful for highlighting important or featured projects.'
+              localizable: true
+              width: 66
+          -
+            handle: sticky_position
+            field:
+              input_type: number
+              type: text
+              display: 'Sticky Position'
+              instructions: 'Set the priority order for pinned projects.This overrides the default sorting.'
+              localizable: true
+              width: 33
+              if:
+                sticky_project: 'equals true'
+      -
+        display: 'Page builder'
+        fields:
+          -
+            import: page_builder
+  seo:
+    display: SEO
+    sections:
+      -
+        display: Basic
+        instructions: 'Basic SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_basic'
+          -
+            handle: keywords_list
+            field:
+              type: list
+              display: 'Keywords List'
+              instructions: 'Add words that help improve internal search results. These keywords are not shown on the website and are not metadata.'
+              localizable: false
+          -
+            handle: exclude_from_search
+            field:
+              type: toggle
+              display: 'Exclude from search'
+              instructions: 'Exclude this post from appearing in internal search results'
+              localizable: false
+      -
+        display: Advanced
+        instructions: 'Advanced SEO settings.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_advanced'
+      -
+        display: 'Open Graph'
+        instructions: 'Open Graph meta tags for social sharing.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_open_graph'
+      -
+        display: Sitemap
+        instructions: 'Sitemap configuration.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_sitemap'
+      -
+        display: 'JSON-ld Schema'
+        instructions: 'Custom JSON-ld schema objects.'
+        fields:
+          -
+            import: 'statamic-peak-seo::seo_jsonld'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        display: Meta
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: false
+              validate:
+                - required
+              display: Slug
+              show_regenerate: true
+          -
+            handle: date
+            field:
+              type: date
+              required: true
+              default: now
+              listable: true
+              validate:
+                - required
+              display: Date
+              time_required: false
+              earliest_date: '2021-01-01'
+              localizable: true
+          -
+            handle: image
+            field: common.image
+            config:
+              mode: grid
+              localizable: true
+              listable: true
+              display: 'Landscape Image'
+              width: 100
+              validate:
+                - required
+          -
+            handle: portrait_image
+            field: common.image
+            config:
+              mode: grid
+              localizable: true
+              listable: true
+              display: 'Portrait Image'
+              width: 100
+          -
+            handle: hero_video
+            field:
+              type: video
+              display: 'Hero Video'
+              localizable: true
+          -
+            handle: portrait_format_in_grid
+            field:
+              type: toggle
+              display: 'Portrait format in grid'
+              localizable: true
+              if:
+                portrait_image: 'not empty'
+          -
+            handle: project_year
+            field:
+              type: text
+              display: Year
+              localizable: true
+          -
+            handle: locations
+            field:
+              type: terms
+              taxonomies:
+                - locations
+              display: Locations
+              mode: select
+              max_items: 1
+              localizable: true
+          -
+            handle: specialisms
+            field:
+              type: terms
+              taxonomies:
+                - specialisms
+              display: Expertise
+              mode: select
+              localizable: true
+          -
+            handle: themes
+            field:
+              type: terms
+              taxonomies:
+                - themes
+              display: Themes
+              mode: select
+              localizable: true
+          -
+            handle: location_area
+            field:
+              type: text
+              display: Area
+              localizable: true
+          -
+            handle: project_status
+            field:
+              type: text
+              display: Status
+              localizable: true
+          -
+            handle: project_size
+            field:
+              type: text
+              display: Size
+              localizable: true
+          -
+            handle: key_points
+            field:
+              type: replicator
+              display: 'Key Points'
+              localizable: true
+              sets:
+                -
+                  display: 'Key Point'
+                  fields:
+                    -
+                      handle: key_point
+                      field:
+                        type: text
+                        display: 'Key Point'
+                      config:
+                        display: 'Key Point'
+                    -
+                      handle: anchor
+                      field:
+                        type: text
+                        display: Anchor
+                      config:
+                        display: anchor
+          -
+            handle: project_team
+            field: common.text_plain
+            config:
+              display: Team
+          -
+            handle: project_photography
+            field: common.text_plain
+            config:
+              display: Photography
+          -
+            handle: project_collaborators
+            field: common.text_plain
+            config:
+              display: Collaborators
+          -
+            handle: project_two_columns
+            field:
+              type: toggle
+              display: 'Two columns'
+              instructions: 'Use two columns for the meta info above the footer.'
+              localizable: true
+          -
+            import: related_entry
+            prefix: bottom_
+          -
+            handle: parent
+            field:
+              type: entries
+              collections:
+                - projects
+              max_items: 1
+              listable: false
+              localizable: true

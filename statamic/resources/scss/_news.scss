@@ -1,0 +1,20 @@
+html.lang-zh{
+  body.news {
+    h1, h2 {
+      @media screen and (min-width: 1536px) {
+        font-size: 50px;
+        line-height: 64px;
+        letter-spacing: -4%;
+      }
+    }
+    .news-content{
+      a, span, p, li, h4 {
+        @media screen and (min-width: 1536px) {
+          font-size: 26px;
+          line-height: 36px;
+          letter-spacing: -1%;
+        }
+      }
+    }
+  }
+}

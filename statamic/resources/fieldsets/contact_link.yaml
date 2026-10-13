@@ -1,0 +1,43 @@
+title: 'Contact Link'
+fields:
+  -
+    handle: link_colour
+    field: common.colour
+    config:
+      display: 'Link Colour'
+      width: 33
+  -
+    handle: hover_colour
+    field: common.colour
+    config:
+      display: 'Hover Colour'
+      width: 33
+  -
+    handle: text_size
+    field:
+      options:
+        -
+          key: text-base
+          value: Paragraph
+        -
+          key: h1
+          value: H1
+        -
+          key: h2
+          value: H2
+        -
+          key: h3
+          value: H3
+        -
+          key: h4
+          value: H4
+        -
+          key: h5
+          value: H5
+      default: text-base
+      type: select
+      display: 'Text size'
+      localizable: false
+      width: 33
+  -
+    import: link

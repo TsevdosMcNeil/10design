@@ -1,0 +1,118 @@
+{{#
+    @name Main desktop navigation
+    @desc The sites main desktop navigation rendered on each page. It's 2 levels deep by default and uses AlpineJS for interactivity.
+#}}
+
+<!-- /navigation/_main_desktop.antlers.html -->
+
+<div class="absolute top-4 left-4 md:top-5 md:left-10">
+    <div class="hidden md:block lg:hidden">
+        {{ partial:components/logo width="37" }}
+    </div>
+</div>
+
+<div class="col-span-12 h-full flex items-start">
+    <div class="grid grid-cols-12 w-full mt-[calc(50vh-31px)]">
+        <div class="hidden lg:block lg:col-span-2">
+            {{ partial:components/logo width="77" title_colour="black" }}
+        </div>
+
+        <div class="col-span-12 lg:col-span-9
+            flex justify-between
+            lg:flex-row flex-col
+            gap-8">
+            <nav id="mainDesktopNavigation"
+              aria-label="{{ trans:strings.main_navigation_desktop }}"
+            >
+              <ul class="items-left
+                  flex flex-col
+                  -mt-[6px] 2xl:-mt-[8px]
+              ">
+                  {{ nav:main max_depth="2"
+                      include_home="true"
+                      select="title|url|background_hover_colour"
+                  }}
+                      {{ unless no_results }}
+                          <li
+                            {{ if children }}
+                                x-data="{ subnavOpen: false }"
+                                @keyup.escape.stop.prevent="subnavOpen = false"
+                                @focusin.window="!$refs.subnav.contains($event.target) && (subnavOpen = false)"
+                            {{ /if }}
+                            class="relative leading-none"
+                          >
+                              <a class="flex items-center overflow-hidden
+                                    text-black hover:text-white transition-opacity duration-200
+                                    text-[55px] md:text-4xl lg:text-5xl 2xl:text-6xxl mobile-only:leading-[60px]
+                                    pb-[20px] md:pb-[10px] pr-[15px]
+                                    -mt-2 2xl:-mt-4 menu-item
+                                    2xl:tracking-[-3%]
+                                  "
+                                  {{ if children }}
+                                      href="#"
+                                      @click.prevent="subnavOpen = !subnavOpen"
+                                      :aria-label="subnavOpen
+                                          ? '{{ trans:strings.subnav_close }}'
+                                          : '{{ trans:strings.subnav_open }}'"
+                                      :aria-expanded="subnavOpen"
+                                  {{ else }}
+                                      href="{{ url }}"
+                                  {{ /if }}
+                                  {{ is_current ?= 'aria-current="page"' }}
+                              >
+                                  <span data-menu="{{ title | slugify }}"
+                                      :class="bgMenu ? 'bg-menu' : ''"
+                                      @mouseenter="bgMenu = '{{ background_hover_colour }}'"
+                                      @mouseleave="bgMenu = ''"
+                                  >
+                                      {{ title }}
+                                  </span>
+                                  {{ if children }}
+                                      <div :class="{ 'scale-y-[-1]': subnavOpen }" class="motion-safe:transition-transform">
+                                          {{ svg:chevron_down attr:class="w-2 ml-1 overflow-visible stroke-current text-neutral" attr:aria-hidden="true" }}
+                                      </div>
+                                  {{ /if }}
+                              </a>
+                              {{ if children }}
+                                  <ul
+                                      x-show="subnavOpen"
+                                      x-ref="subnav"
+                                      class="absolute right-0 mt-2 -ml-3 py-2 px-3 bg-white border border-neutral/10 rounded-sm shadow-sm"
+                                      @click.outside="subnavOpen = false"
+                                      x-transition
+                                      x-cloak
+                                  >
+                                      {{ children }}
+                                          <li class="">
+                                              <a
+                                                  class="
+                                                      whitespace-nowrap py-2 block text-xs font-bold hover:text-primary
+                                                      {{ is_current || is_parent
+                                                          ? 'text-primary'
+                                                          : 'text-neutral' }}
+                                                  "
+                                                  href="{{ url }}"
+                                                  {{ is_current ?= 'aria-current="page"' }}
+                                              >
+                                                  {{ title }}
+                                              </a>
+                                          </li>
+                                      {{ /children }}
+                                  </ul>
+                              {{ /if }}
+                          </li>
+                      {{ /unless }}
+                  {{ /nav:main }}
+              </ul>
+            </nav>
+
+            <div class="-mt-[6px] 2xl:-mt-4 lg:min-w-[529px] md:block hidden">
+                {{ partial:forms/ajaxform
+                    :headline="trans:strings.form_newsletter_title"
+                    handle="newsletter"
+                }}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: /navigation/_main_desktop.antlers.html -->

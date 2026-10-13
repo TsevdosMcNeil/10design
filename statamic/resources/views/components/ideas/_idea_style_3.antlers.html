@@ -1,0 +1,93 @@
+{{#
+    @name Idea style 3
+    @desc A card style for displaying ideas.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_idea_style_3.antlers.html -->
+{{ background = 'bg-white' }}
+{{ if card_background_colour }}
+    {{ background = 'bg-' + card_background_colour }}
+{{ /if }}
+
+<article class="{{ class }}
+  {{ background }}
+  bg-cover bg-no-repeat bg-center
+  relative
+  after:content-[''] after:absolute after:inset-0 after:bg-black after:opacity-25"
+  style="background-image: url('{{ image }}');"
+>
+    <a href="{{ url }}"
+      class="fluid-container group grid grid-cols-12 min-h-screen relative z-1"
+    >
+        <div class="col-span-12 py-4 md:py-6">
+            <div class="h-full">
+                <div class="
+                    xl:grid grid-cols-12 h-full
+                    flex flex-col
+                    md:border-x border-white xl:border-0"
+                >
+                    <div class="col-span-6 md:px-2 xl:border-l border-white xl:h-full">
+                        <h1 class="tracking-normal text-white
+                          mobile-only:text-[35px] mobile-only:leading-[36px]
+                          2xl:text-5xl 2xl:leading-[66px] "
+                        >{{ title }}</h1>
+                        <span class="hidden md:block
+                            text-md mt-3
+                            text-white group-hover:text-white
+                            transition-all duration-300 ">
+                          {{ trans:strings.read_more }}
+                        </span>
+                    </div>
+                    <div class="
+                        col-span-6 md:pl-2 xl:border-l
+                        mt-6 xl:mt-0 border-white
+                        xl:h-full flex flex-col relative
+                        flex-1 justify-end md:justify-between
+                    ">
+                        {{ partial:typography/p
+                            :content="excerpt"
+                            class="text-md mobile-only:!mb-4 !mb-0 md:max-w-[200px] mobile-only:text-[26px] mobile-only:leading-[30px]"
+                            color="text-white"
+                        }}
+
+                        <div class="team xl:absolute bottom-0 left-2">
+                            {{# Loop through the team members and display their names separated by ampersands. #}}
+                            {{ if idea_team }}
+                              {{ if collections_settings:idea_display_author_image_in_card_3  }}
+
+                                <div class="items-center gap-1 md:gap-2 flex">
+                                  {{ idea_team }}
+
+                                    {{ author_thumbnail = person_profile_image }}
+                                    {{ if person_profile_thumbnail_image }}
+                                      {{ author_thumbnail = person_profile_thumbnail_image }}
+                                    {{ endif }}
+
+                                    {{ partial:components/image
+                                      :image="author_thumbnail"
+                                      size="small"
+                                      img_class="w-[30px] h-[30px] md:w-12 md:h-12 rounded-full object-cover"
+                                    }}
+                                  {{ /idea_team }}
+                                </div>
+                              {{ /if }}
+                                <div class="text-[14px] mobile-only:leading-[18px] md:text-md mt-2 md:mt-3 text-white">
+                                    {{ idea_team }}
+                                        {{ if last }}
+                                            <span>{{ title }}</span>
+                                        {{ else }}
+                                            <span class="inline-block">{{ title }} &</span>
+                                        {{ /if }}
+                                    {{ /idea_team }}
+                                </div>
+                            {{ /if }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="opacity-0 group-hover:opacity-50 transition-all duration-300 absolute inset-0 bg-white"></div>
+    </a>
+</article>
+<!-- End: /components/_idea_style_3.antlers.html -->

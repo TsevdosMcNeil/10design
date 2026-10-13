@@ -1,0 +1,116 @@
+{{#
+    @name Lightbox Person
+    @desc Lightbox gallery component.
+    @set page.article.lightbox_person
+#}}
+
+<!-- /components/_lightbox_person.antlers.html -->
+{{ card_figure_class = "bg-blue" }}
+{{ if lightbox_bg_colour }}
+    {{ card_figure_class = 'bg-' + lightbox_bg_colour }}
+{{ endif }}
+{{ card_figure_class .= ' person-image' }}
+
+{{ selected_person }}
+
+    {{ if article_wrapper }}
+        <article class="col-span-3 md:col-span-4 xl:col-span-2">
+    {{ /if }}
+
+    {{ person_slug = slug }}
+
+    {{ person_role = '' }}
+    {{ if positions }}
+        {{ person_role = positions:title }}
+    {{ endif }}
+
+    {{ person_location = '' }}
+    {{ if locations }}
+        {{ person_location = locations:title }}
+    {{ endif }}
+
+    {{# Mobile #}}
+    <a
+        {{ if (! disable_url ) }}
+            href="{{ url }}"
+            rel="noreferrer"
+        {{ endif }}
+        class="group lg:hidden mb-3 person-card"
+    >
+        {{ partial:people/card
+            :card_figure_class="card_figure_class"
+            :person_profile_image="person_profile_image"
+            :person_profile_hover_image="person_profile_hover_image"
+            :title="title"
+            :person_role="person_role"
+        }}
+    </a>
+
+
+    {{# Desktop #}}
+    {{ person_profile_original_ratio = 1 }}
+    {{ if person_profile_image }}
+        {{ person_profile_original_ratio = person_profile_image.height / person_profile_image.width }}
+    {{ endif }}
+    {{# TODO: Load bigger profile images and remove the *10 operation from width and height (that operation is a temporary patch to force full heigh on lightbox profile images #}}
+
+    <a
+        {{ if (! disable_url ) }}
+            href="{{ person_profile_image.url }}"
+            data-pswp-width="{{ person_profile_image.width * 10 }}"
+            data-pswp-height="{{ person_profile_image.height * 10 }}"
+            data-pswp-bgcolour="{{ lightbox_bg_colour }}"
+            data-pswp-webp-src="{{ person_profile_image.url }}"
+            data-name="{{ person_slug  }}"
+            target="_blank"
+            rel="noreferrer"
+        {{ endif }}
+        class="group
+            hidden lg:block
+            mb-3
+            {{ if (! disable_url ) }} photoswipeelement {{ endif }}
+        "
+    >
+        {{ partial:people/card
+            :card_figure_class="card_figure_class"
+            :person_profile_image="person_profile_image"
+            :person_profile_hover_image="person_profile_hover_image"
+            :title="title"
+            :person_role="person_role"
+        }}
+
+        <div class="pswp-caption-content">
+            <div class="text-black
+                bg-white
+                flex flex-col
+                h-screen
+                pt-0 px-8 pb-16 single-person
+                pswp-caption-content--wrapper
+            ">
+                {{ partial:typography/h3
+                    :content="title"
+                    class="tracking-normal"
+                }}
+                {{ partial:typography/h3
+                    :content="person_role"
+                    class="text-yellow tracking-normal"
+                }}
+                {{ partial:typography/h3
+                    :content="person_qualifications | upper"
+                    color="text-grey"
+                }}
+                <div class="mt-10 md:mt-20 mb-2
+                    grid gap-4
+                    md:grid-cols-12 text-base leading-[24px]
+                ">
+                    <div class="md:col-span-5">{{ person_description_left_column }}</div>
+                    <div class="md:col-span-5 md:col-start-6">{{ person_description_right_column }}</div>
+                </div>
+            </div>
+        </div>
+    </a>
+{{ if article_wrapper }}
+    </article>
+{{ /if }}
+{{ /selected_person }}
+<!-- End: /components/_lightbox_person.antlers.html -->

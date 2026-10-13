@@ -1,0 +1,123 @@
+#people {
+  row-gap: 1rem;
+
+  @media screen and (min-width: 768px) {
+    row-gap: 2rem;
+  }
+
+  @media screen and (min-width: 1280px) {
+    row-gap: 3rem;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+}
+
+body.people {
+  @media screen and (min-width: 768px) {
+    footer#footer {
+      display: none;
+    }
+  }
+}
+
+.single-person {
+  p {
+    margin-bottom: 1rem;
+  }
+
+  @media screen and (max-height: 650px) {
+    p {
+      font-size: 18px;
+      line-height: 20px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    p {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .people-mobile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+
+/*  Google Maps */
+.gm-style .gmnoscreen,
+.gm-style .gmnoprint,
+.gmnoscreen,
+.gmnoprint,
+.gm-style a[target="_blank"] img {
+  display: none;
+}
+
+
+.pswp--open [aria-hidden="false"] .pswp-caption-content--wrapper > div {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0,0,0,.1);
+    margin: 5px 0;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.4);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.2s;
+  }
+
+  &:last-child {
+    overflow-y: auto;
+  }
+}
+
+.office-employees .office-list {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 60px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #EEEEEE;
+    margin: 5px 0 0;
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #898A8D;
+    border-radius: 0;
+    transition: background 0.2s;
+  }
+
+  &:last-child {
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 767px) {
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 60px;
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 0;
+    }
+  }
+}
+
+.full-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+}

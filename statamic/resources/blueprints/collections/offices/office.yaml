@@ -1,0 +1,123 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+              localizable: true
+          -
+            handle: open_office_image
+            field: common.image
+            config:
+              display: 'Open office image'
+              width: 50
+          -
+            handle: closed_office_image
+            field: common.image
+            config:
+              display: 'Closed office image'
+              width: 50
+          -
+            handle: working_days
+            field:
+              type: select
+              display: 'Working days'
+              options:
+                - Monday
+                - Tuesday
+                - Wednesday
+                - Thursday
+                - Friday
+                - Saturday
+                - Sunday
+              multiple: true
+              antlers: false
+              width: 50
+              localizable: true
+          -
+            handle: timezone
+            field:
+              type: text
+              display: Timezone
+              width: 50
+              localizable: true
+          -
+            handle: opening_time
+            field:
+              type: time
+              display: 'Opening time'
+              antlers: false
+              width: 50
+              localizable: true
+          -
+            handle: closing_time
+            field:
+              type: time
+              display: 'Closing time'
+              antlers: false
+              width: 50
+              localizable: true
+          -
+            handle: office_address
+            field: common.text_rich
+            config:
+              display: Address
+          -
+            handle: latitude
+            field:
+              type: text
+              display: Latitude
+              width: 50
+              localizable: true
+          -
+            handle: longitude
+            field:
+              type: text
+              display: Longitude
+              width: 50
+              localizable: true
+          -
+            handle: office_phone
+            field:
+              type: text
+              display: Phone
+              localizable: true
+          -
+            handle: map_style
+            field:
+              type: textarea
+              display: 'Map Style'
+              localizable: false
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        display: Meta
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: false
+              validate:
+                - required
+              display: Slug
+              show_regenerate: true
+          -
+            handle: offices
+            field:
+              type: terms
+              taxonomies:
+                - offices
+              display: Offices
+              mode: select
+              max_items: 1
+              localizable: true
+title: Office

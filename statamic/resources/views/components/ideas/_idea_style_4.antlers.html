@@ -1,0 +1,60 @@
+{{#
+    @name Idea style 1
+    @desc A card style for displaying ideas.
+    @param class Add optional CSS classes.
+#}}
+
+<!-- /components/_idea_style_4.antlers.html -->
+
+{{ idea_aspect_ratio = '900/600' }}
+{{ if aspect_ratio }}
+  {{ idea_aspect_ratio = aspect_ratio }}
+{{ /if }}
+{{  unless idea_aspect_ratio | fraction_to_decimal | is_numeric  }}
+  {{ idea_aspect_ratio = '900/600'}}
+{{ /unless }}
+
+
+{{ background = 'bg-white' }}
+{{ if card_background_colour }}
+    {{ background = 'bg-' + card_background_colour }}
+{{ /if }}
+
+<article class="{{ class }} {{ background }} aspect-[{{ idea_aspect_ratio }}]">
+    <a href="{{ url }}"
+      class="group grid grid-cols-12 h-full">
+        <div class="sm:col-span-6 hidden sm:block lg:hidden xl:block relative">
+            {{ partial:components/image
+                :image="image"
+                size="full"
+                img_class="h-full object-cover"
+                figure_class="h-full w-full"
+            }}
+            <div class="opacity-0 group-hover:opacity-50 transition-all duration-300 absolute inset-0 bg-white"></div>
+        </div>
+        <div class="col-span-12 sm:col-span-6 lg:col-span-12 xl:col-span-6 p-4">
+            <div class="
+                h-full
+                flex flex-col justify-between
+                border-x border-black"
+            >
+                <h1 class="mobile-only:text-[35px] mobile-only:leading-[36px] md:text-3xl xl:text-4xl 2xl:text-5xl px-2">{{ title }}</h1>
+                <div class="team px-2">
+                    {{# Loop through the team members and display their names separated by ampersands. #}}
+                    {{ if idea_team }}
+                        <div class="text-sm 2xl:text-base mt-3">
+                            {{ idea_team }}
+                                {{ if last }}
+                                    <span>{{ title }}</span>
+                                {{ else }}
+                                    <span class="block">{{ title }} &</span>
+                                {{ /if }}
+                            {{ /idea_team }}
+                        </div>
+                    {{ /if }}
+                </div>
+            </div>
+        </div>
+    </a>
+</article>
+<!-- End: /components/_idea_style_1.antlers.html -->

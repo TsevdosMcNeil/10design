@@ -1,0 +1,93 @@
+footer {
+  #footer {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+
+    p {
+      line-height: 1.15;
+    }
+
+    a {
+      display: inline-flex;
+      line-height: 1.15;
+
+      &:hover {
+        color: var(--color-white);
+      }
+    }
+
+    small {
+      font-size: var(--text-md);
+      line-height: var(--text-md--line-height);
+
+      a {
+        line-height: var(--text-md--line-height);
+      }
+
+      @media screen and (max-width: 767px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+
+        a {
+          line-height: var(--text-sm--line-height);
+        }
+      }
+    }
+
+    #footerLogo, #footerEgisLogo {
+      width: 100%;
+      max-width: 100px;
+      a, picture {
+        width: 100%;
+      }
+      img {
+        width: 100%;
+        max-height: 35px;
+        max-width: 100px;
+        height: auto;
+        position: static;
+        object-fit: contain;
+      }
+    }
+    #footerEgisLogo {
+      @media screen and (max-width: 1279px) {
+        margin-top: 1rem;
+      }
+    }
+
+    #footerLogoMobile,
+    #footerEgisMobile {
+      img {
+        position: static;
+        max-height: 40px;
+        max-width: 90px;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      > div:nth-child(2) {
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          background: #000;
+          height: 1px;
+          left: -20px;
+          right: -20px;
+        }
+      }
+    }
+  }
+}
+
+
+html.lang-zh{
+  #footer {
+    #mainFooterMenu {
+      h3 {
+        font-weight: bold;
+        letter-spacing: -2%;
+      }
+    }
+  }
+}

@@ -1,0 +1,205 @@
+{{#
+    @name Projects row
+    @desc A row of a project table.
+#}}
+
+<!-- /projects/row.antlers.html -->
+{{ cell_open_tag = '<a class="mobile-only:flex mobile-only:justify-between mobile-only:items-center" href="'+row_link+'">' }}
+{{ cell_close_tag = '</a>' }}
+{{ text_color = 'text-primary hover:text-grey group-hover:text-grey' }}
+{{ tr_class = 'row
+                opacity-0
+                cursor-pointer ' +
+                row_class
+}}
+
+{{ if specialisms }}
+    {{ specialisms }}
+        {{ tr_class .=' specialisms-' +slug }}
+    {{ /specialisms }}
+{{ endif }}
+
+{{ if locations }}
+    {{ locations }}
+        {{ tr_class .=' locations-' +slug }}
+    {{ /locations }}
+{{ endif }}
+
+{{ if themes }}
+    {{ themes }}
+        {{ tr_class .=' themes-' +slug }}
+    {{ /themes }}
+{{ endif }}
+
+{{ if row_display == 'accordion' }}
+    {{ cell_open_tag = '<div>' }}
+    {{ cell_close_tag = '</div>' }}
+{{ /if }}
+{{ if row_display == 'grey' }}
+    {{ cell_open_tag = '<div>' }}
+    {{ cell_close_tag = '</div>' }}
+    {{ text_color = 'text-silver' }}
+    {{ tr_class .= ' !cursor-default' }}
+{{ /if }}
+
+
+    <tr x-data="rowInit()"
+        id="row_{{ slug }}"
+        x-intersect.once="shown_row = true;"
+        class="{{tr_class}}"
+        :class="shown_row ? 'animate-appearsin' : ''"
+        data-title="{{ row_title }}"
+        data-theme="{{ project_theme }}"
+        data-specialism="{{ project_specialism }}"
+        data-location="{{ row_location }}"
+        data-year="{{ row_year }}"
+    >
+    <td colspan="5"
+        class="{{ row_number == 1 ? 'py-0' : 'py-0'}}"
+    >
+        <table class="w-full border-b border-black">
+            <tr class="group">
+                <td class="w-1/12
+                    mbtb-only:hidden
+                    py-7 md:pr-4"
+                >
+                    {{ cell_open_tag }}
+                    <div class="rounded-full">
+                        {{ first_color = '' }}
+                        {{ gradient = '' }}
+                        {{ width = 0 }}
+
+                        {{ specialisms }}
+                            {{ if color }}
+                                {{ if first }}
+                                    {{ first_color = color }}
+                                {{ /if }}
+
+                                {{ gradient += color }}
+                                {{ width += 2.5 }}
+
+                                {{ if not last }}
+                                    {{ gradient += ', ' }}
+                                {{ /if }}
+                            {{ /if }}
+                        {{ /specialisms }}
+
+                        {{ gradient += ', ' + first_color }}
+
+                        <div
+                            class="
+                                h-2.5 rounded-full mt-0.5
+                                bg-[length:150%_100%] bg-repeat-x
+                                group-hover:animate-gradient-x
+                            "
+                            style="background-image: linear-gradient(to right, {{ gradient }});
+                                   width: {{ width * 0.25 }}rem;">
+                        </div>
+                    </div>
+                    {{ cell_close_tag }}
+                </td>
+                <td class="w-full lg:w-5/12 align-top
+                    py-2 md:py-7 md:pr-4"
+                >
+                    {{ cell_open_tag }}
+                        {{ partial:typography/p
+                            :content="row_title"
+                            :color="text_color"
+                            class="md:text-xl tracking-[-3%] !mb-0"
+                        }}
+
+                        <div
+                            class="
+                                h-2.5 rounded-full mt-0.5 block md:hidden
+                                bg-[length:300%_100%] bg-repeat-x
+                                group-hover:animate-gradient-x flex-shrink-0
+                            "
+                            style="background-image: linear-gradient(to right, {{ gradient }});
+                                   width: {{ width * 0.25 }}rem;">
+                        </div>
+                    {{ cell_close_tag }}
+                </td>
+                <td class="w-3/12 align-top
+                    mbtb-only:hidden
+                    py-7 lg:pl-[0.5rem] md:pr-4"
+                >
+                  {{ cell_open_tag }}
+                    {{ partial:typography/p
+                          :content="row_specialism"
+                          :color="text_color"
+                          class="text-base leading-[26px] tracking-[-1%]"
+                      }}
+                  {{ cell_close_tag }}
+                </td>
+                <td class="w-2/12 align-top
+                    mbtb-only:hidden
+                    py-7 md:pr-4"
+                >
+                  {{ cell_open_tag }}
+                    {{ partial:typography/p
+                      :content="row_location"
+                      :color="text_color"
+                      class="text-base leading-[26px] tracking-[-1%]"
+                    }}
+                  {{ cell_close_tag }}
+                </td>
+
+                <td class="w-1/12 align-top
+                    mbtb-only:hidden
+                    py-7 text-right"
+                >
+                  {{ cell_open_tag }}
+                    {{ partial:typography/p
+                      :content="row_year"
+                      :color="text_color"
+                      class="text-base leading-[26px] tracking-[-1%]"
+                    }}
+                  {{ cell_close_tag }}
+                </td>
+            </tr>
+            {{ if row_display == 'accordion' }}
+            <tr class="row">
+                <td colspan="2"
+                    @click="toggleCollapsed()"
+                    class="mbtb-only:hidden"
+                ></td>
+                <td class="align-top"
+                    @click="toggleCollapsed()"
+                >
+                    <div x-show="expanse_row"
+                        x-collapse
+                        class="py-6 pr-20"
+                    >
+                    {{row_description}}
+                    </div>
+                </td>
+                <td class="align-top"
+                    colspan="2"
+                    class="mbtb-only:hidden"
+                >
+                    <div x-show="expanse_row"
+                        x-collapse
+                    >
+                        {{ partial:projects/carousel
+                            :carousel="row_carousel"
+                            objectposition="top"
+                        }}
+                    </div>
+                </td>
+            </tr>
+            {{ endif }}
+        </table>
+    </td>
+    </tr>
+<script>
+
+    function rowInit() {
+
+        return {
+            shown_row:   false
+        }
+    }
+
+</script>
+
+<!-- End: /projects/row.antlers.html -->

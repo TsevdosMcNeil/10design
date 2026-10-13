@@ -1,0 +1,33 @@
+html.lang-zh{
+  body.pages-studio {
+    h3{
+      @media screen and (min-width: 1536px) {
+        font-size: 40px;
+        line-height: 55px;
+        letter-spacing: -4%;
+      }
+    }
+  }
+  body.pages.parent-studio {
+    h1, h2 {
+      @media screen and (min-width: 1536px) {
+        font-size: 62px;
+        line-height: 80px;
+        letter-spacing: -7%;
+      }
+    }
+  }
+  .link-with-arrow {
+    @media screen and (min-width: 768px) {
+      > span {
+        margin-top: 0;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      svg {
+        margin-top: 2px;
+      }
+    }
+  }
+}
