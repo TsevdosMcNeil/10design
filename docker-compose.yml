@@ -11,6 +11,7 @@ services:
     volumes:
       - ./statamic:/var/www/html     # or ./ if your app lives at the root
       - node_modules:/var/www/html/node_modules   # stays inside Docker, never crosses to the Mac
+      - vendor:/var/www/html/vendor:ro   # same volume as statamic, read-only for node
     ulimits:
       nofile:
         soft: 65536
@@ -34,6 +35,7 @@ services:
     volumes:
       - ./statamic:/var/www/html  # In production is prefered to buid an immutable app image instead of mounting the live source tree.
       - composer_cache:/tmp/composer
+      - vendor:/var/www/html/vendor # stays inside Docker, never crosses to the Mac
     environment:
       PHP_OPCACHE_VALIDATE_TIMESTAMPS: "${OPCACHE_VALIDATE_TIMESTAMPS}" # "1" is a dev-friendly setting. In production it is commonly set more aggressively for performance -> "0".
       APP_NAME: ${APP_NAME:-default}
@@ -74,3 +76,4 @@ services:
 volumes:
   composer_cache:
   node_modules:
+  vendor:

@@ -3,7 +3,7 @@
 A Statamic website for [10Design](https://10design.co/) based in [Statamic Starter Kit](https://github.com/pablorica/10sb) 
 
 
-[![version](https://img.shields.io/badge/version-1.2.5-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-1.2.6-green.svg)](https://semver.org)
 
 
 ## Production
@@ -53,13 +53,31 @@ wget --user 10design --password tmstudio https://10sb.codigo.co.uk/content.tar.g
 
 #### Breeakpoints
 
- - `sm` -> 640px    
- - `md` -> 768px
- - `lg` -> 1024px
- - `xl` -> 1280px
+ - `sm`  -> 640px    
+ - `md`  -> 768px
+ - `lg`  -> 1024px
+ - `xl`  -> 1280px
  - `2xl` -> 1536px
  - `3xl` -> 1920px
 
+#### Colours
+
+ - `black`        -> #000;
+ - `lightblue`    -> #A7C6ED;
+ - `blue`         -> #00B2E3;
+ - `darkblue`     -> #005CB9;
+ - `green`        -> #00945E;
+ - `grey`         -> #C8C8C8;
+ - `darkgrey`     -> #898A8D;
+ - `orange`       -> #FF5F39;
+ - `red`          -> #D51C59;
+ - `pink`         -> #FFC0CB;
+ - `yellow`       -> #FFCD00;
+ - `white`        -> #fff;
+ - `sand`         -> #E8E1D6;
+ - `beige`        -> #D9C2B6;
+ - `antiquewhite` -> #D9C2B680;
+ - `linen`        -> #ECE1DB; 
 
 ---
 

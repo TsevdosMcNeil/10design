@@ -7,13 +7,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+
+## [1.2.6] - 2026-10-14
+
+### Fixed
+- Local Docker: random PHP fatal errors (`Failed opening required vendor/thecodingmachine/safe/generated/*.php`) after running `npm run build`. Caused by Docker Desktop's file sharing between macOS and the containers losing files in `vendor/` under heavy disk activity.
+
+### Changed
+- `docker-compose.yml`: `vendor/` now lives in a named Docker volume (`vendor`) instead of the macOS bind mount.
+  - `statamic` mounts it read-write.
+  - `node` mounts the same volume read-only (needed because `resources/js/site.js` imports Livewire's ESM build from `vendor/`).
+- `docker-compose.yml`: `node_modules/` moved to a named Docker volume (`node_modules`).
+- `docker-compose.yml`: raised the open-files limit (`ulimits.nofile` 65536) on the `node` container.
+
+### Notes
+- Local development only. Production (no Docker) and the rsync deploy are unaffected.
+- After pulling these changes, recreate the containers and fill the new volumes:
+  `docker compose down && docker compose up -d`
+  `docker compose exec statamic composer install`
+  `docker compose exec node npm ci`
+- `statamic/vendor` and `statamic/node_modules` on the Mac are no longer used by the containers; they only serve editor autocomplete.
+
+
 ## [1.2.5] - 2026-10-13
 
 ### Updated
 
  - [Hero Image Resolution](https://app.asana.com/1/355454733208534/project/1208878041988932/task/1216757978936954)
-
-
 
 
 ## [1.2.4] - 2026-10-13
