@@ -94,17 +94,19 @@ bg-lightblue bg-blue bg-darkblue bg-pink bg-yellow bg-orange bg-orange bg-green 
     }}
   </header>
 
-  <div id="block" class="theme-content">
+  {{ current_theme_color = "green" }}
+  {{ if theme_colour }}
+      {{ current_theme_color = theme_colour }}
+  {{ endif }}
+
+  <div id="block" class="theme-content [&_a]:underline [&_a]:text-{{ current_theme_color }}">
       {{ page_builder scope="block" }}
           {{ partial src="page_builder/{type}" }}
       {{ /page_builder }}
   </div>
 
 
-  {{ current_theme_color = "green" }}
-  {{ if theme_colour }}
-      {{ current_theme_color = theme_colour }}
-  {{ endif }}
+
 
   <div class="fluid-container
       navigation-items

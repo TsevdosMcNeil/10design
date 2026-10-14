@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [1.2.7] - 2026-10-13
+
+### Updated
+
+ - [Hyperlinking Display](https://app.asana.com/1/355454733208534/project/1208878041988932/task/1216757978936956)
+  - Updated hyperlink styling across the website. All links within body content are now blue and underlined by default.
+  - **Projects:** Links remain red to match the existing link styling used outside the body content.
+  - **Themes:** Links use their respective theme colours to maintain consistency with other links throughout each theme.
+  - **People:** Links are red to match the highlighted text elements used in individual team member profiles.
 
 ## [1.2.6] - 2026-10-14
 

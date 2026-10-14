@@ -3,7 +3,7 @@
 A Statamic website for [10Design](https://10design.co/) based in [Statamic Starter Kit](https://github.com/pablorica/10sb) 
 
 
-[![version](https://img.shields.io/badge/version-1.2.6-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-1.2.7-green.svg)](https://semver.org)
 
 
 ## Production

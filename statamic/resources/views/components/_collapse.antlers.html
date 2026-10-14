@@ -1,5 +1,8 @@
 {{#
     @name Collapse
+    @param collapse_colour
+    @param collapse_hover_colour
+    @param arrow_hover_background_colour
     @desc Show and hide content. The title is used as triggers that collapse a the content displayed in two column.
 #}}
 
@@ -20,10 +23,16 @@
         {{ html_colour =  collapse_colour }}
     {{ /if }}
 
-    {{ html_hover_colour =  null }}
+    {{ html_hover_colour    =  null }}
+    {{ arrow_hover_bgcolour =  "white" }}
     {{ if collapse_hover_colour }}
-        {{ html_hover_colour =  collapse_hover_colour }}
+        {{ html_hover_colour    =  collapse_hover_colour }}
+        {{ arrow_hover_bgcolour =  collapse_hover_colour }}
     {{ /if }}
+    {{ if arrow_hover_background_colour }}
+        {{ arrow_hover_bgcolour =  arrow_hover_background_colour }}
+    {{ /if }}
+
 
 
     {{# stroke-black stroke-darkgrey stroke-white stroke-lightblue stroke-blue stroke-darkblue stroke-pink stroke-yellow stroke-orange stroke-green stroke-grey fill-black fill-white fill-lightblue fill-blue fill-darkblue fill-pink fill-yellow fill-orange fill-green fill-grey group-hover:stroke-white group-hover:stroke-darkblue group-hover:bg-white group-hover:text-white group-hover:fill-white #}}
@@ -34,7 +43,7 @@
     {{path_class   = 'fill-' + html_colour }}
 
     {{ if html_hover_colour }}
-        {{ svg_class    .= ' group-hover:bg-'+html_colour }}
+        {{ svg_class    .= ' group-hover:bg-'+arrow_hover_bgcolour }}
         {{ stroke_class .= ' group-hover:stroke-'+html_hover_colour }}
         {{ html_class  .= ' transition-all duration-300 hover:text-'+html_hover_colour }}
     {{ /if }}
